@@ -1,4 +1,5 @@
-import * as PIXI from "pixi.js";
+import * as PIXI from 'pixi.js';
+import Box from '../Graphics/Box';
 
 export default class Pixi {
   constructor(ref) {
@@ -13,20 +14,28 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
-    this.mousePosition = { x: 0, y: 0 };
-    this.setupInteraction();
+    this.boxes = [];
+    this.init();
   }
 
-  setupInteraction() {
-    this.app.view.addEventListener("mousemove", (event) => {
-      this.mousePosition = {
-        x: event.x,
-        y: event.y,
-      };
+  init() {
+    for (let i = 0; i < 5; i++) {
+      this.boxes.push(new Box(i * 100, i * 100));
+    }
+  }
+  update() {
+    this.boxes.forEach((box) => {
+      box.draw();
     });
   }
-
   start() {
+    this.boxes.forEach((box) => {
+      this.app.stage.addChild(box.graphics);
+    });
+
     this.ref.appendChild(this.app.view);
+    this.app.ticker.add(() => {
+      this.update();
+    });
   }
 }
