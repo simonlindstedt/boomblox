@@ -1,4 +1,4 @@
-import Pixi from "./Pixi";
+import Pixi from "../../Classes/Pixi";
 import React, { useRef, useEffect } from "react";
 
 const Canvas = () => {

@@ -1,5 +1,5 @@
-import * as PIXI from 'pixi.js';
-import Box from '../Graphics/Box';
+import * as PIXI from "pixi.js";
+import Box from "../Box";
 
 export default class Pixi {
   constructor(ref) {

@@ -1,4 +1,4 @@
-import { Graphics } from '@pixi/graphics';
+import { Graphics } from "@pixi/graphics";
 
 export default class Box {
   constructor(x, y) {
@@ -11,28 +11,29 @@ export default class Box {
   }
 
   draw() {
+    this.graphics.clear();
     this.graphics.beginFill(0xffffff);
     this.graphics.drawRect(0, 0, 100, 100);
   }
 
   setUpEvents() {
-    this.graphics.on('mousedown', (e) => {
+    this.graphics.on("mousedown", (e) => {
       this.graphics.x = e.data.global.x - 50;
       this.graphics.y = e.data.global.y - 50;
       this.graphics.dragging = true;
-      console.log('picked up');
+      console.log("picked up");
     });
 
-    this.graphics.on('mousemove', (e) => {
+    this.graphics.on("mousemove", (e) => {
       if (this.graphics.dragging) {
-        console.log('dragging');
+        console.log("dragging");
         this.graphics.x = e.data.global.x - 50;
         this.graphics.y = e.data.global.y - 50;
       }
     });
 
-    this.graphics.on('mouseup', (e) => {
-      console.log('dropped');
+    this.graphics.on("mouseup", (e) => {
+      console.log("dropped");
       this.graphics.x = e.data.global.x - 50;
       this.graphics.y = e.data.global.y - 50;
       this.graphics.dragging = false;
