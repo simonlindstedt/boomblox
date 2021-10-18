@@ -13,6 +13,17 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
+    this.mousePosition = { x: 0, y: 0 };
+    this.setupInteraction();
+  }
+
+  setupInteraction() {
+    this.app.view.addEventListener("mousemove", (event) => {
+      this.mousePosition = {
+        x: event.x,
+        y: event.y,
+      };
+    });
   }
 
   start() {
