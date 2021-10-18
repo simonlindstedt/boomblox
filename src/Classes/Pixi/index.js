@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import Box from "../Box";
+import Audio from "../Audio";
 
 export default class Pixi {
   constructor(ref) {
@@ -15,19 +16,29 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.boxes = [];
+    this.audio = new Audio();
     this.init();
   }
 
   init() {
     for (let i = 0; i < 5; i++) {
-      this.boxes.push(new Box(i * 100, i * 100));
+      if (i === 2) {
+        this.boxes.push(
+          new Box(i * 100, i * 100, this.audio.context, "sawtooth")
+        );
+        continue;
+      }
+      this.boxes.push(new Box(i * 100, i * 100, this.audio.context));
     }
+    console.log(this.boxes);
   }
+
   update() {
     this.boxes.forEach((box) => {
       box.draw();
     });
   }
+
   start() {
     this.boxes.forEach((box) => {
       this.app.stage.addChild(box.graphics);
