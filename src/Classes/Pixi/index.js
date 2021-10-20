@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 import Box from "../Box";
-import Audio from "../Audio";
+// import Audio from "../Audio/Audio";
+import Oscillator from "../Audio/Oscillator";
+import Gain from "../Audio/Gain";
 
 export default class Pixi {
   constructor(ref) {

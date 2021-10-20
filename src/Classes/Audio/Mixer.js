@@ -1,5 +1,8 @@
+import audio from "./Audio";
+
 export default class Mixer {
   constructor() {
+    this.audio = audio;
     this.list = [];
   }
   addToList(soundSource, gain) {
