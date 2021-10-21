@@ -15,78 +15,70 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
-    this.boxes = {};
+    this.list = [];
     this.init();
   }
 
   init() {
-    // Osc
-    let oscs = [];
+    // Oscs
     for (let i = 0; i < 2; i++) {
-      let oscNode = new OscBox(0, i * 500, 50, 50, "sawtooth");
-      oscs.push(oscNode);
+      this.list.push(new OscBox(0, i * 100, 50, 50, "sawtooth"));
     }
-
-    this.boxes = { ...this.boxes, oscs };
-
-    // Gain
-    let gains = [];
-    for (let i = 0; i < 5; i++) {
-      let gainNode = new GainBox(400, i * 200, 50, 50);
+    // Gains
+    for (let i = 0; i < 3; i++) {
+      let gainNode = new GainBox(300, i * 100, 40, 40);
       gainNode.gain.setVolume(0.2);
-      gains.push(gainNode);
+      this.list.push(gainNode);
     }
-
-    this.boxes = { ...this.boxes, gains };
-    console.log(this.boxes);
   }
 
   update() {
-    Object.keys(this.boxes).forEach((key) => {
-      this.boxes[key].forEach((box) => {
-        box.draw();
+    this.list.forEach((box) => {
+      // Draw box
+      box.draw();
 
-        if (box instanceof OscBox && !box.connection.isConnected) {
-          // Check for available boxes.
-          // Connect if less than 200.
+      // If box can connect and have no current connection
+      if (box.canConnect && !box.connection.isConnected) {
+        let options = [];
 
-          let gains = this.boxes["gains"];
+        // Find options to connect to
+        box.canConnect.forEach((option) => {
+          options = this.list.filter((item) => item.type === option);
+        });
 
-          for (let i = 0; i < gains.length; i++) {
-            let gainBox = gains[i];
+        // Loop through the options
+        for (let i = 0; i < options.length; i++) {
+          let otherBox = options[i];
 
-            if (
-              box.distanceTo(gainBox) < 200 &&
-              !gainBox.connection.isConnected
-            ) {
-              box.connectTo(gainBox, gainBox.id);
-              break;
-            }
+          // If option is close enough, then connect and break the loop
+          if (
+            box.distanceTo(otherBox) < 200 &&
+            !otherBox.connection.isConnected
+          ) {
+            box.connectTo(otherBox);
+            break;
           }
         }
+      }
 
-        if (box instanceof OscBox && box.connection.isConnected) {
-          // Check how close connected box is.
-          // Disconnect if more than 200.
+      // If box can connect and is connected
+      if (box.canConnect && box.connection.isConnected) {
+        // Find the connected box
+        let connectedBox = this.list.find(
+          (item) => box.connection.boxId === item.id
+        );
 
-          // let connectedBox = this.boxes["gains"][box.connection.to];
-          let connectedBox = this.boxes["gains"].find(
-            (item) => item.id === box.connection.boxId
-          );
-
-          if (box.distanceTo(connectedBox) > 200) {
-            box.disconnectFrom(connectedBox);
-          }
+        // If distance > 200, then disconnect
+        if (box.distanceTo(connectedBox) > 200) {
+          box.disconnectFrom(connectedBox);
         }
-      });
+      }
     });
   }
 
   start() {
-    Object.keys(this.boxes).forEach((key) => {
-      this.boxes[key].forEach((box) => {
-        this.app.stage.addChild(box.graphics);
-      });
+    this.list.forEach((box) => {
+      this.app.stage.addChild(box.graphics);
     });
 
     this.app.ticker.add(() => {
