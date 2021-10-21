@@ -30,28 +30,11 @@ export default class Pixi {
     this.boxes.push(osc);
     this.boxes.push(gainOne);
     this.boxes.push(gainTwo);
-
-    // window.addEventListener("keydown", (e) => {
-    //   if (e.key === "C") {
-    //     console.log(e.key);
-    //   }
-    // });
-    // window.addEventListener("keyup", (e) => {
-    //   console.log(e.key);
-    // });
   }
 
   update() {
     this.boxes.forEach((box, i) => {
       box.draw();
-      this.boxes.forEach((otherBox, y) => {
-        // If the current box is an osc, connect to other box if that box is a gain.
-        if (i !== y) {
-          if (box instanceof OscBox && otherBox instanceof GainBox) {
-            console.log(box.isCloseTo(otherBox));
-          }
-        }
-      });
     });
   }
 

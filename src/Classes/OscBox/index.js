@@ -18,10 +18,4 @@ export default class OscBox extends BasicBox {
 
     return distance <= 200;
   }
-  connectTo() {
-    this.connected = true;
-  }
-  disconnectFrom() {
-    this.connected = false;
-  }
 }
