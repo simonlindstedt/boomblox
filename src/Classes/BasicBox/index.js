@@ -2,6 +2,7 @@ import { Graphics } from "@pixi/graphics";
 
 export default class BasicBox {
   constructor(x, y, w, h) {
+    this.id = Math.random().toString(36).substr(2);
     this.graphics = new Graphics();
     this.graphics.x = x;
     this.graphics.y = y;

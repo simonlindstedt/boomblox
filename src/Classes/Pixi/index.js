@@ -38,6 +38,7 @@ export default class Pixi {
     }
 
     this.boxes = { ...this.boxes, gains };
+    console.log(this.boxes);
   }
 
   update() {
@@ -58,7 +59,8 @@ export default class Pixi {
               box.distanceTo(gainBox) < 200 &&
               !gainBox.connection.isConnected
             ) {
-              box.connectTo(gainBox, i);
+              box.connectTo(gainBox, gainBox.id);
+              break;
             }
           }
         }
@@ -67,7 +69,10 @@ export default class Pixi {
           // Check how close connected box is.
           // Disconnect if more than 200.
 
-          let connectedBox = this.boxes["gains"][box.connection.to];
+          // let connectedBox = this.boxes["gains"][box.connection.to];
+          let connectedBox = this.boxes["gains"].find(
+            (item) => item.id === box.connection.boxId
+          );
 
           if (box.distanceTo(connectedBox) > 200) {
             box.disconnectFrom(connectedBox);

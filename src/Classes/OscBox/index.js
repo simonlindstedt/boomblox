@@ -4,7 +4,7 @@ import BasicBox from "../BasicBox";
 export default class OscBox extends BasicBox {
   constructor(x, y, w, h, type) {
     super(x, y, w, h);
-    this.connection = { isConnected: false, to: null };
+    this.connection = { isConnected: false, boxId: null };
     this.osc = new Oscillator(type, 440);
   }
 
@@ -17,10 +17,10 @@ export default class OscBox extends BasicBox {
     return distance;
   }
 
-  connectTo(box, number) {
+  connectTo(box, id) {
     if (!this.connection.isConnected && !box.connection.isConnected) {
       this.connection.isConnected = true;
-      this.connection.to = number;
+      this.connection.boxId = id;
       box.connection.isConnected = true;
       box.graphics.tint = 0xfff000;
       this.osc.connectTo(box.gain);
