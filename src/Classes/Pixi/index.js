@@ -15,37 +15,75 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
-    this.boxes = [];
+    this.boxes = {};
     this.init();
   }
 
   init() {
-    let osc = new OscBox(0, 0, 40, 40, "sawtooth");
-    let gainOne = new GainBox(0, 300, 50, 50);
-    let gainTwo = new GainBox(0, 600, 50, 50);
+    // Osc
+    let oscs = [];
+    for (let i = 0; i < 2; i++) {
+      let oscNode = new OscBox(0, i * 500, 50, 50, "sawtooth");
+      oscs.push(oscNode);
+    }
 
-    gainOne.gain.setVolume(0.4);
-    gainTwo.gain.setVolume(0.8);
+    this.boxes = { ...this.boxes, oscs };
 
-    this.boxes.push(osc);
-    this.boxes.push(gainOne);
-    this.boxes.push(gainTwo);
+    // Gain
+    let gains = [];
+    for (let i = 0; i < 5; i++) {
+      let gainNode = new GainBox(400, i * 200, 50, 50);
+      gainNode.gain.setVolume(0.2);
+      gains.push(gainNode);
+    }
+
+    this.boxes = { ...this.boxes, gains };
   }
 
   update() {
-    this.boxes.forEach((box, i) => {
-      box.draw();
+    Object.keys(this.boxes).forEach((key) => {
+      this.boxes[key].forEach((box) => {
+        box.draw();
+        if (box instanceof OscBox && !box.connection.isConnected) {
+          // Check for available boxes.
+          // Connect if less than 200.
+
+          let gains = this.boxes["gains"];
+
+          for (let i = 0; i < gains.length; i++) {
+            let gainBox = gains[i];
+            if (
+              box.distanceTo(gainBox) < 200 &&
+              !gainBox.connection.isConnected
+            ) {
+              box.connectTo(gainBox, i);
+            }
+          }
+        }
+
+        if (box instanceof OscBox && box.connection.isConnected) {
+          // Check how close connected box is.
+          // Disconnect if more than 200.
+          let connectedBox = this.boxes["gains"][box.connection.to];
+          if (box.distanceTo(connectedBox) > 200) {
+            box.disconnectFrom(connectedBox);
+          }
+        }
+      });
     });
   }
 
   start() {
-    this.boxes.forEach((box) => {
-      this.app.stage.addChild(box.graphics);
+    Object.keys(this.boxes).forEach((key) => {
+      this.boxes[key].forEach((box) => {
+        this.app.stage.addChild(box.graphics);
+      });
     });
 
     this.app.ticker.add(() => {
       this.update();
     });
+
     this.ref.appendChild(this.app.view);
   }
 }
