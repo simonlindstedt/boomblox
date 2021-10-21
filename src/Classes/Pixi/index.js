@@ -44,6 +44,7 @@ export default class Pixi {
     Object.keys(this.boxes).forEach((key) => {
       this.boxes[key].forEach((box) => {
         box.draw();
+
         if (box instanceof OscBox && !box.connection.isConnected) {
           // Check for available boxes.
           // Connect if less than 200.
@@ -52,6 +53,7 @@ export default class Pixi {
 
           for (let i = 0; i < gains.length; i++) {
             let gainBox = gains[i];
+
             if (
               box.distanceTo(gainBox) < 200 &&
               !gainBox.connection.isConnected
@@ -64,7 +66,9 @@ export default class Pixi {
         if (box instanceof OscBox && box.connection.isConnected) {
           // Check how close connected box is.
           // Disconnect if more than 200.
+
           let connectedBox = this.boxes["gains"][box.connection.to];
+
           if (box.distanceTo(connectedBox) > 200) {
             box.disconnectFrom(connectedBox);
           }

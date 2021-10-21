@@ -16,20 +16,24 @@ export default class OscBox extends BasicBox {
 
     return distance;
   }
+
   connectTo(box, number) {
-    this.connection.isConnected = true;
-    this.connection.to = number;
-    box.connection.isConnected = true;
-    box.graphics.tint = 0xfff000;
-
-    this.osc.connectTo(box.gain);
+    if (!this.connection.isConnected && !box.connection.isConnected) {
+      this.connection.isConnected = true;
+      this.connection.to = number;
+      box.connection.isConnected = true;
+      box.graphics.tint = 0xfff000;
+      this.osc.connectTo(box.gain);
+    }
   }
-  disconnectFrom(box) {
-    this.connection.isConnected = false;
-    this.connection.to = null;
-    box.connection.isConnected = false;
-    box.graphics.tint = 0xffffff;
 
-    this.osc.disconnectFrom(box.gain);
+  disconnectFrom(box) {
+    if (this.connection.isConnected && box.connection.isConnected) {
+      this.connection.isConnected = false;
+      this.connection.to = null;
+      box.connection.isConnected = false;
+      box.graphics.tint = 0xffffff;
+      this.osc.disconnectFrom(box.gain);
+    }
   }
 }
