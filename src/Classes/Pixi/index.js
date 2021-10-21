@@ -1,8 +1,6 @@
 import * as PIXI from "pixi.js";
-import Box from "../Box";
-// import Audio from "../Audio/Audio";
-import Oscillator from "../Audio/Oscillator";
-import Gain from "../Audio/Gain";
+import OscBox from "../OscBox";
+import GainBox from "../GainBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -18,26 +16,42 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.boxes = [];
-    this.audio = new Audio();
     this.init();
   }
 
   init() {
-    for (let i = 0; i < 5; i++) {
-      if (i === 2) {
-        this.boxes.push(
-          new Box(i * 100, i * 100, this.audio.context, "sawtooth")
-        );
-        continue;
-      }
-      this.boxes.push(new Box(i * 100, i * 100, this.audio.context));
-    }
-    console.log(this.boxes);
+    let osc = new OscBox(0, 0, 40, 40, "sawtooth");
+    let gainOne = new GainBox(0, 300, 50, 50);
+    let gainTwo = new GainBox(0, 600, 50, 50);
+
+    gainOne.gain.setVolume(0.4);
+    gainTwo.gain.setVolume(0.8);
+
+    this.boxes.push(osc);
+    this.boxes.push(gainOne);
+    this.boxes.push(gainTwo);
+
+    // window.addEventListener("keydown", (e) => {
+    //   if (e.key === "C") {
+    //     console.log(e.key);
+    //   }
+    // });
+    // window.addEventListener("keyup", (e) => {
+    //   console.log(e.key);
+    // });
   }
 
   update() {
-    this.boxes.forEach((box) => {
+    this.boxes.forEach((box, i) => {
       box.draw();
+      this.boxes.forEach((otherBox, y) => {
+        // If the current box is an osc, connect to other box if that box is a gain.
+        if (i !== y) {
+          if (box instanceof OscBox && otherBox instanceof GainBox) {
+            console.log(box.isCloseTo(otherBox));
+          }
+        }
+      });
     });
   }
 
@@ -46,9 +60,9 @@ export default class Pixi {
       this.app.stage.addChild(box.graphics);
     });
 
-    this.ref.appendChild(this.app.view);
     this.app.ticker.add(() => {
       this.update();
     });
+    this.ref.appendChild(this.app.view);
   }
 }
