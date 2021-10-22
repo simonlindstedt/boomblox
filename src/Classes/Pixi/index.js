@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import Box from "../Box";
 import Audio from "../Audio";
+import RecordingBox from "../RecordingBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -16,6 +17,7 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.boxes = [];
+    this.recordingBoxes = [];
     this.audio = new Audio();
     this.init();
   }
@@ -30,11 +32,16 @@ export default class Pixi {
       }
       this.boxes.push(new Box(i * 100, i * 100, this.audio.context));
     }
-    console.log(this.boxes);
+
+    //Adding box with record function
+    this.recordingBoxes.push(new RecordingBox(100, 100, this.audio.context));
   }
 
   update() {
     this.boxes.forEach((box) => {
+      box.draw();
+    });
+    this.recordingBoxes.forEach((box) => {
       box.draw();
     });
   }
@@ -42,6 +49,9 @@ export default class Pixi {
   start() {
     this.boxes.forEach((box) => {
       this.app.stage.addChild(box.graphics);
+    });
+    this.recordingBoxes.forEach((box) => {
+      this.app.stage.addChild(box.container);
     });
 
     this.ref.appendChild(this.app.view);
