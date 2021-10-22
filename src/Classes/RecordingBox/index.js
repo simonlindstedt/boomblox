@@ -3,7 +3,7 @@ import { Sound } from "@pixi/sound";
 import { Container } from "@pixi/display";
 import { Sprite } from "@pixi/sprite";
 import recordButton from "../../assets/images/record.png";
-import stopButton from "../../assets/images/stop.png";
+import stopButton from "../../assets/images/pause.png";
 import Visualizer from "../Visualizer";
 
 export default class RecordingBox {
@@ -30,7 +30,7 @@ export default class RecordingBox {
     this.stopBtn.anchor.set(0.5);
 
     this.graphics.clear();
-    this.graphics.beginFill(0xffffff);
+    this.graphics.beginFill(0xccb7fa);
     this.graphics.drawRect(0, 0, 100, 100);
 
     this.recordBtn.x = 20;

@@ -20,7 +20,7 @@ export default class Visualizer {
     this.analyser.getByteTimeDomainData(this.dataArray);
 
     this.graphics.clear();
-    this.graphics.lineStyle(2, 0xff0000);
+    // this.graphics.lineStyle(2, 0xff0000);
 
     let sliceWidth = 100 / this.bufferLength;
     let x = 0;
@@ -28,6 +28,11 @@ export default class Visualizer {
     for (let i = 0; i < this.bufferLength; i++) {
       let v = this.dataArray[i] / 128.0;
       let y = (v * 100) / 2;
+
+      this.graphics.lineStyle(
+        2,
+        "rgb(" + (this.dataArray[i] + 500) + ",0,225)"
+      );
 
       if (i === 0) {
         this.graphics.moveTo(x, y);
