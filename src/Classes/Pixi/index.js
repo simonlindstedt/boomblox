@@ -30,6 +30,10 @@ export default class Pixi {
       gainNode.gain.setVolume(0.2);
       this.list.push(gainNode);
     }
+
+    window.onresize = () => {
+      this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
+    };
   }
 
   update() {
