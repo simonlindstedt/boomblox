@@ -37,4 +37,12 @@ export default class Visualizer {
       x += sliceWidth;
     }
   }
+
+  stop() {
+    this.graphics.clear();
+    this.graphics.lineStyle(2, 0x000000);
+
+    this.graphics.moveTo(0, 50);
+    this.graphics.lineTo(100, 50);
+  }
 }

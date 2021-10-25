@@ -5,48 +5,55 @@ import { Sprite } from '@pixi/sprite';
 import recordButton from '../../assets/images/record.png';
 import stopButton from '../../assets/images/pause.png';
 import Visualizer from '../Visualizer';
+import { Texture } from '@pixi/core';
 
 export default class RecordingBox {
   constructor(x, y, audioContext) {
     this.container = new Container();
-    this.graphics = new Graphics();
-    this.recordBtn = Sprite.from(recordButton);
-    this.stopBtn = Sprite.from(stopButton);
+    this.audioContext = audioContext;
+    this.visualizer = new Visualizer(this.audioContext);
+
+    this.graphics = {
+      cube: new Sprite(),
+      recordBtn: new Sprite.from(recordButton),
+      stopBtn: new Sprite.from(stopButton),
+      visualizer: this.visualizer.graphics,
+    };
+    this.graphics.cube.texture = Texture.WHITE;
+    this.graphics.cube.width = 100;
+    this.graphics.cube.height = 100;
+    this.graphics.cube.radius = 20;
+
+    this.graphics.recordBtn.anchor.set(0.5);
+    this.graphics.stopBtn.anchor.set(0.5);
+
+    this.graphics.recordBtn.x = 20;
+    this.graphics.recordBtn.y = 75;
+    this.graphics.stopBtn.x = 75;
+    this.graphics.stopBtn.y = 75;
+
     this.container.x = x;
     this.container.y = y;
-    this.audioContext = audioContext;
     this.container.interactive = true;
-    this.recordBtn.interactive = true;
-    this.stopBtn.interactive = true;
     this.container.dragging = false;
-    this.visualizer = new Visualizer(this.audioContext);
-    this.recordSound(this.recordBtn, this.stopBtn, this.audioContext);
-    this.setUpEvents();
     this.recording = false;
+
+    this.graphics.recordBtn.interactive = true;
+    this.graphics.stopBtn.interactive = true;
+
+    this.recordSound();
+    this.setUpEvents();
   }
 
   draw() {
-    this.recordBtn.anchor.set(0.5);
-    this.stopBtn.anchor.set(0.5);
-
-    this.graphics.clear();
-    this.graphics.beginFill(0xccb7fa);
-    this.graphics.drawRoundedRect(0, 0, 100, 100, 20);
-
-    this.recordBtn.x = 20;
-    this.recordBtn.y = 75;
-    this.stopBtn.x = 75;
-    this.stopBtn.y = 75;
-
-    this.container.addChild(
-      this.graphics,
-      this.visualizer.graphics,
-      this.stopBtn,
-      this.recordBtn
-    );
+    Object.keys(this.graphics).forEach((key) => {
+      this.container.addChild(this.graphics[key]);
+    });
 
     if (this.recording) {
       this.visualizer.draw();
+    } else {
+      this.visualizer.stop();
     }
   }
 
@@ -62,14 +69,15 @@ export default class RecordingBox {
         let chunks = [];
         this.visualizer.createMediaStream(stream);
 
-        this.recordBtn.on('mousedown', (e) => {
+        this.graphics.recordBtn.on('mousedown', (e) => {
           mediaRecorder.start();
           this.recording = true;
           console.log(mediaRecorder.state);
           console.log('recorder started');
         });
 
-        this.stopBtn.on('mousedown', (e) => {
+        this.graphics.stopBtn.on('mousedown', (e) => {
+          this.recording = false;
           mediaRecorder.stop();
           console.log(mediaRecorder.state);
           console.log('recorder stopped');
