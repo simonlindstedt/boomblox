@@ -1,6 +1,6 @@
-import { Container } from "@pixi/display";
-import { Sprite } from "@pixi/sprite";
-import { Texture } from "@pixi/core";
+import { Container } from '@pixi/display';
+import { Sprite } from '@pixi/sprite';
+import { Texture } from '@pixi/core';
 
 export default class BasicBox {
   constructor(x, y, w, h) {
@@ -26,30 +26,29 @@ export default class BasicBox {
     this.graphics.cube.texture = Texture.WHITE;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
-
-    this.init();
   }
 
   init() {
     Object.keys(this.graphics).forEach((key) => {
+      console.log(key);
       this.container.addChild(this.graphics[key]);
     });
 
     this.container.x = this.position.x;
     this.container.y = this.position.y;
 
-    this.container.on("pointerdown", (e) => {
+    this.container.on('pointerdown', (e) => {
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
-    this.container.on("pointermove", (e) => {
+    this.container.on('pointermove', (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
       }
     });
-    this.container.on("pointerup", (e) => {
+    this.container.on('pointerup', (e) => {
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
