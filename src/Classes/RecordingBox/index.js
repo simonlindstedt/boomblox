@@ -1,10 +1,10 @@
-import { Graphics } from "@pixi/graphics";
-import { Sound } from "@pixi/sound";
-import { Container } from "@pixi/display";
-import { Sprite } from "@pixi/sprite";
-import recordButton from "../../assets/images/record.png";
-import stopButton from "../../assets/images/pause.png";
-import Visualizer from "../Visualizer";
+import { Graphics } from '@pixi/graphics';
+import { Sound } from '@pixi/sound';
+import { Container } from '@pixi/display';
+import { Sprite } from '@pixi/sprite';
+import recordButton from '../../assets/images/record.png';
+import stopButton from '../../assets/images/pause.png';
+import Visualizer from '../Visualizer';
 
 export default class RecordingBox {
   constructor(x, y, audioContext) {
@@ -31,12 +31,12 @@ export default class RecordingBox {
 
     this.graphics.clear();
     this.graphics.beginFill(0xccb7fa);
-    this.graphics.drawRect(0, 0, 100, 100);
+    this.graphics.drawRoundedRect(0, 0, 100, 100, 20);
 
     this.recordBtn.x = 20;
-    this.recordBtn.y = 80;
-    this.stopBtn.x = 80;
-    this.stopBtn.y = 80;
+    this.recordBtn.y = 75;
+    this.stopBtn.x = 75;
+    this.stopBtn.y = 75;
 
     this.container.addChild(
       this.graphics,
@@ -52,7 +52,7 @@ export default class RecordingBox {
 
   recordSound() {
     if (navigator.mediaDevices.getUserMedia) {
-      console.log("getUserMedia supported.");
+      console.log('getUserMedia supported.');
 
       const constraints = { audio: true };
 
@@ -62,26 +62,26 @@ export default class RecordingBox {
         let chunks = [];
         this.visualizer.createMediaStream(stream);
 
-        this.recordBtn.on("mousedown", (e) => {
+        this.recordBtn.on('mousedown', (e) => {
           mediaRecorder.start();
           this.recording = true;
           console.log(mediaRecorder.state);
-          console.log("recorder started");
+          console.log('recorder started');
         });
 
-        this.stopBtn.on("mousedown", (e) => {
+        this.stopBtn.on('mousedown', (e) => {
           mediaRecorder.stop();
           console.log(mediaRecorder.state);
-          console.log("recorder stopped");
+          console.log('recorder stopped');
         });
 
         mediaRecorder.onstop = function (e) {
-          console.log("data available after MediaRecorder.stop() called.");
+          console.log('data available after MediaRecorder.stop() called.');
 
-          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+          const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
-          console.log("recorder stopped");
+          console.log('recorder stopped');
 
           const sound = Sound.from(audioURL);
           sound.play({ loop: true });
@@ -92,31 +92,31 @@ export default class RecordingBox {
         };
       }, this.onError);
     } else {
-      console.log("getUserMedia not supported on your browser!");
+      console.log('getUserMedia not supported on your browser!');
     }
   }
 
   onError(err) {
-    console.log("The following error occured: " + err);
+    console.log('The following error occured: ' + err);
   }
   setUpEvents() {
-    this.container.on("mousedown", (e) => {
+    this.container.on('mousedown', (e) => {
       this.container.x = e.data.global.x - 50;
       this.container.y = e.data.global.y - 50;
       this.container.dragging = true;
-      console.log("picked up");
+      console.log('picked up');
     });
 
-    this.container.on("mousemove", (e) => {
+    this.container.on('mousemove', (e) => {
       if (this.container.dragging) {
-        console.log("dragging");
+        console.log('dragging');
         this.container.x = e.data.global.x - 50;
         this.container.y = e.data.global.y - 50;
       }
     });
 
-    this.container.on("mouseup", (e) => {
-      console.log("dropped");
+    this.container.on('mouseup', (e) => {
+      console.log('dropped');
       this.container.x = e.data.global.x - 50;
       this.container.y = e.data.global.y - 50;
       this.container.dragging = false;
