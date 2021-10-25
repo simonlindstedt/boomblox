@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
-import OscBox from "../OscBox";
 import GainBox from "../GainBox";
+import OscBox from "../OscBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -20,16 +20,18 @@ export default class Pixi {
   }
 
   init() {
-    // Oscs
-    for (let i = 0; i < 2; i++) {
-      this.list.push(new OscBox(0, i * 100, 50, 50, "sawtooth"));
-    }
-    // Gains
-    for (let i = 0; i < 3; i++) {
-      let gainNode = new GainBox(300, i * 100, 40, 40);
-      gainNode.gain.setVolume(0.2);
-      this.list.push(gainNode);
-    }
+    // // Oscs;
+    // for (let i = 0; i < 1; i++) {
+    //   this.list.push(new OscBox(10, 10, 50, 50, "sawtooth"));
+    // }
+
+    // // Gains
+    // for (let i = 0; i < 3; i++) {
+    //   let gainNode = new GainBox(400, i * 100, 40, 40);
+    //   this.list.push(gainNode);
+
+    //   gainNode.audioNode.setVolume(0.2);
+    // }
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
@@ -40,7 +42,6 @@ export default class Pixi {
     this.list.forEach((box) => {
       // Draw box
       box.draw();
-
       // If box can connect and have no current connection
       if (box.canConnect && !box.connection.isConnected) {
         let options = [];
@@ -82,7 +83,7 @@ export default class Pixi {
 
   start() {
     this.list.forEach((box) => {
-      this.app.stage.addChild(box.graphics);
+      this.app.stage.addChild(box.container);
     });
 
     this.app.ticker.add(() => {
