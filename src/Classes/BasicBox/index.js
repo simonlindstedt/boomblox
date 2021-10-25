@@ -1,50 +1,70 @@
-import { Graphics } from "@pixi/graphics";
+import { Container } from "@pixi/display";
+import { Sprite } from "@pixi/sprite";
+import { Texture } from "@pixi/core";
 
 export default class BasicBox {
   constructor(x, y, w, h) {
     this.id = Math.random().toString(36).substr(2);
-    this.graphics = new Graphics();
-    this.graphics.x = x;
-    this.graphics.y = y;
-    this.graphics.interactive = true;
-    this.graphics.cursor = "grab";
+    this.position = { x, y };
+    this.dimensions = { w, h };
     this.moving = false;
-    this.height = h;
-    this.width = w;
+    this.connection = {
+      isConnected: false,
+      boxId: null,
+      boxPosition: { x: null, y: null },
+    };
+
+    this.container = new Container();
+    this.container.interactive = true;
+    this.container.width = this.dimensions.w;
+    this.container.height = this.dimensions.h;
+
+    this.graphics = {
+      cube: new Sprite(),
+    };
+
+    this.graphics.cube.texture = Texture.WHITE;
+    this.graphics.cube.width = this.dimensions.w;
+    this.graphics.cube.height = this.dimensions.h;
+
     this.init();
   }
 
   init() {
-    // Pick up
-    this.graphics.on("pointerdown", (e) => {
-      this.setPosition(e.data.global.x, e.data.global.y);
-      this.graphics.cursor = "grabbing";
-      this.moving = true;
+    Object.keys(this.graphics).forEach((key) => {
+      this.container.addChild(this.graphics[key]);
     });
 
-    // Moving
-    this.graphics.on("pointermove", (e) => {
+    this.container.x = this.position.x;
+    this.container.y = this.position.y;
+
+    this.container.on("pointerdown", (e) => {
+      const { x, y } = e.data.global;
+      this.moving = true;
+      this.setPosition(x, y);
+    });
+    this.container.on("pointermove", (e) => {
       if (this.moving) {
-        this.setPosition(e.data.global.x, e.data.global.y);
+        const { x, y } = e.data.global;
+        this.setPosition(x, y);
       }
     });
-
-    // Drop
-    this.graphics.on("pointerup", (e) => {
-      this.setPosition(e.data.global.x, e.data.global.y);
-      this.graphics.cursor = "grab";
+    this.container.on("pointerup", (e) => {
+      const { x, y } = e.data.global;
+      this.setPosition(x, y);
       this.moving = false;
     });
   }
 
   setPosition(x, y) {
-    this.graphics.x = x - this.width / 2;
-    this.graphics.y = y - this.width / 2;
+    if (this.moving) {
+      this.container.x = this.position.x = x - this.dimensions.w / 2;
+      this.container.y = this.position.y = y - this.dimensions.h / 2;
+    } else {
+      this.container.x = this.position.x = x;
+      this.container.y = this.position.y = y;
+    }
   }
 
-  draw() {
-    this.graphics.clear();
-    this.graphics.beginFill(0xffffff);
-    this.graphics.drawRect(0, 0, this.width, this.height);
-  }
+  draw() {}
 }
