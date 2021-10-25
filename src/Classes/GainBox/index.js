@@ -6,5 +6,6 @@ export default class GainBox extends BasicBox {
     super(x, y, w, h);
     this.audioNode = new Gain();
     this.type = "gain";
+    this.init();
   }
 }

@@ -7,6 +7,7 @@ export default class OscBox extends BasicBox {
     this.type = "osc";
     this.canConnect = ["gain"];
     this.audioNode = new Oscillator(type, 440);
+    this.init();
   }
 
   distanceTo(box) {
