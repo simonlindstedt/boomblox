@@ -1,6 +1,12 @@
 import * as PIXI from "pixi.js";
+<<<<<<< HEAD
 import GainBox from "../GainBox";
 import OscBox from "../OscBox";
+=======
+import Box from "../Box";
+import Audio from "../Audio";
+import RecordingBox from "../RecordingBox";
+>>>>>>> recording-functionality
 
 export default class Pixi {
   constructor(ref) {
@@ -15,11 +21,18 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
+<<<<<<< HEAD
     this.list = [];
+=======
+    this.boxes = [];
+    this.recordingBoxes = [];
+    this.audio = new Audio();
+>>>>>>> recording-functionality
     this.init();
   }
 
   init() {
+<<<<<<< HEAD
     // // Oscs;
     // for (let i = 0; i < 1; i++) {
     //   this.list.push(new OscBox(10, 10, 50, 50, "sawtooth"));
@@ -36,6 +49,20 @@ export default class Pixi {
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
     };
+=======
+    for (let i = 0; i < 5; i++) {
+      if (i === 2) {
+        this.boxes.push(
+          new Box(i * 100, i * 100, this.audio.context, "sawtooth")
+        );
+        continue;
+      }
+      this.boxes.push(new Box(i * 100, i * 100, this.audio.context));
+    }
+
+    //Adding box with record function
+    this.recordingBoxes.push(new RecordingBox(100, 100, this.audio.context));
+>>>>>>> recording-functionality
   }
 
   update() {
@@ -79,10 +106,16 @@ export default class Pixi {
         }
       }
     });
+    this.recordingBoxes.forEach((box) => {
+      box.draw();
+    });
   }
 
   start() {
     this.list.forEach((box) => {
+      this.app.stage.addChild(box.container);
+    });
+    this.recordingBoxes.forEach((box) => {
       this.app.stage.addChild(box.container);
     });
 
