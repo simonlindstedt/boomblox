@@ -6,14 +6,13 @@ export default class OscBox extends BasicBox {
     super(x, y, w, h);
     this.type = "osc";
     this.canConnect = ["gain"];
-    this.connection = { isConnected: false, boxId: null };
-    this.osc = new Oscillator(type, 440);
+    this.audioNode = new Oscillator(type, 440);
   }
 
   distanceTo(box) {
     let distance = Math.sqrt(
-      Math.pow(this.graphics.x - box.graphics.x, 2) +
-        Math.pow(this.graphics.y - box.graphics.y, 2)
+      Math.pow(this.position.x - box.position.x, 2) +
+        Math.pow(this.position.y - box.position.y, 2)
     );
 
     return distance;
@@ -22,16 +21,17 @@ export default class OscBox extends BasicBox {
   connectTo(box) {
     this.connection.isConnected = true;
     this.connection.boxId = box.id;
+    this.connection.boxPosition = { x: box.position.x, y: box.position.y };
     box.connection.isConnected = true;
-    box.graphics.tint = 0xfff000;
-    this.osc.connectTo(box.gain);
+    box.graphics.cube.tint = 0xfff000;
+    this.audioNode.connectTo(box.audioNode);
   }
 
   disconnectFrom(box) {
     this.connection.isConnected = false;
     this.connection.boxId = null;
     box.connection.isConnected = false;
-    box.graphics.tint = 0xffffff;
-    this.osc.disconnectFrom(box.gain);
+    box.graphics.cube.tint = 0xffffff;
+    this.audioNode.disconnectFrom(box.audioNode);
   }
 }
