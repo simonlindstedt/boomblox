@@ -2,11 +2,11 @@ import Oscillator from "../Audio/Oscillator";
 import BasicBox from "../BasicBox";
 
 export default class OscBox extends BasicBox {
-  constructor(x, y, w, h, type) {
+  constructor(x, y, w, h, type, freq = 440) {
     super(x, y, w, h);
     this.type = "osc";
     this.canConnect = ["gain"];
-    this.audioNode = new Oscillator(type, 440);
+    this.audioNode = new Oscillator(type, freq);
     this.init();
   }
 
