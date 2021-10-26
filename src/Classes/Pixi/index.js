@@ -1,7 +1,8 @@
-import * as PIXI from 'pixi.js';
-import GainBox from '../GainBox';
-import OscBox from '../OscBox';
-import RecordingBox from '../RecordingBox';
+import * as PIXI from "pixi.js";
+import GainBox from "../GainBox";
+import OscBox from "../OscBox";
+import RecordingBox from "../RecordingBox";
+import DrumBox from "../DrumBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -21,7 +22,8 @@ export default class Pixi {
   }
 
   init() {
-    this.list.push(new RecordingBox(10, 10, 100, 100));
+    // this.list.push(new RecordingBox(10, 10, 100, 100));
+    this.list.push(new DrumBox(10, 10, 100, 100));
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
