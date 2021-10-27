@@ -32,8 +32,4 @@ export default class GainBox extends BasicBox {
     this.connections = this.connections.filter((item) => item.id !== box.id);
     this.audioNode.node.disconnect(box.audioNode.node);
   }
-
-  // isConnectedTo(box) {
-  //   return this.connections.find((item) => item.id === box.id) !== undefined;
-  // }
 }

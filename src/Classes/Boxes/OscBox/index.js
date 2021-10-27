@@ -10,24 +10,6 @@ export default class OscBox extends BasicBox {
     this.init();
   }
 
-  // connectTo(box) {
-  //   this.connection.isConnected = true;
-  //   this.connection.boxId = box.id;
-  //   this.connection.boxPosition = box.position;
-  //   box.connection.isConnected = true;
-  //   box.graphics.cube.tint = 0xfff000;
-  //   this.audioNode.connectTo(box.audioNode);
-  // }
-
-  // disconnectFrom(box) {
-  //   this.connection.isConnected = false;
-  //   this.connection.boxId = null;
-  //   this.connection.boxPosition = { x: undefined, y: undefined };
-  //   box.connection.isConnected = false;
-  //   box.graphics.cube.tint = 0xffffff;
-  //   this.audioNode.disconnectFrom(box.audioNode);
-  // }
-
   connectTo(box) {
     if (
       box.type === "gain" &&
@@ -45,8 +27,4 @@ export default class OscBox extends BasicBox {
     box.slots = box.slots.filter((item) => item.id !== this.id);
     this.audioNode.disconnectFrom(box.audioNode);
   }
-
-  // isConnectedTo(box) {
-  //   return this.connections.find((item) => item.id === box.id) !== undefined;
-  // }
 }

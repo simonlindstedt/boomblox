@@ -73,6 +73,7 @@ export default class Pixi {
           }
         }
       }
+
       // If box have connections
       if (box.connections.length > 0) {
         // Loop through them
