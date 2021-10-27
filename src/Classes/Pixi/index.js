@@ -1,6 +1,7 @@
-import * as PIXI from "pixi.js";
-import Box from "../Box";
-import Audio from "../Audio";
+import * as PIXI from 'pixi.js';
+import GainBox from '../GainBox';
+import OscBox from '../OscBox';
+import RecordingBox from '../RecordingBox';
 
 export default class Pixi {
   constructor(ref) {
@@ -15,38 +16,70 @@ export default class Pixi {
       resolution: window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
-    this.boxes = [];
-    this.audio = new Audio();
+    this.list = [];
     this.init();
   }
 
   init() {
-    for (let i = 0; i < 5; i++) {
-      if (i === 2) {
-        this.boxes.push(
-          new Box(i * 100, i * 100, this.audio.context, "sawtooth")
-        );
-        continue;
-      }
-      this.boxes.push(new Box(i * 100, i * 100, this.audio.context));
-    }
-    console.log(this.boxes);
+    this.list.push(new RecordingBox(10, 10, 100, 100));
+
+    window.onresize = () => {
+      this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
+    };
   }
 
   update() {
-    this.boxes.forEach((box) => {
+    this.list.forEach((box) => {
+      // Draw box
       box.draw();
+      // If box can connect and have no current connection
+      if (box.canConnect && !box.connection.isConnected) {
+        let options = [];
+
+        // Find options to connect to
+        box.canConnect.forEach((option) => {
+          options = this.list.filter((item) => item.type === option);
+        });
+
+        // Loop through the options
+        for (let i = 0; i < options.length; i++) {
+          let otherBox = options[i];
+
+          // If option is close enough, then connect and break the loop
+          if (
+            box.distanceTo(otherBox) < 200 &&
+            !otherBox.connection.isConnected
+          ) {
+            box.connectTo(otherBox);
+            break;
+          }
+        }
+      }
+
+      // If box can connect and is connected
+      if (box.canConnect && box.connection.isConnected) {
+        // Find the connected box
+        let connectedBox = this.list.find(
+          (item) => box.connection.boxId === item.id
+        );
+
+        // If distance > 200, then disconnect
+        if (box.distanceTo(connectedBox) > 200) {
+          box.disconnectFrom(connectedBox);
+        }
+      }
     });
   }
 
   start() {
-    this.boxes.forEach((box) => {
-      this.app.stage.addChild(box.graphics);
+    this.list.forEach((box) => {
+      this.app.stage.addChild(box.container);
     });
 
-    this.ref.appendChild(this.app.view);
     this.app.ticker.add(() => {
       this.update();
     });
+
+    this.ref.appendChild(this.app.view);
   }
 }
