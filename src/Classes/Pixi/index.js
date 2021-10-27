@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
-import GainBox from "../GainBox";
-import OscBox from "../OscBox";
-import FilterBox from "../FilterBox";
+import GainBox from "../Boxes/GainBox";
+import OscBox from "../Boxes/OscBox";
+import FilterBox from "../Boxes/FilterBox";
+import MasterBox from "../Boxes/MasterBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -36,6 +37,9 @@ export default class Pixi {
     for (let i = 0; i < 2; i++) {
       this.list.push(new FilterBox(600, i * 200, 70, 70));
     }
+
+    // Master
+    this.list.push(new MasterBox(this.width / 2, this.height / 2, 100, 100));
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);

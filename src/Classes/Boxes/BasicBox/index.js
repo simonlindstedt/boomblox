@@ -87,6 +87,10 @@ export default class BasicBox {
     return distance;
   }
 
+  isConnectedTo(box) {
+    return this.connections.find((item) => item.id === box.id) !== undefined;
+  }
+
   draw() {
     this.connectionLine.clear();
     if (this.connections.length > 0) {

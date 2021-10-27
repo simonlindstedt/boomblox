@@ -1,4 +1,4 @@
-import Oscillator from "../Audio/Oscillator";
+import Oscillator from "../../Audio/Oscillator";
 import BasicBox from "../BasicBox";
 
 export default class OscBox extends BasicBox {
@@ -46,7 +46,7 @@ export default class OscBox extends BasicBox {
     this.audioNode.disconnectFrom(box.audioNode);
   }
 
-  isConnectedTo(box) {
-    return this.connections.find((item) => item.id === box.id) !== undefined;
-  }
+  // isConnectedTo(box) {
+  //   return this.connections.find((item) => item.id === box.id) !== undefined;
+  // }
 }

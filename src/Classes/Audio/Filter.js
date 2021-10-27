@@ -1,10 +1,10 @@
 import audio from "./Audio";
 
 export default class Filter {
-  constructor(type = "lowpass", freq = 6000) {
+  constructor(type = "lowpass", freq = 200) {
     this.audio = audio;
-    this.filter = audio.context.createBiquadFilter();
-    this.filter.type = type;
-    this.filter.frequency.setValueAtTime(freq, audio.context.currentTime);
+    this.node = audio.context.createBiquadFilter();
+    this.node.type = type;
+    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
   }
 }
