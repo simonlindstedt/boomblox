@@ -10,14 +10,6 @@ export default class OscBox extends BasicBox {
     this.init();
   }
 
-  distanceTo(box) {
-    let distance = Math.sqrt(
-      Math.pow(this.position.x - box.position.x, 2) +
-        Math.pow(this.position.y - box.position.y, 2)
-    );
-    return distance;
-  }
-
   connectTo(box) {
     this.connection.isConnected = true;
     this.connection.boxId = box.id;

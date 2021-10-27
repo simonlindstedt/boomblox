@@ -83,6 +83,14 @@ export default class BasicBox {
     this.position.y = this.container.y;
   }
 
+  distanceTo(box) {
+    let distance = Math.sqrt(
+      Math.pow(this.position.x - box.position.x, 2) +
+        Math.pow(this.position.y - box.position.y, 2)
+    );
+    return distance;
+  }
+
   draw() {
     this.connectionLine.clear();
     if (this.connection.isConnected) {
