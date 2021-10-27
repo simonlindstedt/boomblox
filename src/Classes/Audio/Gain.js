@@ -4,7 +4,7 @@ export default class Gain {
   constructor() {
     this.audio = audio;
     this.volume = audio.context.createGain();
-    this.volume.connect(audio.master);
+    // this.volume.connect(audio.master);
     this.volume.gain.setValueAtTime(0, audio.context.currentTime);
   }
   setVolume(value) {

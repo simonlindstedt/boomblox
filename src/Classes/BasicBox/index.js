@@ -9,11 +9,7 @@ export default class BasicBox {
     this.position = { x, y };
     this.dimensions = { w, h };
     this.moving = false;
-    this.connection = {
-      isConnected: false,
-      boxId: null,
-      boxPosition: { x: undefined, y: undefined },
-    };
+    this.connections = [];
 
     this.container = new Container();
     this.container.interactive = true;
@@ -93,12 +89,14 @@ export default class BasicBox {
 
   draw() {
     this.connectionLine.clear();
-    if (this.connection.isConnected) {
-      this.connectionLine
-        .clear()
-        .lineStyle(1, 0xff0000, 1)
-        .moveTo(this.container.x, this.container.y)
-        .lineTo(this.connection.boxPosition.x, this.connection.boxPosition.y);
+    if (this.connections.length > 0) {
+      this.connectionLine.clear();
+      this.connections.forEach((connection) => {
+        this.connectionLine
+          .lineStyle(1, 0xff0000, 1)
+          .moveTo(this.container.x, this.container.y)
+          .lineTo(connection.position.x, connection.position.y);
+      });
     }
   }
 }
