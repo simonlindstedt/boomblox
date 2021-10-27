@@ -22,11 +22,19 @@ export default class BasicBox {
 
     this.graphics = {
       cube: new Sprite(),
+      grabArea: new Sprite(),
     };
 
     this.graphics.cube.texture = Texture.WHITE;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
+
+    this.graphics.grabArea.interactive = true;
+    this.graphics.grabArea.cursor = "grab";
+    this.graphics.grabArea.texture = Texture.WHITE;
+    this.graphics.grabArea.tint = 0x00ff00;
+    this.graphics.grabArea.width = this.dimensions.w / 3;
+    this.graphics.grabArea.height = this.dimensions.h / 3;
 
     this.connectionLine = new Graphics();
   }
@@ -38,19 +46,23 @@ export default class BasicBox {
 
     this.container.x = this.position.x;
     this.container.y = this.position.y;
+    this.graphics.grabArea.x =
+      this.container.width - this.graphics.grabArea.width;
 
-    this.container.on("pointerdown", (e) => {
+    this.graphics.grabArea.on("pointerdown", (e) => {
+      this.graphics.grabArea.cursor = "grabbing";
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
-    this.container.on("pointermove", (e) => {
+    this.graphics.grabArea.on("pointermove", (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
       }
     });
-    this.container.on("pointerup", (e) => {
+    this.graphics.grabArea.on("pointerup", (e) => {
+      this.graphics.grabArea.cursor = "grab";
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
@@ -59,8 +71,9 @@ export default class BasicBox {
 
   setPosition(x, y) {
     if (this.moving) {
-      this.container.x = x - this.dimensions.w / 2;
-      this.container.y = y - this.dimensions.h / 2;
+      this.container.x =
+        x - this.dimensions.w + this.graphics.grabArea.width / 2;
+      this.container.y = y - this.graphics.grabArea.height / 2;
     } else {
       this.container.x = x;
       this.container.y = y;
