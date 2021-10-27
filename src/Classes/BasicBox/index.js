@@ -1,6 +1,7 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
-import { Texture } from '@pixi/core';
+import { Container } from "@pixi/display";
+import { Sprite } from "@pixi/sprite";
+import { Texture } from "@pixi/core";
+import { Graphics } from "@pixi/graphics";
 
 export default class BasicBox {
   constructor(x, y, w, h) {
@@ -11,7 +12,7 @@ export default class BasicBox {
     this.connection = {
       isConnected: false,
       boxId: null,
-      boxPosition: { x: null, y: null },
+      boxPosition: { x: undefined, y: undefined },
     };
 
     this.container = new Container();
@@ -21,34 +22,47 @@ export default class BasicBox {
 
     this.graphics = {
       cube: new Sprite(),
+      grabArea: new Sprite(),
     };
 
     this.graphics.cube.texture = Texture.WHITE;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
+
+    this.graphics.grabArea.interactive = true;
+    this.graphics.grabArea.cursor = "grab";
+    this.graphics.grabArea.texture = Texture.WHITE;
+    this.graphics.grabArea.tint = 0x00ff00;
+    this.graphics.grabArea.width = this.dimensions.w / 3;
+    this.graphics.grabArea.height = this.dimensions.h / 3;
+
+    this.connectionLine = new Graphics();
   }
 
   init() {
     Object.keys(this.graphics).forEach((key) => {
-      console.log(key);
       this.container.addChild(this.graphics[key]);
     });
 
     this.container.x = this.position.x;
     this.container.y = this.position.y;
+    this.graphics.grabArea.x =
+      this.container.width - this.graphics.grabArea.width;
 
-    this.container.on('pointerdown', (e) => {
+    this.graphics.grabArea.on("pointerdown", (e) => {
+      this.graphics.grabArea.cursor = "grabbing";
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
-    this.container.on('pointermove', (e) => {
+    this.graphics.grabArea.on("pointermove", (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
       }
     });
-    this.container.on('pointerup', (e) => {
+    this.graphics.grabArea.on("pointerup", (e) => {
+      this.graphics.grabArea.cursor = "grab";
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
@@ -57,13 +71,34 @@ export default class BasicBox {
 
   setPosition(x, y) {
     if (this.moving) {
-      this.container.x = this.position.x = x - this.dimensions.w / 2;
-      this.container.y = this.position.y = y - this.dimensions.h / 2;
+      this.container.x =
+        x - this.dimensions.w + this.graphics.grabArea.width / 2;
+      this.container.y = y - this.graphics.grabArea.height / 2;
     } else {
-      this.container.x = this.position.x = x;
-      this.container.y = this.position.y = y;
+      this.container.x = x;
+      this.container.y = y;
     }
+
+    this.position.x = this.container.x;
+    this.position.y = this.container.y;
   }
 
-  draw() {}
+  distanceTo(box) {
+    let distance = Math.sqrt(
+      Math.pow(this.position.x - box.position.x, 2) +
+        Math.pow(this.position.y - box.position.y, 2)
+    );
+    return distance;
+  }
+
+  draw() {
+    this.connectionLine.clear();
+    if (this.connection.isConnected) {
+      this.connectionLine
+        .clear()
+        .lineStyle(1, 0xff0000, 1)
+        .moveTo(this.container.x, this.container.y)
+        .lineTo(this.connection.boxPosition.x, this.connection.boxPosition.y);
+    }
+  }
 }
