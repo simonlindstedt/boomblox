@@ -97,7 +97,7 @@ export default class BasicBox {
       this.connectionLine.clear();
       this.connections.forEach((connection) => {
         this.connectionLine
-          .lineStyle(1, 0xff0000, 1)
+          .lineStyle(2, 0xff0000, 1)
           .moveTo(this.container.x, this.container.y)
           .lineTo(connection.position.x, connection.position.y);
       });
