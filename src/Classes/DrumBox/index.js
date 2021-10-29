@@ -12,13 +12,30 @@ export default class DrumBox extends BasicBox {
     this.clapNode;
     this.bassNode;
 
-    this.playHiHat();
+    this.currentTime;
 
-    // this.playClap();
+    this.samples = [HiHat, Clap, Bass];
+    this.buffers = [];
 
-    // this.playBass();
+    this.handlePlay();
 
     this.init();
+  }
+
+  handlePlay() {
+    window.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        case "a":
+          this.playSound(0);
+          break;
+        case "s":
+          this.playSound(1);
+          break;
+        case "d":
+          this.playSound(2);
+          break;
+      }
+    });
   }
 
   playHiHat = async () => {
@@ -31,43 +48,44 @@ export default class DrumBox extends BasicBox {
     this.audioNode.buffer = audioBuffer;
     this.audioNode.connect(audioContext.destination);
     this.audioNode.start(0);
-    this.audioNode.loop = true;
+    // this.audioNode.loop = true;
   };
 
-  clock(options) {
-    this.tempo = options.tempo;
-    this.numBeats = options.numBeats;
-    this.handlers = [];
-    this.beat = -1;
-    this.bar = 0;
-    this.start = context.currentTime;
-    this._tick = this.tick.bind(this);
-    this._tick();
+  async playSound(index) {
+    let bufferSource = audio.context.createBufferSource();
+    let sample = await fetch(this.samples[index]);
+    sample = await sample.arrayBuffer();
+    sample = await audio.context.decodeAudioData(sample);
+
+    bufferSource.buffer = sample;
+    bufferSource.connect(audio.context.destination);
+    bufferSource.start(0);
   }
 
-  playClap = async () => {
-    const audioContext = audio.context;
-    this.clapNode = audioContext.createBufferSource();
-    const audioBuffer = await fetch(Clap)
-      .then((res) => res.arrayBuffer())
-      .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
+  // playClap = async () => {
+  //   const audioContext = audio.context;
+  //   this.clapNode = audioContext.createBufferSource();
+  //   const audioBuffer = await fetch(Clap)
 
-    this.clapNode.buffer = audioBuffer;
-    this.clapNode.connect(audioContext.destination);
-    this.clapNode.start();
-    this.clapNode.loop = true;
-  };
+  //     .then((res) => res.arrayBuffer())
+  //     .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
 
-  playBass = async () => {
-    const audioContext = audio.context;
-    this.bassNode = audioContext.createBufferSource();
-    const audioBuffer = await fetch(Bass)
-      .then((res) => res.arrayBuffer())
-      .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
+  //   this.clapNode.buffer = audioBuffer;
+  //   this.clapNode.connect(audioContext.destination);
+  //   this.clapNode.start();
+  //   this.clapNode.loop = true;
+  // };
 
-    this.bassNode.buffer = audioBuffer;
-    this.bassNode.connect(audioContext.destination);
-    this.bassNode.start();
-    this.bassNode.loop = true;
-  };
+  // playBass = async () => {
+  //   const audioContext = audio.context;
+  //   this.bassNode = audioContext.createBufferSource();
+  //   const audioBuffer = await fetch(Bass)
+  //     .then((res) => res.arrayBuffer())
+  //     .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
+
+  //   this.bassNode.buffer = audioBuffer;
+  //   this.bassNode.connect(audioContext.destination);
+  //   this.bassNode.start();
+  //   this.bassNode.loop = true;
+  // };
 }
