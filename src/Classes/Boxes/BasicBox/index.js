@@ -10,6 +10,7 @@ export default class BasicBox {
     this.dimensions = { w, h };
     this.moving = false;
     this.connections = [];
+    this.options = [];
 
     this.container = new Container();
     this.container.interactive = true;
@@ -33,6 +34,10 @@ export default class BasicBox {
     this.graphics.grabArea.height = this.dimensions.h / 3;
 
     this.connectionLine = new Graphics();
+
+    this.proximityLine = new Graphics();
+    this.proximityLine.interactive = true;
+    this.proximityLine.cursor = "pointer";
   }
 
   init() {
@@ -45,23 +50,69 @@ export default class BasicBox {
     this.graphics.grabArea.x =
       this.container.width - this.graphics.grabArea.width;
 
+    // Pick up
     this.graphics.grabArea.on("pointerdown", (e) => {
       this.graphics.grabArea.cursor = "grabbing";
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
+
+    // Move
     this.graphics.grabArea.on("pointermove", (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
       }
     });
+
+    // Drop
     this.graphics.grabArea.on("pointerup", (e) => {
       this.graphics.grabArea.cursor = "grab";
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
+    });
+
+    // Click to connect and disconnect
+    this.proximityLine.on("pointerdown", (e) => {
+      const { x, y } = e.data.global;
+      const mousePos = { x, y };
+      const list = [];
+
+      this.options.forEach((option) => {
+        if (this.distanceTo(option) < 200) {
+          let distance = this.distanceBetweenPoints(mousePos, option.position);
+          list.push({ id: option.id, distance });
+        }
+      });
+
+      const closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
+      const box = this.options.find((item) => item.id === closest.id);
+      const distanceToOption = this.distanceBetweenPoints(
+        mousePos,
+        box.position
+      );
+      const distanceToSelf = this.distanceBetweenPoints(
+        mousePos,
+        this.position
+      );
+
+      if (
+        distanceToSelf > distanceToOption &&
+        this.connectTo &&
+        !this.isConnectedTo(box)
+      ) {
+        this.connectTo(box);
+      }
+
+      if (
+        distanceToSelf < distanceToOption &&
+        this.disconnectFrom &&
+        this.isConnectedTo(box)
+      ) {
+        this.disconnectFrom(box);
+      }
     });
   }
 
@@ -87,12 +138,20 @@ export default class BasicBox {
     return distance;
   }
 
+  distanceBetweenPoints(positionA, positionB) {
+    return Math.sqrt(
+      Math.pow(positionA.x - positionB.x, 2) +
+        Math.pow(positionA.y - positionB.y, 2)
+    );
+  }
+
   isConnectedTo(box) {
     return this.connections.find((item) => item.id === box.id) !== undefined;
   }
 
   draw() {
     this.connectionLine.clear();
+    this.proximityLine.clear();
     if (this.connections.length > 0) {
       this.connectionLine.clear();
       this.connections.forEach((connection) => {
@@ -100,6 +159,18 @@ export default class BasicBox {
           .lineStyle(2, 0xff0000, 1)
           .moveTo(this.container.x, this.container.y)
           .lineTo(connection.position.x, connection.position.y);
+      });
+    }
+    if (this.options.length > 0) {
+      this.proximityLine.clear();
+      this.options.forEach((option) => {
+        if (this.distanceTo(option) < 200) {
+          this.proximityLine
+            .lineStyle(2, 0x00ff00, 0.5)
+            .moveTo(this.container.x, this.container.y)
+            .lineTo(option.position.x, option.position.y);
+          this.proximityLine.hitArea = this.proximityLine.getBounds();
+        }
       });
     }
   }

@@ -63,15 +63,17 @@ export default class Pixi {
           options = options.flat();
         });
 
-        // For each option, check if close enough to connect
-        for (let i = 0; i < options.length; i++) {
-          let otherBox = options[i];
+        box.options = options;
 
-          // Connect if distance < 200 and is not currently connected
-          if (box.distanceTo(otherBox) < 200 && !box.isConnectedTo(otherBox)) {
-            box.connectTo(otherBox);
-          }
-        }
+        // For each option, check if close enough to connect
+        // for (let i = 0; i < options.length; i++) {
+        //   let otherBox = options[i];
+
+        //   // Connect if distance < 200 and is not currently connected
+        //   if (box.distanceTo(otherBox) < 200 && !box.isConnectedTo(otherBox)) {
+        //     box.connectTo(otherBox);
+        //   }
+        // }
       }
 
       // If box have connections
@@ -93,7 +95,11 @@ export default class Pixi {
 
   start() {
     this.list.forEach((box) => {
-      this.app.stage.addChild(box.container, box.connectionLine);
+      this.app.stage.addChild(
+        box.proximityLine,
+        box.connectionLine,
+        box.container
+      );
     });
 
     this.app.ticker.add(() => {
