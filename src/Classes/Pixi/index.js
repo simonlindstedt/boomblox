@@ -1,8 +1,8 @@
-import * as PIXI from "pixi.js";
-import GainBox from "../Boxes/GainBox";
-import OscBox from "../Boxes/OscBox";
-import FilterBox from "../Boxes/FilterBox";
-import MasterBox from "../Boxes/MasterBox";
+import * as PIXI from 'pixi.js';
+import GainBox from '../GainBox';
+import OscBox from '../OscBox';
+import RecordingBox from '../RecordingBox';
+import ReverbBox from '../Reverb';
 
 export default class Pixi {
   constructor(ref) {
@@ -22,24 +22,10 @@ export default class Pixi {
   }
 
   init() {
-    // Oscs
-    for (let i = 0; i < 2; i++) {
-      let pitch = 13.75 * Math.pow(2, (i - 9) / 12) * 16;
-      this.list.push(new OscBox(0, i * 70, 50, 50, "sawtooth", pitch));
-    }
-
-    // Gains
-    for (let i = 0; i < 3; i++) {
-      this.list.push(new GainBox(300, i * 200, 60, 60));
-    }
-
-    // Test
-    for (let i = 0; i < 2; i++) {
-      this.list.push(new FilterBox(600, i * 200, 70, 70));
-    }
-
-    // Master
-    this.list.push(new MasterBox(this.width / 2, this.height / 2, 100, 100));
+    this.list.push(new OscBox(10, 10, 100, 100, 'sine'));
+    this.list.push(new RecordingBox(100, 100, 100, 100));
+    this.list.push(new ReverbBox(20, 40, 100, 100));
+    this.list.push(new GainBox(300, 200, 200, 200, 0.2));
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);

@@ -8,6 +8,10 @@ import audio from "../../Audio/Audio";
 export default class RecordingBox extends BasicBox {
   constructor(x, y, w, h) {
     super(x, y, w, h);
+    this.type = 'rec';
+    this.canConnect = ['gain'];
+    this.audioNode;
+
     this.visualizer = new Visualizer();
     this.graphics = {
       ...this.graphics,
@@ -24,7 +28,7 @@ export default class RecordingBox extends BasicBox {
     this.graphics.stopBtn.y = 75;
 
     this.graphics.recordBtn.interactive = true;
-    this.graphics.stopBtn.interactive = true;
+    this.graphics.stopBtn.interactive = false;
 
     this.recording = false;
     this.init();
@@ -53,6 +57,7 @@ export default class RecordingBox extends BasicBox {
         this.graphics.recordBtn.on("mousedown", (e) => {
           mediaRecorder.start();
           this.recording = true;
+          this.graphics.stopBtn.interactive = true;
           console.log(mediaRecorder.state);
           console.log("recorder started");
         });
@@ -82,15 +87,14 @@ export default class RecordingBox extends BasicBox {
 
         const playSound = async (audioURL) => {
           const audioContext = audio.context;
-          const source = audioContext.createBufferSource();
+          this.audioNode = audioContext.createBufferSource();
           const audioBuffer = await fetch(audioURL)
             .then((res) => res.arrayBuffer())
             .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
 
-          source.buffer = audioBuffer;
-          source.connect(audioContext.destination);
-          source.start();
-          source.loop = true;
+          this.audioNode.buffer = audioBuffer;
+          this.audioNode.start();
+          this.audioNode.loop = true;
         };
       }, this.onError);
     } else {
@@ -100,5 +104,27 @@ export default class RecordingBox extends BasicBox {
 
   onError(err) {
     console.log("The following error occured: " + err);
+  }
+
+  connectTo(box) {
+    if (this.audioNode != undefined) {
+      this.connection.isConnected = true;
+      this.connection.boxId = box.id;
+      this.connection.boxPosition = box.position;
+      box.connection.isConnected = true;
+      box.graphics.cube.tint = 0xfff000;
+      this.audioNode.connect(box.audioNode.volume);
+    }
+  }
+
+  disconnectFrom(box) {
+    if (this.audioNode != undefined) {
+      this.connection.isConnected = false;
+      this.connection.boxId = null;
+      this.connection.boxPosition = { x: undefined, y: undefined };
+      box.connection.isConnected = false;
+      box.graphics.cube.tint = 0xffffff;
+      this.audioNode.disconnect(box.audioNode.volume);
+    }
   }
 }
