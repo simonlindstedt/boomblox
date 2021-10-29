@@ -1,9 +1,10 @@
 import { Graphics } from '@pixi/graphics';
+import audio from '../Audio/Audio';
 
 export default class Visualizer {
-  constructor(audioContext) {
-    this.audioContext = audioContext;
-    this.source;
+  constructor() {
+    this.audioContext = audio.context;
+    this.microphoneStream;
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.fftSize = 512;
     this.bufferLength = this.analyser.frequencyBinCount;
@@ -11,9 +12,9 @@ export default class Visualizer {
     this.graphics = new Graphics();
   }
 
-  createMediaStream(stream) {
-    this.source = this.audioContext.createMediaStreamSource(stream);
-    this.source.connect(this.analyser);
+  createMediaStreamSourceAndConnectToAnalyser(stream) {
+    this.microphoneStream = this.audioContext.createMediaStreamSource(stream);
+    this.microphoneStream.connect(this.analyser);
   }
 
   draw() {

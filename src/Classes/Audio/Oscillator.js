@@ -3,18 +3,15 @@ import audio from "./Audio";
 export default class Oscillator {
   constructor(type, frequency) {
     this.audio = audio;
-    this.audioNode = audio.context.createOscillator();
-    this.audioNode.type = type;
-    this.audioNode.frequency.setValueAtTime(
-      frequency,
-      audio.context.currentTime
-    );
-    this.audioNode.start();
+    this.node = audio.context.createOscillator();
+    this.node.type = type;
+    this.node.frequency.setValueAtTime(frequency, audio.context.currentTime);
+    this.node.start();
   }
   connectTo(gain) {
-    this.audioNode.connect(gain.volume);
+    this.node.connect(gain.node);
   }
   disconnectFrom(gain) {
-    this.audioNode.disconnect(gain.volume);
+    this.node.disconnect(gain.node);
   }
 }

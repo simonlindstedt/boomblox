@@ -1,15 +1,14 @@
-import { Sprite } from '@pixi/sprite';
-import { Sound } from '@pixi/sound';
-import BasicBox from '../BasicBox';
-import recordButton from './images/record.png';
-import stopButton from './images/pause.png';
-import Visualizer from '../Visualizer';
-import Audio from '../Audio/Audio';
+import { Sprite } from "@pixi/sprite";
+import BasicBox from "../BasicBox";
+import recordButton from "./images/record.png";
+import stopButton from "./images/pause.png";
+import Visualizer from "../../Visualizer";
+import audio from "../../Audio/Audio";
 
 export default class RecordingBox extends BasicBox {
   constructor(x, y, w, h) {
     super(x, y, w, h);
-    this.visualizer = new Visualizer(Audio.context);
+    this.visualizer = new Visualizer();
     this.graphics = {
       ...this.graphics,
       recordBtn: new Sprite.from(recordButton),
@@ -41,7 +40,7 @@ export default class RecordingBox extends BasicBox {
   }
   recordSound() {
     if (navigator.mediaDevices.getUserMedia) {
-      console.log('getUserMedia supported.');
+      console.log("getUserMedia supported.");
 
       const constraints = { audio: true };
 
@@ -49,44 +48,57 @@ export default class RecordingBox extends BasicBox {
         const mediaRecorder = new MediaRecorder(stream);
 
         let chunks = [];
-        this.visualizer.createMediaStream(stream);
+        this.visualizer.createMediaStreamSourceAndConnectToAnalyser(stream);
 
-        this.graphics.recordBtn.on('mousedown', (e) => {
+        this.graphics.recordBtn.on("mousedown", (e) => {
           mediaRecorder.start();
           this.recording = true;
           console.log(mediaRecorder.state);
-          console.log('recorder started');
+          console.log("recorder started");
         });
 
-        this.graphics.stopBtn.on('mousedown', (e) => {
+        this.graphics.stopBtn.on("mousedown", (e) => {
           this.recording = false;
           mediaRecorder.stop();
           console.log(mediaRecorder.state);
-          console.log('recorder stopped');
+          console.log("recorder stopped");
         });
 
         mediaRecorder.onstop = function (e) {
-          console.log('data available after MediaRecorder.stop() called.');
+          console.log("data available after MediaRecorder.stop() called.");
 
-          const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
-          console.log('recorder stopped');
 
-          const sound = Sound.from(audioURL);
-          sound.play({ loop: true });
+          console.log("recorder stopped");
+
+          playSound(audioURL);
         };
 
         mediaRecorder.ondataavailable = function (e) {
           chunks.push(e.data);
         };
+
+        const playSound = async (audioURL) => {
+          const audioContext = audio.context;
+          const source = audioContext.createBufferSource();
+          const audioBuffer = await fetch(audioURL)
+            .then((res) => res.arrayBuffer())
+            .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
+
+          source.buffer = audioBuffer;
+          source.connect(audioContext.destination);
+          source.start();
+          source.loop = true;
+        };
       }, this.onError);
     } else {
-      console.log('getUserMedia not supported on your browser!');
+      console.log("getUserMedia not supported on your browser!");
     }
   }
 
   onError(err) {
-    console.log('The following error occured: ' + err);
+    console.log("The following error occured: " + err);
   }
 }
