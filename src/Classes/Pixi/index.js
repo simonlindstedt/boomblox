@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import GainBox from '../GainBox';
 import OscBox from '../OscBox';
 import RecordingBox from '../RecordingBox';
+import ReverbBox from '../Reverb';
 
 export default class Pixi {
   constructor(ref) {
@@ -21,7 +22,10 @@ export default class Pixi {
   }
 
   init() {
-    this.list.push(new RecordingBox(10, 10, 100, 100));
+    this.list.push(new OscBox(10, 10, 100, 100, 'sine'));
+    this.list.push(new RecordingBox(100, 100, 100, 100));
+    this.list.push(new ReverbBox(20, 40, 100, 100));
+    this.list.push(new GainBox(300, 200, 200, 200, 0.2));
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
