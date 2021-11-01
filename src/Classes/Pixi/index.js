@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
-import GainBox from '../GainBox';
-import OscBox from '../OscBox';
-import RecordingBox from '../RecordingBox';
-import ReverbBox from '../Reverb';
+import GainBox from '../Boxes/GainBox';
+import OscBox from '../Boxes/OscBox';
+import RecordingBox from '../Boxes/RecordingBox';
+import ReverbBox from '../Boxes/ReverbBox';
+import MasterBox from '../Boxes/MasterBox';
+import FilterBox from '../Boxes/FilterBox';
 
 export default class Pixi {
   constructor(ref) {
@@ -22,10 +24,13 @@ export default class Pixi {
   }
 
   init() {
-    this.list.push(new OscBox(10, 10, 100, 100, 'sine'));
     this.list.push(new RecordingBox(100, 100, 100, 100));
     this.list.push(new ReverbBox(20, 40, 100, 100));
-    this.list.push(new GainBox(300, 200, 200, 200, 0.2));
+    this.list.push(new FilterBox(200, 600, 50, 50));
+    this.list.push(new GainBox(300, 200, 50, 50, 0.2));
+    this.list.push(
+      new MasterBox(this.width / 2 - 100, this.height / 2 - 100, 200, 200)
+    );
 
     window.onresize = () => {
       this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
@@ -35,6 +40,10 @@ export default class Pixi {
   update() {
     this.list.forEach((box) => {
       box.draw();
+
+      if (box.visualize) {
+        box.visualize();
+      }
 
       // If box can connect
       if (box.canConnect) {

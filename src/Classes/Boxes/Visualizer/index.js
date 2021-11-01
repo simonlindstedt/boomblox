@@ -1,5 +1,5 @@
 import { Graphics } from '@pixi/graphics';
-import audio from '../Audio/Audio';
+import audio from '../../Audio/Audio';
 
 export default class Visualizer {
   constructor() {

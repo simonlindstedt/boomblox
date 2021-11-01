@@ -1,9 +1,9 @@
-import { Sprite } from "@pixi/sprite";
-import BasicBox from "../BasicBox";
-import recordButton from "./images/record.png";
-import stopButton from "./images/pause.png";
-import Visualizer from "../../Visualizer";
-import audio from "../../Audio/Audio";
+import { Sprite } from '@pixi/sprite';
+import BasicBox from '../BasicBox';
+import recordButton from './images/record.png';
+import stopButton from './images/pause.png';
+import Visualizer from '../Visualizer';
+import audio from '../../Audio/Audio';
 
 export default class RecordingBox extends BasicBox {
   constructor(x, y, w, h) {
@@ -35,16 +35,17 @@ export default class RecordingBox extends BasicBox {
     this.recordSound();
   }
 
-  draw() {
+  visualize() {
     if (this.recording) {
       this.visualizer.draw();
     } else {
       this.visualizer.stop();
     }
   }
+
   recordSound() {
     if (navigator.mediaDevices.getUserMedia) {
-      console.log("getUserMedia supported.");
+      console.log('getUserMedia supported.');
 
       const constraints = { audio: true };
 
@@ -54,29 +55,29 @@ export default class RecordingBox extends BasicBox {
         let chunks = [];
         this.visualizer.createMediaStreamSourceAndConnectToAnalyser(stream);
 
-        this.graphics.recordBtn.on("mousedown", (e) => {
+        this.graphics.recordBtn.on('mousedown', (e) => {
           mediaRecorder.start();
           this.recording = true;
           this.graphics.stopBtn.interactive = true;
           console.log(mediaRecorder.state);
-          console.log("recorder started");
+          console.log('recorder started');
         });
 
-        this.graphics.stopBtn.on("mousedown", (e) => {
+        this.graphics.stopBtn.on('mousedown', (e) => {
           this.recording = false;
           mediaRecorder.stop();
           console.log(mediaRecorder.state);
-          console.log("recorder stopped");
+          console.log('recorder stopped');
         });
 
         mediaRecorder.onstop = function (e) {
-          console.log("data available after MediaRecorder.stop() called.");
+          console.log('data available after MediaRecorder.stop() called.');
 
-          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+          const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
 
-          console.log("recorder stopped");
+          console.log('recorder stopped');
 
           playSound(audioURL);
         };
@@ -98,33 +99,25 @@ export default class RecordingBox extends BasicBox {
         };
       }, this.onError);
     } else {
-      console.log("getUserMedia not supported on your browser!");
+      console.log('getUserMedia not supported on your browser!');
     }
   }
 
   onError(err) {
-    console.log("The following error occured: " + err);
+    console.log('The following error occured: ' + err);
   }
 
   connectTo(box) {
     if (this.audioNode != undefined) {
-      this.connection.isConnected = true;
-      this.connection.boxId = box.id;
-      this.connection.boxPosition = box.position;
-      box.connection.isConnected = true;
-      box.graphics.cube.tint = 0xfff000;
-      this.audioNode.connect(box.audioNode.volume);
+      this.connections.push({ id: box.id, position: box.position });
+      this.audioNode.connect(box.audioNode.node);
     }
   }
 
   disconnectFrom(box) {
     if (this.audioNode != undefined) {
-      this.connection.isConnected = false;
-      this.connection.boxId = null;
-      this.connection.boxPosition = { x: undefined, y: undefined };
-      box.connection.isConnected = false;
-      box.graphics.cube.tint = 0xffffff;
-      this.audioNode.disconnect(box.audioNode.volume);
+      this.connections = this.connections.filter((item) => item.id !== box.id);
+      this.audioNode.disconnect(box.audioNode.node);
     }
   }
 }
