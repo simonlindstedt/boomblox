@@ -3,6 +3,7 @@ import BasicBox from "../Boxes/BasicBox";
 import HiHat from "./sounds/hh_sample.mp3";
 import Clap from "./sounds/clap_sample.mp3";
 import Bass from "./sounds/bass_sample.mp3";
+import MetroWorker from "./MetroWorker?worker";
 
 export default class DrumBox extends BasicBox {
   constructor(x, y, w, h) {
@@ -11,8 +12,25 @@ export default class DrumBox extends BasicBox {
     this.audioNode;
     this.clapNode;
     this.bassNode;
-
+    this.worker = new MetroWorker();
     this.currentTime;
+    this.sequences = {
+      hihat: {
+        id: 0,
+        step: 0,
+        sequence: [0, 1, 0, 1],
+      },
+      clap: {
+        id: 1,
+        step: 0,
+        sequence: [1, 0, 1, 0],
+      },
+      kick: {
+        id: 2,
+        step: 0,
+        sequence: [1, 1, 1, 0],
+      },
+    };
 
     this.samples = [HiHat, Clap, Bass];
     this.buffers = [];
@@ -20,6 +38,20 @@ export default class DrumBox extends BasicBox {
     this.handlePlay();
 
     this.init();
+    this.worker.postMessage("start");
+    this.worker.onmessage = (e) => {
+      if (e.data === "tick") {
+        Object.keys(this.sequences).forEach((key) => {
+          let { step, id, sequence } = this.sequences[key];
+          step > sequence.length ? (step = 0) : step;
+
+          if (sequence[step]) {
+            this.playSound(id);
+          }
+          this.sequences[key].step++;
+        });
+      }
+    };
   }
 
   handlePlay() {
