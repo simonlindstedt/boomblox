@@ -3,6 +3,7 @@ import GainBox from "../Boxes/GainBox";
 import OscBox from "../Boxes/OscBox";
 import FilterBox from "../Boxes/FilterBox";
 import MasterBox from "../Boxes/MasterBox";
+import DrumBox from "../DrumBox";
 
 export default class Pixi {
   constructor(ref) {
@@ -22,21 +23,9 @@ export default class Pixi {
   }
 
   init() {
-    // Oscs
-    for (let i = 0; i < 2; i++) {
-      let pitch = 13.75 * Math.pow(2, (i - 9) / 12) * 16;
-      this.list.push(new OscBox(0, i * 70, 50, 50, "sawtooth", pitch));
-    }
+    // Drum
 
-    // Gains
-    for (let i = 0; i < 3; i++) {
-      this.list.push(new GainBox(300, i * 200, 60, 60));
-    }
-
-    // Test
-    for (let i = 0; i < 2; i++) {
-      this.list.push(new FilterBox(600, i * 200, 70, 70));
-    }
+    this.list.push(new DrumBox(this.width / 2, this.height / 2, 100, 100));
 
     // Master
     this.list.push(new MasterBox(this.width / 2, this.height / 2, 100, 100));

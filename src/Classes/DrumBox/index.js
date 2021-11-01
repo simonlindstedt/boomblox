@@ -1,5 +1,5 @@
 import audio from "../Audio/Audio";
-import BasicBox from "../BasicBox";
+import BasicBox from "../Boxes/BasicBox";
 import HiHat from "./sounds/hh_sample.mp3";
 import Clap from "./sounds/clap_sample.mp3";
 import Bass from "./sounds/bass_sample.mp3";
@@ -26,13 +26,13 @@ export default class DrumBox extends BasicBox {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "a":
-          this.playSound(0);
+          this.playSound(2);
           break;
         case "s":
           this.playSound(1);
           break;
         case "d":
-          this.playSound(2);
+          this.playSound(0);
           break;
       }
     });
