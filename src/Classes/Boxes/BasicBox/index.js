@@ -113,6 +113,14 @@ export default class BasicBox {
     return this.connections.find((item) => item.id === box.id) !== undefined;
   }
 
+  addToConnectionList(box) {
+    this.connections.push({
+      id: box.id,
+      position: box.position,
+      dimensions: box.dimensions,
+    });
+  }
+
   handleConnection(event) {
     const { x, y } = event;
     const mousePos = { x, y };

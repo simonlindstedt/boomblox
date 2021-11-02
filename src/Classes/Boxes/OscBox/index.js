@@ -15,7 +15,12 @@ export default class OscBox extends BasicBox {
       box.type === "gain" &&
       box.slots.find((item) => item.type === this.type) === undefined
     ) {
-      this.connections.push({ id: box.id, position: box.position });
+      // this.connections.push({
+      //   id: box.id,
+      //   position: box.position,
+      //   dimensions: box.dimensions,
+      // });
+      this.addToConnectionList(box);
       box.slots.push({ id: this.id, type: this.type });
       this.audioNode.connectTo(box.audioNode);
     }
