@@ -7,10 +7,10 @@ import MasterBox from '../Boxes/MasterBox';
 import FilterBox from '../Boxes/FilterBox';
 
 export default class Pixi {
-  constructor(ref) {
-    this.ref = ref;
+  constructor() {
+    this.ref;
     this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.height = window.innerHeight - 100;
     this.app = new PIXI.Application({
       width: this.width,
       height: this.height,
@@ -24,12 +24,26 @@ export default class Pixi {
   }
 
   init() {
-    this.list.push(new RecordingBox(100, 100, 100, 100));
-    this.list.push(new ReverbBox(20, 40, 100, 100));
-    this.list.push(new FilterBox(200, 600, 50, 50));
-    this.list.push(new GainBox(300, 200, 50, 50, 0.2));
-    this.list.push(
-      new MasterBox(this.width / 2 - 100, this.height / 2 - 100, 200, 200)
+    const masterBox = new MasterBox(
+      this.width / 2 - 30,
+      this.height / 2 - 30,
+      60,
+      60
+    );
+    this.list.push(masterBox);
+
+    this.app.stage.addChild(
+      masterBox.proximityLine,
+      masterBox.connectionLine,
+      masterBox.container
+    );
+
+    const recordingBox = new RecordingBox(10, 10, 80, 80);
+    this.list.push(recordingBox);
+    this.app.stage.addChild(
+      recordingBox.proximityLine,
+      recordingBox.connectionLine,
+      recordingBox.container
     );
 
     window.onresize = () => {
@@ -88,19 +102,66 @@ export default class Pixi {
     });
   }
 
-  start() {
-    this.list.forEach((box) => {
-      this.app.stage.addChild(
-        box.proximityLine,
-        box.connectionLine,
-        box.container
-      );
-    });
+  addBox(type) {
+    console.log(type);
 
+    switch (type) {
+      case 'gain':
+        let gainBox = new GainBox(10, 10, 60, 60);
+        this.app.stage.addChild(
+          gainBox.proximityLine,
+          gainBox.connectionLine,
+          gainBox.container
+        );
+        this.list.push(gainBox);
+        break;
+      case 'osc':
+        let oscBox = new OscBox(10, 10, 60, 60);
+        this.app.stage.addChild(
+          oscBox.proximityLine,
+          oscBox.connectionLine,
+          oscBox.container
+        );
+        this.list.push(oscBox);
+        break;
+      case 'filter':
+        let filterBox = new FilterBox(10, 10, 60, 60);
+        this.app.stage.addChild(
+          filterBox.proximityLine,
+          filterBox.connectionLine,
+          filterBox.container
+        );
+        this.list.push(filterBox);
+        break;
+      case 'reverb':
+        let reverbBox = new ReverbBox(10, 10, 60, 60);
+        this.list.push(reverbBox);
+        this.app.stage.addChild(
+          reverbBox.proximityLine,
+          reverbBox.connectionLine,
+          reverbBox.container
+        );
+        break;
+      case 'rec':
+        let recBox = new RecordingBox(10, 10, 100, 100);
+        this.list.push(recBox);
+        this.app.stage.addChild(
+          recBox.proximityLine,
+          recBox.connectionLine,
+          recBox.container
+        );
+        break;
+      default:
+        return;
+    }
+  }
+
+  start(ref) {
     this.app.ticker.add(() => {
       this.update();
     });
 
+    this.ref = ref;
     this.ref.appendChild(this.app.view);
   }
 }

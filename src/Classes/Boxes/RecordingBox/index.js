@@ -11,6 +11,7 @@ export default class RecordingBox extends BasicBox {
     this.type = 'rec';
     this.canConnect = ['gain'];
     this.audioNode;
+    this.dimensions = { w, h };
 
     this.visualizer = new Visualizer();
     this.graphics = {
@@ -19,13 +20,17 @@ export default class RecordingBox extends BasicBox {
       stopBtn: new Sprite.from(stopButton),
       visualizer: this.visualizer.graphics,
     };
-    this.graphics.recordBtn.anchor.set(0.5);
-    this.graphics.stopBtn.anchor.set(0.5);
+    this.graphics.recordBtn.anchor.set(1);
+    this.graphics.stopBtn.anchor.set(1);
+    this.graphics.recordBtn.width = this.dimensions.w / 4;
+    this.graphics.recordBtn.height = this.dimensions.h / 4;
+    this.graphics.stopBtn.width = this.dimensions.w / 4;
+    this.graphics.stopBtn.height = this.dimensions.h / 4;
 
-    this.graphics.recordBtn.x = 20;
-    this.graphics.recordBtn.y = 75;
-    this.graphics.stopBtn.x = 75;
-    this.graphics.stopBtn.y = 75;
+    this.graphics.recordBtn.x = this.dimensions.w / 3;
+    this.graphics.recordBtn.y = this.dimensions.h - this.dimensions.h / 10;
+    this.graphics.stopBtn.x = this.dimensions.w - this.dimensions.w / 10;
+    this.graphics.stopBtn.y = this.dimensions.h - this.dimensions.h / 10;
 
     this.graphics.recordBtn.interactive = true;
     this.graphics.stopBtn.interactive = false;
@@ -37,9 +42,9 @@ export default class RecordingBox extends BasicBox {
 
   visualize() {
     if (this.recording) {
-      this.visualizer.draw();
+      this.visualizer.draw(this.dimensions.w);
     } else {
-      this.visualizer.stop();
+      this.visualizer.stop(this.dimensions.w);
     }
   }
 

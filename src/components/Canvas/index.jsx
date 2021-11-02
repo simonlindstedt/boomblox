@@ -1,10 +1,11 @@
-import Pixi from "../../Classes/Pixi";
-import React, { useRef, useEffect } from "react";
-import styled from "styled-components";
+import Pixi from '../../Classes/Pixi';
+import React, { useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import Button from '../Button';
 
 const CanvasWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   canvas {
     width: 100%;
     height: 100%;
@@ -12,14 +13,49 @@ const CanvasWrapper = styled.div`
 `;
 
 const Canvas = () => {
-  const pixiRef = useRef();
+  const canvasRef = useRef();
+  let pixi = null;
 
   useEffect(() => {
-    const pixi = new Pixi(pixiRef.current);
-    pixi.start();
-  }, []);
+    pixi = new Pixi();
+    pixi.start(canvasRef.current);
+  }, [canvasRef]);
 
-  return <CanvasWrapper ref={pixiRef}></CanvasWrapper>;
+  return (
+    <>
+      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+      <Button
+        handleClick={() => {
+          pixi.addBox('filter');
+        }}
+        title="Filter"
+      />
+      <Button
+        handleClick={() => {
+          pixi.addBox('osc');
+        }}
+        title="Oscillator"
+      />
+      <Button
+        handleClick={() => {
+          pixi.addBox('rec');
+        }}
+        title="Recording"
+      />
+      <Button
+        handleClick={() => {
+          pixi.addBox('reverb');
+        }}
+        title="Reverb"
+      />
+      <Button
+        handleClick={() => {
+          pixi.addBox('gain');
+        }}
+        title="Gain"
+      />
+    </>
+  );
 };
 
 export default Canvas;
