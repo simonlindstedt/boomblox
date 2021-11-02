@@ -125,8 +125,14 @@ export default class BasicBox {
       }
     });
 
-    const closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
-    const box = this.options.find((item) => item.id === closest.id);
+    let closest;
+    let box;
+
+    if (list.length) {
+      closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
+      box = this.options.find((item) => item.id === closest.id);
+    }
+
     const distanceToOption = this.distanceBetweenPoints(mousePos, box.position);
     const distanceToSelf = this.distanceBetweenPoints(mousePos, this.position);
 
