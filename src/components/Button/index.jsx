@@ -1,16 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
+import { StyledButton } from './styles';
 
-const ButtonWrapper = styled.div`
-  width: 50%;
-  height: 50%;
-`;
-
-const Button = ({ handleClick, title }) => {
+const Button = ({ handleMouseUp, title }) => {
   return (
-    <ButtonWrapper>
-      <button onClick={handleClick}>{title}</button>
-    </ButtonWrapper>
+    <StyledButton
+      drag
+      dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
+      dragElastic={1}
+      dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
+      onMouseUp={handleMouseUp}
+    >
+      {title}
+    </StyledButton>
   );
 };
 export default Button;

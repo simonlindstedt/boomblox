@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { StyledSideMenu, StyledMenuButton } from "./styles";
+import { useState } from 'react';
+import { StyledSideMenu, StyledMenuButton } from './styles';
 
 const SideMenu = ({ children }) => {
   const [active, setActive] = useState(false);
 
   const menuVariants = {
-    hidden: { x: "100%" },
+    hidden: { x: '100%' },
     visible: { x: 0 },
   };
 
@@ -17,17 +17,17 @@ const SideMenu = ({ children }) => {
     <>
       <StyledMenuButton
         initial="inactive"
-        animate={active ? "active" : "inactive"}
+        animate={active ? 'active' : 'inactive'}
         variants={buttonVariants}
         onClick={() => {
           setActive(!active);
         }}
       >
-        ⬅️
+        {active ? '➡️' : '⬅️'}
       </StyledMenuButton>
       <StyledSideMenu
         initial="hidden"
-        animate={active ? "visible" : "hidden"}
+        animate={active ? 'visible' : 'hidden'}
         variants={menuVariants}
       >
         {children}

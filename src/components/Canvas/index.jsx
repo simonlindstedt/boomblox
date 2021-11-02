@@ -1,8 +1,8 @@
-import Pixi from "../../Classes/Pixi";
-import React, { useRef, useEffect, useState } from "react";
-import styled from "styled-components";
-import Button from "../Button";
-import SideMenu from "../SideMenu";
+import Pixi from '../../Classes/Pixi';
+import React, { useRef, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Button from '../Button';
+import SideMenu from '../SideMenu';
 
 const CanvasWrapper = styled.div`
   width: 100%;
@@ -33,7 +33,39 @@ const Canvas = () => {
 
   return (
     <main>
-      <CanvasWrapper ref={canvasRef} />
+      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+      <SideMenu>
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('filter', e.clientX, e.clientY);
+          }}
+          title="Filter"
+        />
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('osc', e.clientX, e.clientY);
+          }}
+          title="Oscillator"
+        />
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('rec', e.clientX, e.clientY);
+          }}
+          title="Recording"
+        />
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('reverb', e.clientX, e.clientY);
+          }}
+          title="Reverb"
+        />
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('gain', e.clientX, e.clientY);
+          }}
+          title="Gain"
+        />
+      </SideMenu>
     </main>
   );
 };
