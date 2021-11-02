@@ -12,14 +12,19 @@ const CanvasWrapper = styled.div`
 `;
 
 const Canvas = () => {
-  const pixiRef = useRef();
+  const canvasRef = useRef();
+  let pixi = null;
 
   useEffect(() => {
-    const pixi = new Pixi(pixiRef.current);
-    pixi.start();
-  }, []);
+    pixi = new Pixi();
+    pixi.start(canvasRef.current);
+  }, [canvasRef]);
 
-  return <CanvasWrapper ref={pixiRef}></CanvasWrapper>;
+  return (
+    <>
+      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+    </>
+  );
 };
 
 export default Canvas;
