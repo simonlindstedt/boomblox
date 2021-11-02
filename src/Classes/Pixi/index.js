@@ -5,6 +5,7 @@ import RecordingBox from '../Boxes/RecordingBox';
 import ReverbBox from '../Boxes/ReverbBox';
 import MasterBox from '../Boxes/MasterBox';
 import FilterBox from '../Boxes/FilterBox';
+import Clock from '../Clock';
 
 export default class Pixi {
   constructor() {
@@ -20,6 +21,7 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.list = [];
+    this.clock = new Clock();
     this.init();
   }
 
@@ -47,8 +49,24 @@ export default class Pixi {
     );
 
     window.onresize = () => {
-      this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
+      if (this.ref) {
+        this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
+      }
     };
+
+    // Add reaction to each tick
+    this.clock.worker.onmessage = (e) => {
+      switch (e.data) {
+        case 'tick':
+          console.log('tick');
+          break;
+        default:
+          return;
+      }
+    };
+
+    // Start the clock
+    this.clock.start();
   }
 
   update() {

@@ -76,43 +76,7 @@ export default class BasicBox {
 
     // Click to connect and disconnect
     this.proximityLine.on("pointerdown", (e) => {
-      const { x, y } = e.data.global;
-      const mousePos = { x, y };
-      const list = [];
-
-      this.options.forEach((option) => {
-        if (this.distanceTo(option) < 200) {
-          let distance = this.distanceBetweenPoints(mousePos, option.position);
-          list.push({ id: option.id, distance });
-        }
-      });
-
-      const closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
-      const box = this.options.find((item) => item.id === closest.id);
-      const distanceToOption = this.distanceBetweenPoints(
-        mousePos,
-        box.position
-      );
-      const distanceToSelf = this.distanceBetweenPoints(
-        mousePos,
-        this.position
-      );
-
-      if (
-        distanceToSelf > distanceToOption &&
-        this.connectTo &&
-        !this.isConnectedTo(box)
-      ) {
-        this.connectTo(box);
-      }
-
-      if (
-        distanceToSelf < distanceToOption &&
-        this.disconnectFrom &&
-        this.isConnectedTo(box)
-      ) {
-        this.disconnectFrom(box);
-      }
+      this.handleConnection(e.data.global);
     });
   }
 
@@ -147,6 +111,40 @@ export default class BasicBox {
 
   isConnectedTo(box) {
     return this.connections.find((item) => item.id === box.id) !== undefined;
+  }
+
+  handleConnection(event) {
+    const { x, y } = event;
+    const mousePos = { x, y };
+    const list = [];
+
+    this.options.forEach((option) => {
+      if (this.distanceTo(option) < 200) {
+        let distance = this.distanceBetweenPoints(mousePos, option.position);
+        list.push({ id: option.id, distance });
+      }
+    });
+
+    const closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
+    const box = this.options.find((item) => item.id === closest.id);
+    const distanceToOption = this.distanceBetweenPoints(mousePos, box.position);
+    const distanceToSelf = this.distanceBetweenPoints(mousePos, this.position);
+
+    if (
+      distanceToSelf > distanceToOption &&
+      this.connectTo &&
+      !this.isConnectedTo(box)
+    ) {
+      this.connectTo(box);
+    }
+
+    if (
+      distanceToSelf < distanceToOption &&
+      this.disconnectFrom &&
+      this.isConnectedTo(box)
+    ) {
+      this.disconnectFrom(box);
+    }
   }
 
   draw() {
