@@ -8,10 +8,10 @@ export default class Oscillator {
     this.node.frequency.setValueAtTime(frequency, audio.context.currentTime);
     this.node.start();
   }
-  connectTo(gain) {
-    this.node.connect(gain.node);
+  connectTo(output) {
+    this.node.connect(output.node);
   }
-  disconnectFrom(gain) {
-    this.node.disconnect(gain.node);
+  disconnectFrom(output) {
+    this.node.disconnect(output.node);
   }
 }
