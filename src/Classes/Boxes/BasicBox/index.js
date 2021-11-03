@@ -4,14 +4,21 @@ import { Texture } from "@pixi/core";
 import { Graphics } from "@pixi/graphics";
 
 export default class BasicBox {
-  constructor(x, y, w, h) {
+  constructor(x, y, w, h, settings) {
+    // Object
     this.id = Math.random().toString(36).substr(2);
     this.position = { x, y };
     this.dimensions = { w, h };
     this.moving = false;
     this.connections = [];
     this.options = [];
+    this.settings = settings;
 
+    // Audio
+    this.input;
+    this.output;
+
+    // Pixi
     this.container = new Container();
     this.container.interactive = true;
     this.container.width = this.dimensions.w;
@@ -40,6 +47,7 @@ export default class BasicBox {
     this.proximityLine.cursor = "pointer";
   }
 
+  // Init function
   init() {
     Object.keys(this.graphics).forEach((key) => {
       this.container.addChild(this.graphics[key]);
@@ -78,8 +86,14 @@ export default class BasicBox {
     this.proximityLine.on("pointerdown", (e) => {
       this.handleConnection(e.data.global);
     });
+
+    if (this.input && this.output) {
+      this.output.setVolume(this.settings.volume);
+      this.input.connectTo(this.output);
+    }
   }
 
+  // Methods
   setPosition(x, y) {
     if (this.moving) {
       this.container.x =
@@ -111,6 +125,14 @@ export default class BasicBox {
 
   isConnectedTo(box) {
     return this.connections.find((item) => item.id === box.id) !== undefined;
+  }
+
+  addToConnectionList(box) {
+    this.connections.push({
+      id: box.id,
+      position: box.position,
+      dimensions: box.dimensions,
+    });
   }
 
   handleConnection(event) {
