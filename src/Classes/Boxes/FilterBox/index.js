@@ -1,23 +1,24 @@
-import BasicBox from '../BasicBox';
-import Filter from '../../Audio/Filter';
+import BasicBox from "../BasicBox";
+import Filter from "../../Audio/Filter";
+import Gain from "../../Audio/Gain";
 
 export default class FilterBox extends BasicBox {
-  constructor(x, y, w, h) {
-    super(x, y, w, h, 'Filter');
-    this.type = 'filter';
-    this.canConnect = ['master'];
-    this.audioNode = new Filter();
+  constructor(x, y, w, h, settings) {
+    super(x, y, w, h, settings);
+    this.type = "filter";
+    this.canConnect = ["master"];
+    this.input = new Filter(settings.type, settings.freq);
+    this.output = new Gain();
     this.init();
   }
 
   connectTo(box) {
-    // this.connections.push({ id: box.id, position: box.position });
     this.addToConnectionList(box);
-    this.audioNode.node.connect(box.audioNode.node);
+    this.output.connectTo(box.input);
   }
 
   disconnectFrom(box) {
     this.connections = this.connections.filter((item) => item.id !== box.id);
-    this.audioNode.node.disconnect(box.audioNode.node);
+    this.output.disconnectFrom(box.input);
   }
 }

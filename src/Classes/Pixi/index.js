@@ -1,12 +1,11 @@
-import * as PIXI from 'pixi.js';
-import GainBox from '../Boxes/GainBox';
-import OscBox from '../Boxes/OscBox';
-import RecordingBox from '../Boxes/RecordingBox';
-import ReverbBox from '../Boxes/ReverbBox';
-import MasterBox from '../Boxes/MasterBox';
-import FilterBox from '../Boxes/FilterBox';
-import Clock from '../Clock';
-import TrashCan from '../TrashCan';
+import * as PIXI from "pixi.js";
+import OscBox from "../Boxes/OscBox";
+import RecordingBox from "../Boxes/RecordingBox";
+import ReverbBox from "../Boxes/ReverbBox";
+import MasterBox from "../Boxes/MasterBox";
+import FilterBox from "../Boxes/FilterBox";
+import Clock from "../Clock";
+import TrashCan from "../TrashCan";
 
 export default class Pixi {
   constructor(globalWorker) {
@@ -36,7 +35,8 @@ export default class Pixi {
       this.width / 2 - 50,
       this.height / 2 - 50,
       100,
-      100
+      100,
+      { name: "Master" }
     );
     masterBox.globalWorker = this.globalWorker;
     this.list.push(masterBox);
@@ -56,7 +56,7 @@ export default class Pixi {
     // Add reaction to each tick
     this.clock.worker.onmessage = (e) => {
       switch (e.data) {
-        case 'tick':
+        case "tick":
           this.clock.step++;
           break;
         default:
@@ -130,31 +130,21 @@ export default class Pixi {
         box.container.removeChild(child);
       });
     }
-    if (box.type == 'osc') {
+    if (box.type == "osc") {
       box.audioNode.node.stop();
     }
     this.app.stage.removeChild(box.container);
     box.container.graphics = {};
     box.connections = [];
-    console.log('trash!!');
+    console.log("trash!!");
   }
 
   addBox(type, x, y) {
     console.log(x, y);
 
     switch (type) {
-      case 'gain':
-        let gainBox = new GainBox(x, y, 60, 60, { volume: 0.2, name: 'Gain' });
-        gainBox.globalWorker = this.globalWorker;
-        this.app.stage.addChild(
-          gainBox.proximityLine,
-          gainBox.connectionLine,
-          gainBox.container
-        );
-        this.list.push(gainBox);
-        break;
-      case 'osc':
-        let oscBox = new OscBox(x, y, 60, 60, 'sawtooth');
+      case "osc":
+        let oscBox = new OscBox(x, y, 60, 60, { name: "Osc", volume: 0.2 });
         this.app.stage.addChild(
           oscBox.proximityLine,
           oscBox.connectionLine,
@@ -162,8 +152,11 @@ export default class Pixi {
         );
         this.list.push(oscBox);
         break;
-      case 'filter':
-        let filterBox = new FilterBox(x - 30, y - 30, 60, 60);
+      case "filter":
+        let filterBox = new FilterBox(x - 30, y - 30, 60, 60, {
+          name: "Filter",
+          volume: 0.2,
+        });
         this.app.stage.addChild(
           filterBox.proximityLine,
           filterBox.connectionLine,
@@ -171,8 +164,8 @@ export default class Pixi {
         );
         this.list.push(filterBox);
         break;
-      case 'reverb':
-        let reverbBox = new ReverbBox(x, y, 60, 60);
+      case "reverb":
+        let reverbBox = new ReverbBox(x, y, 60, 60, { name: "Reverb" });
         this.list.push(reverbBox);
         this.app.stage.addChild(
           reverbBox.proximityLine,
@@ -180,7 +173,7 @@ export default class Pixi {
           reverbBox.container
         );
         break;
-      case 'rec':
+      case "rec":
         let recBox = new RecordingBox(x - 30, y - 30, 60, 60);
         this.list.push(recBox);
         this.app.stage.addChild(

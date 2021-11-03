@@ -4,8 +4,8 @@ import impulse from "./sound/ir.wav";
 import Reverb from "../../Audio/Reverb";
 
 export default class ReverbBox extends BasicBox {
-  constructor(x, y, w, h) {
-    super(x, y, w, h, "Reverb");
+  constructor(x, y, w, h, settings) {
+    super(x, y, w, h, settings);
     this.audioContext = audio.context;
     this.type = "reverb";
     this.audioNode = new Reverb(impulse);
