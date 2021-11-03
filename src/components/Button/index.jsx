@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyledButton } from './styles';
+import React from "react";
+import { StyledButton } from "./styles";
 
 const Button = ({ handleMouseUp, title }) => {
   return (
