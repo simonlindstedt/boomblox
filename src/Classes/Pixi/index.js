@@ -9,7 +9,8 @@ import Clock from '../Clock';
 import TrashCan from '../TrashCan';
 
 export default class Pixi {
-  constructor() {
+  constructor(globalWorker) {
+    this.globalWorker = globalWorker;
     this.ref;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -37,6 +38,7 @@ export default class Pixi {
       100,
       100
     );
+    masterBox.globalWorker = this.globalWorker;
     this.list.push(masterBox);
 
     this.app.stage.addChild(
@@ -142,7 +144,8 @@ export default class Pixi {
 
     switch (type) {
       case 'gain':
-        let gainBox = new GainBox(x - 30, y - 30, 60, 60);
+        let gainBox = new GainBox(x, y, 60, 60, { volume: 0.2, name: 'Gain' });
+        gainBox.globalWorker = this.globalWorker;
         this.app.stage.addChild(
           gainBox.proximityLine,
           gainBox.connectionLine,
@@ -151,7 +154,7 @@ export default class Pixi {
         this.list.push(gainBox);
         break;
       case 'osc':
-        let oscBox = new OscBox(x - 30, y - 30, 60, 60, 'sawtooth');
+        let oscBox = new OscBox(x, y, 60, 60, 'sawtooth');
         this.app.stage.addChild(
           oscBox.proximityLine,
           oscBox.connectionLine,
@@ -169,7 +172,7 @@ export default class Pixi {
         this.list.push(filterBox);
         break;
       case 'reverb':
-        let reverbBox = new ReverbBox(x - 30, y - 30, 60, 60);
+        let reverbBox = new ReverbBox(x, y, 60, 60);
         this.list.push(reverbBox);
         this.app.stage.addChild(
           reverbBox.proximityLine,

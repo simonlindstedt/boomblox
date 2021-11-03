@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Button from '../Button';
 import SideMenu from '../SideMenu';
 import RangeInput from '../RangeInput';
+import SettingsPanel from '../SettingsPanel';
+import GlobalWorker from './GlobalWorker?worker';
 
 const CanvasWrapper = styled.div`
   width: 100%;
@@ -14,15 +16,25 @@ const CanvasWrapper = styled.div`
   }
 `;
 
-const pixi = new Pixi();
+const globalWorker = new GlobalWorker();
+const pixi = new Pixi(globalWorker);
 
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState('30');
+  const [box, setBox] = useState('');
 
+  const handleMessages = (e) => {
+    if (e.data.box) {
+      setBox(e.data.box);
+    }
+  };
+
+  // On mount
   useEffect(() => {
     pixi.start(canvasRef.current);
+    globalWorker.addEventListener('message', handleMessages);
   }, []);
 
   useEffect(() => {
@@ -31,10 +43,11 @@ const Canvas = () => {
     } else {
       pixi.play();
     }
-  }, [playing]);
+  }, [playing, box]);
 
   return (
     <main>
+      {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <Button

@@ -1,15 +1,15 @@
-import Gain from "../../Audio/Gain";
-import BasicBox from "../BasicBox";
+import Gain from '../../Audio/Gain';
+import BasicBox from '../BasicBox';
 
 export default class GainBox extends BasicBox {
-  constructor(x, y, w, h, volume = 0.2) {
-    super(x, y, w, h, "Gain");
-    this.type = "gain";
+  constructor(x, y, w, h, settings) {
+    super(x, y, w, h, settings);
+    this.type = 'gain';
     this.slots = [];
     this.numberOfSlots = 3;
-    this.canConnect = ["filter", "master", "reverb"];
+    this.canConnect = ['filter', 'master', 'reverb'];
     this.audioNode = new Gain();
-    this.audioNode.setVolume(volume);
+    this.audioNode.setVolume(this.settings.volume);
     this.init();
   }
 

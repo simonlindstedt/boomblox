@@ -6,7 +6,9 @@ import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { Text } from '@pixi/text';
 
 export default class BasicBox {
-  constructor(x, y, w, h, name = '') {
+  constructor(x, y, w, h, settings = {}) {
+    // Object
+    this.settings = settings;
     this.id = Math.random().toString(36).substr(2);
     this.position = { x, y };
     this.dimensions = { w, h };
@@ -14,6 +16,7 @@ export default class BasicBox {
     this.connections = [];
     this.options = [];
 
+    // Pixi
     this.container = new Container();
     this.container.interactive = true;
     this.container.width = this.dimensions.w;
@@ -27,7 +30,7 @@ export default class BasicBox {
       }),
     ];
 
-    let nameOfBox = new Text(name, {
+    let nameOfBox = new Text(this.settings.name, {
       fontFamily: 'Courier New',
       fontSize: 16,
       fill: 0x000000,
@@ -43,6 +46,7 @@ export default class BasicBox {
       name: nameOfBox,
     };
 
+    this.graphics.cube.interactive = true;
     this.graphics.cube.texture = Texture.WHITE;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
@@ -70,6 +74,12 @@ export default class BasicBox {
     this.container.y = this.position.y;
     this.graphics.grabArea.x =
       this.container.width - this.graphics.grabArea.width;
+
+    this.graphics.cube.on('pointerdown', () => {
+      this.globalWorker.postMessage({
+        box: { id: this.id, type: this.type, settings: this.settings },
+      });
+    });
 
     // Pick up
     this.graphics.grabArea.on('pointerdown', (e) => {
