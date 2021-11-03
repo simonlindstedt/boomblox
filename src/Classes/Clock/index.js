@@ -1,4 +1,4 @@
-import ClockWorker from "./Workers/ClockWorker?worker";
+import ClockWorker from './Workers/ClockWorker?worker';
 
 export default class Clock {
   constructor() {
@@ -7,14 +7,15 @@ export default class Clock {
   }
 
   start() {
-    this.worker.postMessage("start");
+    this.worker.postMessage('start');
   }
 
   stop() {
-    this.worker.postMessage("stop");
+    this.worker.postMessage('stop');
   }
 
   setTempo(tempo) {
+    tempo = 60000 / tempo;
     this.worker.postMessage({ time: tempo });
   }
 }

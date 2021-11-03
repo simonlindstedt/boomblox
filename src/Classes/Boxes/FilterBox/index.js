@@ -1,11 +1,11 @@
-import BasicBox from "../BasicBox";
-import Filter from "../../Audio/Filter";
+import BasicBox from '../BasicBox';
+import Filter from '../../Audio/Filter';
 
 export default class FilterBox extends BasicBox {
   constructor(x, y, w, h) {
-    super(x, y, w, h);
-    this.type = "filter";
-    this.canConnect = ["master"];
+    super(x, y, w, h, 'Filter');
+    this.type = 'filter';
+    this.canConnect = ['master'];
     this.audioNode = new Filter();
     this.init();
   }

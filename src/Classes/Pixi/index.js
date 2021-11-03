@@ -6,6 +6,7 @@ import ReverbBox from '../Boxes/ReverbBox';
 import MasterBox from '../Boxes/MasterBox';
 import FilterBox from '../Boxes/FilterBox';
 import Clock from '../Clock';
+import TrashCan from '../TrashCan';
 
 export default class Pixi {
   constructor() {
@@ -22,15 +23,19 @@ export default class Pixi {
     });
     this.list = [];
     this.clock = new Clock();
+    this.trash = new TrashCan(20, this.height - 80, 50, 50);
+    console.log(this.trash.container.x, this.trash.container.y);
     this.init();
   }
 
   init() {
+    this.app.stage.addChild(this.trash.container);
+
     const masterBox = new MasterBox(
-      this.width / 2 - 30,
-      this.height / 2 - 30,
-      60,
-      60
+      this.width / 2 - 50,
+      this.height / 2 - 50,
+      100,
+      100
     );
     this.list.push(masterBox);
 
@@ -106,7 +111,30 @@ export default class Pixi {
           }
         });
       }
+
+      // delete boxes at will
+      if (
+        box.container.x <= this.trash.container.x &&
+        box.container.y >= this.trash.container.y
+      ) {
+        this.deleteBox(box);
+      }
     });
+  }
+
+  deleteBox(box) {
+    if (box.container.children.length > 0) {
+      box.container.children.forEach((child) => {
+        box.container.removeChild(child);
+      });
+    }
+    if (box.type == 'osc') {
+      box.audioNode.node.stop();
+    }
+    this.app.stage.removeChild(box.container);
+    box.container.graphics = {};
+    box.connections = [];
+    console.log('trash!!');
   }
 
   addBox(type, x, y) {
@@ -114,7 +142,7 @@ export default class Pixi {
 
     switch (type) {
       case 'gain':
-        let gainBox = new GainBox(x, y, 60, 60);
+        let gainBox = new GainBox(x - 30, y - 30, 60, 60);
         this.app.stage.addChild(
           gainBox.proximityLine,
           gainBox.connectionLine,
@@ -123,7 +151,7 @@ export default class Pixi {
         this.list.push(gainBox);
         break;
       case 'osc':
-        let oscBox = new OscBox(x, y, 60, 60, 'sawtooth');
+        let oscBox = new OscBox(x - 30, y - 30, 60, 60, 'sawtooth');
         this.app.stage.addChild(
           oscBox.proximityLine,
           oscBox.connectionLine,
@@ -141,7 +169,7 @@ export default class Pixi {
         this.list.push(filterBox);
         break;
       case 'reverb':
-        let reverbBox = new ReverbBox(x, y, 60, 60);
+        let reverbBox = new ReverbBox(x - 30, y - 30, 60, 60);
         this.list.push(reverbBox);
         this.app.stage.addChild(
           reverbBox.proximityLine,
@@ -150,7 +178,7 @@ export default class Pixi {
         );
         break;
       case 'rec':
-        let recBox = new RecordingBox(x, y, 100, 100);
+        let recBox = new RecordingBox(x - 30, y - 30, 60, 60);
         this.list.push(recBox);
         this.app.stage.addChild(
           recBox.proximityLine,

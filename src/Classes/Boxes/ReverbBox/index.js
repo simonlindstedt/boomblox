@@ -5,11 +5,11 @@ import Reverb from "../../Audio/Reverb";
 
 export default class ReverbBox extends BasicBox {
   constructor(x, y, w, h) {
-    super(x, y, w, h);
+    super(x, y, w, h, "Reverb");
     this.audioContext = audio.context;
     this.type = "reverb";
     this.audioNode = new Reverb(impulse);
-    this.canConnect = ["gain", "master"];
+    this.canConnect = ["master"];
     this.init();
   }
 
