@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
-import GainBox from "../Boxes/GainBox";
 import OscBox from "../Boxes/OscBox";
 import FilterBox from "../Boxes/FilterBox";
 import MasterBox from "../Boxes/MasterBox";
+
 import Clock from "../Clock";
 
 export default class Pixi {
@@ -24,21 +24,20 @@ export default class Pixi {
   }
 
   init() {
-    // // Oscs
-    // for (let i = 0; i < 1; i++) {
-    //   let pitch = 13.75 * Math.pow(2, (i - 9) / 12) * 16;
-    //   this.list.push(new OscBox(0, i * 70, 50, 50, "sawtooth", pitch));
-    // }
+    // Oscs
 
-    // // Gains
-    // for (let i = 0; i < 1; i++) {
-    //   this.list.push(new GainBox(300, i * 200, 60, 60));
-    // }
+    this.list.push(
+      new OscBox(0, 0, 50, 50, {
+        type: "sawtooth",
+        freq: 440,
+        volume: 0.2,
+      })
+    );
 
-    // // Test
-    // for (let i = 0; i < 2; i++) {
-    //   this.list.push(new FilterBox(600, i * 200, 70, 70));
-    // }
+    // Filter
+    this.list.push(
+      new FilterBox(200, 0, 60, 60, { type: "lowpass", freq: 200, volume: 0.2 })
+    );
 
     // Master
     this.list.push(new MasterBox(this.width / 2, this.height / 2, 100, 100));
