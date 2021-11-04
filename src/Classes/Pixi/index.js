@@ -8,8 +8,8 @@ import Clock from "../Clock";
 import TrashCan from "../TrashCan";
 
 export default class Pixi {
-  constructor(globalWorker) {
-    this.globalWorker = globalWorker;
+  constructor(mediator) {
+    this.mediator = mediator;
     this.ref;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -36,9 +36,9 @@ export default class Pixi {
       this.height / 2 - 50,
       100,
       100,
-      { name: "Master" }
+      { name: "Master", volume: 0.5 }
     );
-    masterBox.globalWorker = this.globalWorker;
+    masterBox.mediator = this.mediator;
     this.list.push(masterBox);
 
     this.app.stage.addChild(
@@ -144,12 +144,17 @@ export default class Pixi {
 
     switch (type) {
       case "osc":
-        let oscBox = new OscBox(x, y, 60, 60, { name: "Osc", volume: 0.2 });
+        let oscBox = new OscBox(x, y, 60, 60, {
+          name: "Osc",
+          volume: 0.2,
+          freq: 550,
+        });
         this.app.stage.addChild(
           oscBox.proximityLine,
           oscBox.connectionLine,
           oscBox.container
         );
+        oscBox.mediator = this.mediator;
         this.list.push(oscBox);
         break;
       case "filter":
@@ -193,6 +198,11 @@ export default class Pixi {
 
   pause() {
     this.clock.stop();
+  }
+
+  findAndChangeSettings(boxSettings) {
+    let box = this.list.find((box) => box.id === boxSettings.id);
+    box.changeSettings(boxSettings.settings);
   }
 
   start(ref) {

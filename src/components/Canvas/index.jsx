@@ -5,7 +5,7 @@ import Button from "../Button";
 import SideMenu from "../SideMenu";
 import RangeInput from "../RangeInput";
 import SettingsPanel from "../SettingsPanel";
-import GlobalWorker from "./GlobalWorker?worker";
+import Mediator from "../../Classes/Mediator";
 
 const CanvasWrapper = styled.div`
   width: 100%;
@@ -16,25 +16,25 @@ const CanvasWrapper = styled.div`
   }
 `;
 
-const globalWorker = new GlobalWorker();
-const pixi = new Pixi(globalWorker);
+const mediator = new Mediator();
+const pixi = new Pixi(mediator);
 
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState("30");
-  const [box, setBox] = useState("");
+  const [boxSettings, setBoxSettings] = useState();
 
   const handleMessages = (e) => {
-    if (e.data.box) {
-      setBox(e.data.box);
+    if (e.data.boxSettings) {
+      setBoxSettings(e.data.boxSettings);
     }
   };
 
   // On mount
   useEffect(() => {
     pixi.start(canvasRef.current);
-    globalWorker.addEventListener("message", handleMessages);
+    mediator.worker.addEventListener("message", handleMessages);
   }, []);
 
   useEffect(() => {
@@ -43,11 +43,19 @@ const Canvas = () => {
     } else {
       pixi.play();
     }
-  }, [playing, box]);
+  }, [playing]);
+
+  useEffect(() => {
+    if (boxSettings) {
+      pixi.findAndChangeSettings(boxSettings);
+    }
+  }, [boxSettings]);
 
   return (
     <main>
-      {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
+      {boxSettings ? (
+        <SettingsPanel box={boxSettings} setBoxSettings={setBoxSettings} />
+      ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <Button

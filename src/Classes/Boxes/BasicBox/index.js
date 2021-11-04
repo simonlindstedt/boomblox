@@ -82,8 +82,9 @@ export default class BasicBox {
       this.container.width - this.graphics.grabArea.width;
 
     this.graphics.cube.on("pointerdown", () => {
-      this.globalWorker.postMessage({
-        box: { id: this.id, type: this.type, settings: this.settings },
+      // Post settings
+      this.mediator.post({
+        boxSettings: { id: this.id, settings: this.settings },
       });
     });
 
@@ -123,6 +124,7 @@ export default class BasicBox {
   }
 
   // Methods
+
   setPosition(x, y) {
     if (this.moving) {
       this.container.x =
