@@ -14,4 +14,7 @@ export default class Oscillator {
   disconnectFrom(output) {
     this.node.disconnect(output.node);
   }
+  setFrequency(freq) {
+    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
+  }
 }
