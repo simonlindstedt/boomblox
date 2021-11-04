@@ -1,12 +1,12 @@
-import Oscillator from "../../Audio/Oscillator";
-import Gain from "../../Audio/Gain";
-import BasicBox from "../BasicBox";
+import Oscillator from '../../Audio/Oscillator';
+import Gain from '../../Audio/Gain';
+import BasicBox from '../BasicBox';
 
 export default class OscBox extends BasicBox {
   constructor(x, y, w, h, settings) {
     super(x, y, w, h, settings);
-    this.type = "osc";
-    this.canConnect = ["master", "filter"];
+    this.type = 'osc';
+    this.canConnect = ['master', 'filter', 'reverb'];
     this.input = new Oscillator(settings.type, settings.freq);
     this.output = new Gain();
     this.init();

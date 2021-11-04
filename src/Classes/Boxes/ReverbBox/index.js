@@ -1,25 +1,24 @@
-import BasicBox from "../BasicBox";
-import audio from "../../Audio/Audio";
-import impulse from "./sound/ir.wav";
-import Reverb from "../../Audio/Reverb";
+import BasicBox from '../BasicBox';
+import impulse from './sound/ir.wav';
+import Reverb from '../../Audio/Reverb';
+import Gain from '../../Audio/Gain';
 
 export default class ReverbBox extends BasicBox {
   constructor(x, y, w, h, settings) {
     super(x, y, w, h, settings);
-    this.audioContext = audio.context;
-    this.type = "reverb";
-    this.audioNode = new Reverb(impulse);
-    this.canConnect = ["master"];
+    this.type = 'reverb';
+    this.canConnect = ['master'];
+    this.input = new Reverb(impulse);
+    this.output = new Gain();
     this.init();
   }
 
   connectTo(box) {
-    // this.connections.push({ id: box.id, position: box.position });
     this.addToConnectionList(box);
-    this.audioNode.node.connect(box.audioNode.node);
+    this.output.connectTo(box.input);
   }
   disconnectFrom(box) {
     this.connections = this.connections.filter((item) => item.id !== box.id);
-    this.audioNode.node.disconnect(box.audioNode.node);
+    this.output.disconnectFrom(box.input);
   }
 }

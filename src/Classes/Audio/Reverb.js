@@ -18,4 +18,11 @@ export default class Reverb {
     this.node = this.audio.context.createConvolver();
     this.node.buffer = await this.getImpulseBuffer();
   }
+
+  connectTo(output) {
+    this.node.connect(output.node);
+  }
+  disconnectFrom(output) {
+    this.node.disconnect(output.node);
+  }
 }
