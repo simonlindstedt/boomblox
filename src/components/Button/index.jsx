@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyledButton } from './styles';
+import { StyledButton, StyledPlayButton } from './styles';
 import propTypes from 'prop-types';
 
-const Button = ({ handleMouseUp, title, handleClick, isMovable }) => {
+const Button = ({ handleMouseUp, title, handleClick, isMovable, playing }) => {
   if (isMovable) {
     return (
       <StyledButton
@@ -10,13 +10,30 @@ const Button = ({ handleMouseUp, title, handleClick, isMovable }) => {
         dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
         dragElastic={1}
         dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
+        whileHover={{
+          scale: 1.1,
+          transition: { duration: 0.2 },
+        }}
         onMouseUp={handleMouseUp}
       >
         {title}
       </StyledButton>
     );
   } else {
-    return <StyledButton onClick={handleClick}>{title}</StyledButton>;
+    return (
+      <StyledPlayButton
+        whileHover={{
+          scale: 1.1,
+          transition: { duration: 0.2 },
+        }}
+        onClick={handleClick}
+        animate={{
+          backgroundColor: playing ? '#b0deb0' : '#FB9A9A',
+        }}
+      >
+        {title}
+      </StyledPlayButton>
+    );
   }
 };
 

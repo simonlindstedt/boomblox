@@ -10,8 +10,8 @@ const SideMenu = ({ children }) => {
   };
 
   const buttonVariants = {
-    inactive: { x: 0 },
-    active: { x: -200 },
+    inactive: { x: -0 },
+    active: { x: -400 },
   };
   return (
     <>

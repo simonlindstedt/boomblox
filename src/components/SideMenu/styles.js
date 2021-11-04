@@ -1,18 +1,17 @@
-import styled from "styled-components";
-import { motion } from "framer-motion";
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 export const StyledSideMenu = styled(motion.aside)`
-  width: 200px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   height: 100vh;
   position: absolute;
   right: 0;
   top: 0;
-  background-color: honeydew;
-  button {
-    margin: 8px;
-  }
+  background-color: white;
+  align-items: center;
+  padding: 20px;
 `;
 
 export const StyledMenuButton = styled(motion.button)`
