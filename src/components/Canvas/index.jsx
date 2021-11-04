@@ -87,6 +87,13 @@ const Canvas = () => {
           title="Reverb"
         />
         <Button
+          handleMouseUp={(e) => {
+            pixi.addBox("lfo", e.clientX, e.clientY);
+          }}
+          isMovable={true}
+          title="LFO"
+        />
+        <Button
           handleClick={() => {
             setPlaying(!playing);
           }}
