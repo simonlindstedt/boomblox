@@ -6,9 +6,10 @@ import { DropShadowFilter } from "@pixi/filter-drop-shadow";
 import { Text } from "@pixi/text";
 
 export default class BasicBox {
-  constructor(x, y, w, h, settings = {}) {
+  constructor(x, y, w, h, mediator, settings = {}) {
     // Object
     this.settings = settings;
+    this.mediator = mediator;
     this.id = Math.random().toString(36).substr(2);
     this.position = { x, y };
     this.dimensions = { w, h };
