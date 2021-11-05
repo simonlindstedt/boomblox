@@ -21,7 +21,7 @@ export default class Visualizer {
     this.analyser.getByteTimeDomainData(this.dataArray);
 
     this.graphics.clear();
-    this.graphics.lineStyle(2, 0x000000);
+    this.graphics.lineStyle(2, 0xa3c3d1);
 
     let sliceWidth = w / this.bufferLength;
     let x = 0;
@@ -41,9 +41,31 @@ export default class Visualizer {
 
   stop(w) {
     this.graphics.clear();
-    this.graphics.lineStyle(2, 0x000000);
+    this.graphics.lineStyle(2, 0xa3c3d1);
 
     this.graphics.moveTo(0, w / 2);
     this.graphics.lineTo(w, w / 2);
+  }
+
+  masterDraw(w) {
+    this.analyser.getByteTimeDomainData(this.dataArray);
+
+    this.graphics.clear();
+    this.graphics.lineStyle(2, 0xa3c3d1);
+
+    let sliceWidth = w / this.bufferLength;
+    let x = 0;
+
+    for (let i = 0; i < this.bufferLength; i++) {
+      let v = this.dataArray[i] / 128.0;
+      let y = (v * w) / 1.5;
+
+      if (i === 0) {
+        this.graphics.moveTo(x, y);
+      } else {
+        this.graphics.lineTo(x, y);
+      }
+      x += sliceWidth;
+    }
   }
 }

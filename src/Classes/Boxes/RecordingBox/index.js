@@ -1,7 +1,7 @@
 import { Sprite } from '@pixi/sprite';
 import BasicBox from '../BasicBox';
 import recordButton from './images/record.png';
-import stopButton from './images/pause.png';
+import stopButton from './images/stop.png';
 import Visualizer from '../Visualizer';
 import audio from '../../Audio/Audio';
 import Gain from '../../Audio/Gain';

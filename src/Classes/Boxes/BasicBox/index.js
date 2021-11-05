@@ -28,19 +28,15 @@ export default class BasicBox {
     this.container.interactive = true;
     this.container.width = this.dimensions.w;
     this.container.height = this.dimensions.h;
-    this.container.filters = [
-      new DropShadowFilter({
-        color: 0xffffff,
-        blur: 4,
-        distance: 0,
-        quality: 5,
-      }),
-    ];
+
+    let borderBox = new Graphics();
+    borderBox.lineStyle(4, 0xffffff);
+    borderBox.drawRect(0, 0, this.dimensions.w, this.dimensions.h);
 
     let nameOfBox = new Text(this.settings.name, {
       fontFamily: 'Courier New',
       fontSize: 16,
-      fill: 0x000000,
+      fill: 0xffffff,
       align: 'center',
     });
     nameOfBox.anchor.x = 0.5;
@@ -48,6 +44,7 @@ export default class BasicBox {
     nameOfBox.x = this.dimensions.w / 2;
     nameOfBox.y = this.dimensions.h / 2;
     this.graphics = {
+      border: borderBox,
       cube: new Sprite(),
       grabArea: new Sprite.from(icon),
       name: nameOfBox,
@@ -55,13 +52,13 @@ export default class BasicBox {
 
     this.graphics.cube.interactive = true;
     this.graphics.cube.texture = Texture.WHITE;
+    this.graphics.cube.tint = 0x000000;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
+    this.graphics.cube.cursor = 'pointer';
 
     this.graphics.grabArea.interactive = true;
     this.graphics.grabArea.cursor = 'grab';
-    // this.graphics.grabArea.texture = Texture.WHITE;
-    // this.graphics.grabArea.tint = 0x00ff00;
     this.graphics.grabArea.width = this.dimensions.w / 3;
     this.graphics.grabArea.height = this.dimensions.h / 3;
 
@@ -81,7 +78,7 @@ export default class BasicBox {
     this.container.x = this.position.x;
     this.container.y = this.position.y;
     this.graphics.grabArea.x =
-      this.container.width - this.graphics.grabArea.width;
+      this.container.width - this.graphics.grabArea.width - 4;
 
     this.graphics.cube.on('pointerdown', () => {
       // Post settings

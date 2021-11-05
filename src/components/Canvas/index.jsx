@@ -86,14 +86,14 @@ const Canvas = () => {
             pixi.addBox('frequency-lfo', e.clientX, e.clientY);
           }}
           isMovable={true}
-          title="f-lfo"
+          title="Frequency LFO"
         />
         <Button
           handleMouseUp={(e) => {
             pixi.addBox('amplitude-lfo', e.clientX, e.clientY);
           }}
           isMovable={true}
-          title="a-lfo"
+          title="Amplitude LFO"
         />
         <Button
           handleClick={() => {

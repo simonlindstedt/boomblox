@@ -13,6 +13,7 @@ const Button = ({ handleMouseUp, title, handleClick, isMovable, playing }) => {
         whileDrag={{
           width: '30%',
           transition: { duration: 0.2 },
+          cursor: 'grabbing',
         }}
         whileHover={{
           scale: 1.05,

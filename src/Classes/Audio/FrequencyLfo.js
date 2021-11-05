@@ -1,4 +1,4 @@
-import audio from "./Audio";
+import audio from './Audio';
 
 export default class FrequencyLfo {
   constructor(rate, type, maxValue) {
@@ -25,5 +25,8 @@ export default class FrequencyLfo {
 
   setMaxValue(maxValue) {
     this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
+  }
+  setType(type) {
+    this.input.type = type;
   }
 }

@@ -8,6 +8,7 @@ export const StyledButton = styled(motion.button)`
   padding: 20px;
   margin: 8px;
   width: 60%;
+  cursor: grab;
 `;
 
 export const StyledPlayButton = styled(motion.button)`
@@ -16,4 +17,5 @@ export const StyledPlayButton = styled(motion.button)`
   padding: 20px;
   margin: 8px;
   width: 60%;
+  cursor: pointer;
 `;

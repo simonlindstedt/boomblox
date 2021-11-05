@@ -13,7 +13,7 @@ const SideMenu = ({ children }) => {
   };
 
   const buttonVariants = {
-    inactive: { x: -16 },
+    inactive: { x: 0 },
     active: { x: -400 },
   };
 

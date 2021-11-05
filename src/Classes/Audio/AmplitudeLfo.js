@@ -1,4 +1,4 @@
-import audio from "./Audio";
+import audio from './Audio';
 
 export default class AmplitudeLfo {
   constructor(rate, type, maxValue) {
@@ -27,5 +27,9 @@ export default class AmplitudeLfo {
   setMaxValue(maxValue) {
     if (maxValue > 1) maxValue = 1;
     this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
+  }
+
+  setType(type) {
+    this.input.type = type;
   }
 }

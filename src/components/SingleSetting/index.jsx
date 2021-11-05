@@ -1,5 +1,5 @@
 const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
-  if (setting === "volume") {
+  if (setting === 'volume') {
     return (
       <div>
         <p>{setting}</p>
@@ -15,7 +15,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
-  if (setting === "freq") {
+  if (setting === 'freq') {
     return (
       <div>
         <p>{setting}</p>
@@ -31,7 +31,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
-  if (setting === "rate") {
+  if (setting === 'rate') {
     return (
       <div>
         <p>{setting}</p>
@@ -47,7 +47,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
-  if (setting === "maxValue" && boxType === "frequency-lfo") {
+  if (setting === 'maxValue' && boxType === 'frequency-lfo') {
     return (
       <div>
         <p>{setting}</p>
@@ -62,7 +62,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
       </div>
     );
   }
-  if (setting === "maxValue" && boxType === "amplitude-lfo") {
+  if (setting === 'maxValue' && boxType === 'amplitude-lfo') {
     return (
       <div>
         <p>{setting}</p>
@@ -74,6 +74,19 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.001}
           onChange={handleOnChange}
         />
+      </div>
+    );
+  }
+  if (setting == 'type') {
+    return (
+      <div>
+        <p>{setting}</p>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value="sine">Sine</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+        </select>
       </div>
     );
   }

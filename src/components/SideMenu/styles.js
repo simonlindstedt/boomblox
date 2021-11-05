@@ -12,7 +12,6 @@ export const StyledSideMenu = styled(motion.aside)`
   background-color: white;
   align-items: center;
   padding: 20px;
-  flex-wrap: wrap;
 `;
 
 export const StyledMenuButton = styled(motion.button)`
