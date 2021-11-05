@@ -1,62 +1,27 @@
-import { useEffect, useState } from "react";
+import SingleSetting from "../SingleSetting";
 import { StyledPanelWrapper } from "./styles";
 
-const SettingsPanel = ({ box, setBoxSettings }) => {
-  const [settings, changeSettings] = useState(box.settings);
-
+const SettingsPanel = ({ box, setBox }) => {
   const close = () => {
-    setBoxSettings(null);
+    setBox(null);
   };
-
-  useEffect(() => {
-    if (settings) {
-      setBoxSettings({ ...box, settings });
-    }
-  }, [settings]);
 
   return (
     <StyledPanelWrapper>
       <p>{box.id}</p>
-      {!!settings &&
-        Object.keys(settings).map((setting, index) => {
-          // This is stupid, sorry.
-          if (setting === "volume") {
-            return (
-              <div key={index}>
-                <p>{setting}</p>
-                <input
-                  defaultValue={settings[setting]}
-                  type="range"
-                  min={0.0}
-                  max={1.0}
-                  step={0.01}
-                  onChange={(e) => {
-                    settings[setting] = e.target.value;
-                    changeSettings({ ...settings });
-                  }}
-                />
-              </div>
-            );
-          }
-          if (setting === "freq") {
-            return (
-              <div key={index}>
-                <p>{setting}</p>
-                <input
-                  defaultValue={settings[setting]}
-                  type="range"
-                  min={0}
-                  max={20000}
-                  step={1}
-                  onChange={(e) => {
-                    settings[setting] = e.target.value;
-                    changeSettings({ ...settings });
-                  }}
-                />
-              </div>
-            );
-          }
-          return null;
+      {!!box.settings &&
+        Object.keys(box.settings).map((setting, key) => {
+          return (
+            <SingleSetting
+              key={key}
+              setting={setting}
+              value={box.settings[setting]}
+              handleOnChange={(e) => {
+                box.settings[setting] = e.target.value;
+                setBox({ ...box });
+              }}
+            />
+          );
         })}
       <button onClick={close}>X</button>
     </StyledPanelWrapper>

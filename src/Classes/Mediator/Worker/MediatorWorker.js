@@ -1,5 +1,5 @@
 self.addEventListener("message", (e) => {
-  if (e.data.boxSettings) {
-    postMessage({ boxSettings: e.data.boxSettings });
+  if (e.data.box) {
+    postMessage({ box: e.data.box });
   }
 });

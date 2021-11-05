@@ -6,7 +6,7 @@ export default class LFOBox extends BasicBox {
     super(x, y, w, h, mediator, settings);
     this.type = "LFO";
     this.canConnect = ["osc", "filter"];
-    this.lfo = new LFO(settings.freq, settings.type, settings.maxValue);
+    this.lfo = new LFO(settings.rate, settings.type, settings.maxValue);
     this.init();
   }
 
@@ -23,8 +23,8 @@ export default class LFOBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
-      if (setting === "freq") {
-        this.lfo.setFrequency(this.settings.freq);
+      if (setting === "rate") {
+        this.lfo.setRate(this.settings.rate);
       }
       if (setting === "maxValue") {
         this.lfo.setMaxValue(this.settings.maxValue);

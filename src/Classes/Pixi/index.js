@@ -199,7 +199,7 @@ export default class Pixi {
         break;
       case "lfo":
         const lfoBox = new LFOBox(x, y, 40, 40, this.mediator, {
-          freq: 10,
+          rate: 5,
           type: "sine",
           maxValue: 400,
         });

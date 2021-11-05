@@ -23,11 +23,11 @@ const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState("30");
-  const [boxSettings, setBoxSettings] = useState();
+  const [box, setBox] = useState();
 
   const handleMessages = (e) => {
-    if (e.data.boxSettings) {
-      setBoxSettings(e.data.boxSettings);
+    if (e.data.box) {
+      setBox(e.data.box);
     }
   };
 
@@ -46,16 +46,14 @@ const Canvas = () => {
   }, [playing]);
 
   useEffect(() => {
-    if (boxSettings) {
-      pixi.findAndChangeSettings(boxSettings);
+    if (box) {
+      pixi.findAndChangeSettings(box);
     }
-  }, [boxSettings]);
+  }, [box]);
 
   return (
     <main>
-      {boxSettings ? (
-        <SettingsPanel box={boxSettings} setBoxSettings={setBoxSettings} />
-      ) : null}
+      {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <Button
