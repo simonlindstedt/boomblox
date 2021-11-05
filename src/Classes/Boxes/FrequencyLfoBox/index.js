@@ -1,12 +1,16 @@
-import LFO from "../../Audio/LFO";
+import FrequencyLfo from "../../Audio/FrequencyLfo";
 import BasicBox from "../BasicBox";
 
-export default class LFOBox extends BasicBox {
+export default class FrequencyLfoBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.type = "LFO";
+    this.type = "frequency-lfo";
     this.canConnect = ["osc", "filter"];
-    this.lfo = new LFO(settings.rate, settings.type, settings.maxValue);
+    this.lfo = new FrequencyLfo(
+      settings.rate,
+      settings.type,
+      settings.maxValue
+    );
     this.init();
   }
 

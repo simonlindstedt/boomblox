@@ -85,7 +85,7 @@ export default class BasicBox {
     this.graphics.cube.on("pointerdown", () => {
       // Post settings
       this.mediator.post({
-        box: { id: this.id, settings: this.settings },
+        box: { id: this.id, type: this.type, settings: this.settings },
       });
     });
 

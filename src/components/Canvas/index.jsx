@@ -47,6 +47,7 @@ const Canvas = () => {
 
   useEffect(() => {
     if (box) {
+      console.log(box);
       pixi.findAndChangeSettings(box);
     }
   }, [box]);
@@ -86,10 +87,17 @@ const Canvas = () => {
         />
         <Button
           handleMouseUp={(e) => {
-            pixi.addBox("lfo", e.clientX, e.clientY);
+            pixi.addBox("frequency-lfo", e.clientX, e.clientY);
           }}
           isMovable={true}
-          title="LFO"
+          title="f-lfo"
+        />
+        <Button
+          handleMouseUp={(e) => {
+            pixi.addBox("amplitude-lfo", e.clientX, e.clientY);
+          }}
+          isMovable={true}
+          title="a-lfo"
         />
         <Button
           handleClick={() => {
