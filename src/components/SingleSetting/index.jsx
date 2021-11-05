@@ -1,4 +1,4 @@
-const SingleSetting = ({ setting, value, handleOnChange }) => {
+const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
   if (setting === "volume") {
     return (
       <div>
@@ -47,7 +47,7 @@ const SingleSetting = ({ setting, value, handleOnChange }) => {
     );
   }
 
-  if (setting === "maxValue") {
+  if (setting === "maxValue" && boxType === "frequency-lfo") {
     return (
       <div>
         <p>{setting}</p>
@@ -56,6 +56,21 @@ const SingleSetting = ({ setting, value, handleOnChange }) => {
           defaultValue={value}
           min={20}
           max={10000}
+          step={0.001}
+          onChange={handleOnChange}
+        />
+      </div>
+    );
+  }
+  if (setting === "maxValue" && boxType === "amplitude-lfo") {
+    return (
+      <div>
+        <p>{setting}</p>
+        <input
+          type="range"
+          defaultValue={value}
+          min={0.0}
+          max={1.0}
           step={0.001}
           onChange={handleOnChange}
         />

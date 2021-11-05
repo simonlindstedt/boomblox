@@ -14,6 +14,7 @@ const SettingsPanel = ({ box, setBox }) => {
           return (
             <SingleSetting
               key={key}
+              boxType={box.type}
               setting={setting}
               value={box.settings[setting]}
               handleOnChange={(e) => {
