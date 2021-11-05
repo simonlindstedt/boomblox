@@ -6,6 +6,8 @@ import MasterBox from "../Boxes/MasterBox";
 import FilterBox from "../Boxes/FilterBox";
 import Clock from "../Clock";
 import TrashCan from "../TrashCan";
+import FrequencyLfoBox from "../Boxes/FrequencyLfoBox";
+import AmplitudeLfoBox from "../Boxes/AmplitudeLfoBox";
 
 export default class Pixi {
   constructor(mediator) {
@@ -194,6 +196,48 @@ export default class Pixi {
           recBox.proximityLine,
           recBox.connectionLine,
           recBox.container
+        );
+        break;
+      case "frequency-lfo":
+        const frequencyLfoBox = new FrequencyLfoBox(
+          x,
+          y,
+          60,
+          60,
+          this.mediator,
+          {
+            name: "F-LFO",
+            rate: 5,
+            type: "sine",
+            maxValue: 400,
+          }
+        );
+        this.list.push(frequencyLfoBox);
+        this.app.stage.addChild(
+          frequencyLfoBox.proximityLine,
+          frequencyLfoBox.connectionLine,
+          frequencyLfoBox.container
+        );
+        break;
+      case "amplitude-lfo":
+        const amplitudeLfoBox = new AmplitudeLfoBox(
+          x,
+          y,
+          60,
+          60,
+          this.mediator,
+          {
+            name: "A-LFO",
+            rate: 5,
+            type: "sawtooth",
+            maxValue: 1,
+          }
+        );
+        this.list.push(amplitudeLfoBox);
+        this.app.stage.addChild(
+          amplitudeLfoBox.proximityLine,
+          amplitudeLfoBox.connectionLine,
+          amplitudeLfoBox.container
         );
         break;
       default:
