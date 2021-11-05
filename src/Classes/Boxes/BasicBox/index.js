@@ -1,9 +1,10 @@
-import { Container } from "@pixi/display";
-import { Sprite } from "@pixi/sprite";
-import { Texture } from "@pixi/core";
-import { Graphics } from "@pixi/graphics";
-import { DropShadowFilter } from "@pixi/filter-drop-shadow";
-import { Text } from "@pixi/text";
+import { Container } from '@pixi/display';
+import { Sprite } from '@pixi/sprite';
+import { Texture } from '@pixi/core';
+import { Graphics } from '@pixi/graphics';
+import { DropShadowFilter } from '@pixi/filter-drop-shadow';
+import { Text } from '@pixi/text';
+import icon from './icon/move-symbol.png';
 
 export default class BasicBox {
   constructor(x, y, w, h, mediator, settings = {}) {
@@ -37,10 +38,10 @@ export default class BasicBox {
     ];
 
     let nameOfBox = new Text(this.settings.name, {
-      fontFamily: "Courier New",
+      fontFamily: 'Courier New',
       fontSize: 16,
       fill: 0x000000,
-      align: "center",
+      align: 'center',
     });
     nameOfBox.anchor.x = 0.5;
     nameOfBox.anchor.y = 0.5;
@@ -48,7 +49,7 @@ export default class BasicBox {
     nameOfBox.y = this.dimensions.h / 2;
     this.graphics = {
       cube: new Sprite(),
-      grabArea: new Sprite(),
+      grabArea: new Sprite.from(icon),
       name: nameOfBox,
     };
 
@@ -58,9 +59,9 @@ export default class BasicBox {
     this.graphics.cube.height = this.dimensions.h;
 
     this.graphics.grabArea.interactive = true;
-    this.graphics.grabArea.cursor = "grab";
-    this.graphics.grabArea.texture = Texture.WHITE;
-    this.graphics.grabArea.tint = 0x00ff00;
+    this.graphics.grabArea.cursor = 'grab';
+    // this.graphics.grabArea.texture = Texture.WHITE;
+    // this.graphics.grabArea.tint = 0x00ff00;
     this.graphics.grabArea.width = this.dimensions.w / 3;
     this.graphics.grabArea.height = this.dimensions.h / 3;
 
@@ -68,7 +69,7 @@ export default class BasicBox {
 
     this.proximityLine = new Graphics();
     this.proximityLine.interactive = true;
-    this.proximityLine.cursor = "pointer";
+    this.proximityLine.cursor = 'pointer';
   }
 
   // Init function
@@ -82,7 +83,7 @@ export default class BasicBox {
     this.graphics.grabArea.x =
       this.container.width - this.graphics.grabArea.width;
 
-    this.graphics.cube.on("pointerdown", () => {
+    this.graphics.cube.on('pointerdown', () => {
       // Post settings
       this.mediator.post({
         box: { id: this.id, type: this.type, settings: this.settings },
@@ -90,15 +91,15 @@ export default class BasicBox {
     });
 
     // Pick up
-    this.graphics.grabArea.on("pointerdown", (e) => {
-      this.graphics.grabArea.cursor = "grabbing";
+    this.graphics.grabArea.on('pointerdown', (e) => {
+      this.graphics.grabArea.cursor = 'grabbing';
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
 
     // Move
-    this.graphics.grabArea.on("pointermove", (e) => {
+    this.graphics.grabArea.on('pointermove', (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
@@ -106,15 +107,15 @@ export default class BasicBox {
     });
 
     // Drop
-    this.graphics.grabArea.on("pointerup", (e) => {
-      this.graphics.grabArea.cursor = "grab";
+    this.graphics.grabArea.on('pointerup', (e) => {
+      this.graphics.grabArea.cursor = 'grab';
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
     });
 
     // Click to connect and disconnect
-    this.proximityLine.on("pointerdown", (e) => {
+    this.proximityLine.on('pointerdown', (e) => {
       this.handleConnection(e.data.global);
     });
 

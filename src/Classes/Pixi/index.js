@@ -25,7 +25,7 @@ export default class Pixi {
     });
     this.list = [];
     this.clock = new Clock();
-    this.trash = new TrashCan(30, this.height - 80, 30, 30);
+    this.trash = new TrashCan(30, this.height - 80, 30, 40);
     this.init();
   }
 

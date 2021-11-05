@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { StyledSideMenu, StyledMenuButton } from './styles';
+import arrowLeft from './icons/left.png';
+import arrowRight from './icons/right.png';
+import Title from '../Title';
 
 const SideMenu = ({ children }) => {
   const [active, setActive] = useState(false);
@@ -10,9 +13,10 @@ const SideMenu = ({ children }) => {
   };
 
   const buttonVariants = {
-    inactive: { x: -0 },
+    inactive: { x: -16 },
     active: { x: -400 },
   };
+
   return (
     <>
       <StyledMenuButton
@@ -23,13 +27,14 @@ const SideMenu = ({ children }) => {
           setActive(!active);
         }}
       >
-        {active ? '➡️' : '⬅️'}
+        <img src={active ? arrowRight : arrowLeft} alt="arrow button" />
       </StyledMenuButton>
       <StyledSideMenu
         initial="hidden"
         animate={active ? 'visible' : 'hidden'}
         variants={menuVariants}
       >
+        <Title title="[Cool project]" />
         {children}
       </StyledSideMenu>
     </>

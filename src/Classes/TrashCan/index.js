@@ -1,6 +1,6 @@
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
-import trashIcon from './img/bytesize_trash.svg';
+import trashIcon from './img/bytesize_trash.png';
 
 export default class TrashCan {
   constructor(x, y, w, h) {

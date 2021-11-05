@@ -10,8 +10,12 @@ const Button = ({ handleMouseUp, title, handleClick, isMovable, playing }) => {
         dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
         dragElastic={1}
         dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
+        whileDrag={{
+          width: '30%',
+          transition: { duration: 0.2 },
+        }}
         whileHover={{
-          scale: 1.1,
+          scale: 1.05,
           transition: { duration: 0.2 },
         }}
         onMouseUp={handleMouseUp}
