@@ -5,7 +5,7 @@ export default class Master {
     this.audio = audio;
     this.node = audio.context.createGain();
     this.node.connect(audio.context.destination);
-    this.node.gain.setValueAtTime(0.5, audio.context.currentTime);
+    this.node.gain.setValueAtTime(0, audio.context.currentTime);
   }
   setVolume(value) {
     this.node.gain.setValueAtTime(value, audio.context.currentTime);

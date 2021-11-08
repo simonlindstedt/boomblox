@@ -7,4 +7,13 @@ export default class Filter {
     this.node.type = type;
     this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
   }
+  connectTo(output) {
+    this.node.connect(output.node);
+  }
+  disconnectFrom(output) {
+    this.node.disconnect(output.node);
+  }
+  setFrequency(freq) {
+    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
+  }
 }

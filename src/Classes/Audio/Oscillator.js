@@ -1,17 +1,24 @@
-import audio from "./Audio";
+import audio from './Audio';
 
 export default class Oscillator {
-  constructor(type, frequency) {
+  constructor(type = 'sawtooth', frequency = 440) {
     this.audio = audio;
     this.node = audio.context.createOscillator();
     this.node.type = type;
     this.node.frequency.setValueAtTime(frequency, audio.context.currentTime);
     this.node.start();
   }
-  connectTo(gain) {
-    this.node.connect(gain.node);
+  connectTo(output) {
+    this.node.connect(output.node);
   }
-  disconnectFrom(gain) {
-    this.node.disconnect(gain.node);
+  disconnectFrom(output) {
+    this.node.disconnect(output.node);
+  }
+  setFrequency(freq) {
+    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
+  }
+
+  setType(type) {
+    this.node.type = type;
   }
 }

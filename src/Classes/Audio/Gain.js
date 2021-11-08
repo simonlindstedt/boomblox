@@ -9,4 +9,10 @@ export default class Gain {
   setVolume(value) {
     this.node.gain.setValueAtTime(value, audio.context.currentTime);
   }
+  connectTo(output) {
+    this.node.connect(output.node);
+  }
+  disconnectFrom(output) {
+    this.node.disconnect(output.node);
+  }
 }

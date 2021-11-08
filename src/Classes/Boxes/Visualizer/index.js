@@ -1,5 +1,5 @@
 import { Graphics } from '@pixi/graphics';
-import audio from '../Audio/Audio';
+import audio from '../../Audio/Audio';
 
 export default class Visualizer {
   constructor() {
@@ -17,18 +17,18 @@ export default class Visualizer {
     this.microphoneStream.connect(this.analyser);
   }
 
-  draw() {
+  draw(w) {
     this.analyser.getByteTimeDomainData(this.dataArray);
 
     this.graphics.clear();
-    this.graphics.lineStyle(2, 0x000000);
+    this.graphics.lineStyle(2, 0xa3c3d1);
 
-    let sliceWidth = 100 / this.bufferLength;
+    let sliceWidth = w / this.bufferLength;
     let x = 0;
 
     for (let i = 0; i < this.bufferLength; i++) {
       let v = this.dataArray[i] / 128.0;
-      let y = (v * 100) / 2;
+      let y = (v * w) / 2;
 
       if (i === 0) {
         this.graphics.moveTo(x, y);
@@ -39,11 +39,33 @@ export default class Visualizer {
     }
   }
 
-  stop() {
+  stop(w) {
     this.graphics.clear();
-    this.graphics.lineStyle(2, 0x000000);
+    this.graphics.lineStyle(2, 0xa3c3d1);
 
-    this.graphics.moveTo(0, 50);
-    this.graphics.lineTo(100, 50);
+    this.graphics.moveTo(0, w / 2);
+    this.graphics.lineTo(w, w / 2);
+  }
+
+  masterDraw(w) {
+    this.analyser.getByteTimeDomainData(this.dataArray);
+
+    this.graphics.clear();
+    this.graphics.lineStyle(2, 0xa3c3d1);
+
+    let sliceWidth = w / this.bufferLength;
+    let x = 0;
+
+    for (let i = 0; i < this.bufferLength; i++) {
+      let v = this.dataArray[i] / 128.0;
+      let y = (v * w) / 1.5;
+
+      if (i === 0) {
+        this.graphics.moveTo(x, y);
+      } else {
+        this.graphics.lineTo(x, y);
+      }
+      x += sliceWidth;
+    }
   }
 }

@@ -2,30 +2,25 @@ import Gain from "../../Audio/Gain";
 import BasicBox from "../BasicBox";
 
 export default class GainBox extends BasicBox {
-  constructor(x, y, w, h, volume = 0.2) {
-    super(x, y, w, h);
+  constructor(x, y, w, h, settings) {
+    super(x, y, w, h, settings);
     this.type = "gain";
     this.slots = [];
     this.numberOfSlots = 3;
-    this.canConnect = ["filter", "master"];
+    this.canConnect = ["filter", "master", "reverb"];
     this.audioNode = new Gain();
-    this.audioNode.setVolume(volume);
+    // this.audioNode.setVolume(this.settings.volume);
     this.init();
   }
 
   connectTo(box) {
-    switch (box.type) {
-      case "filter":
-        this.connections.push({ id: box.id, position: box.position });
-        this.audioNode.node.connect(box.audioNode.node);
-        break;
-      case "master":
-        this.connections.push({ id: box.id, position: box.position });
-        this.audioNode.node.connect(box.audioNode.node);
-        break;
-      default:
-        return;
-    }
+    // this.connections.push({
+    //   id: box.id,
+    //   position: box.position,
+    //   dimensions: box.dimensions,
+    // });
+    this.addToConnectionList(box);
+    this.audioNode.node.connect(box.audioNode.node);
   }
 
   disconnectFrom(box) {

@@ -1,13 +1,14 @@
-import BasicBox from "../BasicBox";
-import Filter from "../../Audio/Filter";
-import Gain from "../../Audio/Gain";
+import BasicBox from '../BasicBox';
+import impulse from './sound/ir.wav';
+import Reverb from '../../Audio/Reverb';
+import Gain from '../../Audio/Gain';
 
-export default class FilterBox extends BasicBox {
+export default class ReverbBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.type = "filter";
-    this.canConnect = ["master"];
-    this.input = new Filter(settings.type, settings.freq);
+    this.type = 'reverb';
+    this.canConnect = ['master'];
+    this.input = new Reverb(impulse);
     this.output = new Gain();
     this.init();
   }
@@ -16,7 +17,6 @@ export default class FilterBox extends BasicBox {
     this.addToConnectionList(box);
     this.output.connectTo(box.input);
   }
-
   disconnectFrom(box) {
     this.connections = this.connections.filter((item) => item.id !== box.id);
     this.output.disconnectFrom(box.input);
@@ -24,12 +24,9 @@ export default class FilterBox extends BasicBox {
 
   changeSettings(settings) {
     this.settings = settings;
-    Object.keys(settings).forEach((setting) => {
-      if (setting === "volume") {
+    Object.keys(this.settings).forEach((setting) => {
+      if (setting === 'volume') {
         this.output.setVolume(this.settings.volume);
-      }
-      if (setting === "freq") {
-        this.input.setFrequency(this.settings.freq);
       }
     });
   }
