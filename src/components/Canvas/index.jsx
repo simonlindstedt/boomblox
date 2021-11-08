@@ -6,11 +6,7 @@ import SideMenu from '../SideMenu';
 import RangeInput from '../RangeInput';
 import SettingsPanel from '../SettingsPanel';
 import Mediator from '../../Classes/Mediator';
-
-const CanvasWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
 
 const mediator = new Mediator();
 const pixi = new Pixi(mediator);
@@ -54,48 +50,51 @@ const Canvas = () => {
       {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('filter', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Filter"
-        />
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('osc', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Oscillator"
-        />
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('rec', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Recording"
-        />
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('reverb', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Reverb"
-        />
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('frequency-lfo', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Frequency LFO"
-        />
-        <Button
-          handleMouseUp={(e) => {
-            pixi.addBox('amplitude-lfo', e.clientX, e.clientY);
-          }}
-          isMovable={true}
-          title="Amplitude LFO"
-        />
+        <StyledButtonContainer>
+          <StyledText>drag and drop to add to playground</StyledText>
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('filter', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Filter"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('osc', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Oscillator"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('rec', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Recording"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('reverb', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Reverb"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('frequency-lfo', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Frequency LFO"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('amplitude-lfo', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Amplitude LFO"
+          />
+        </StyledButtonContainer>
         <Button
           handleClick={() => {
             setPlaying(!playing);

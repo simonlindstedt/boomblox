@@ -118,7 +118,8 @@ export default class Pixi {
       // delete boxes at will
       if (
         box.container.x <= this.trash.container.x &&
-        box.container.y >= this.trash.container.y
+        box.container.y >= this.trash.container.y &&
+        box.type != 'master'
       ) {
         this.deleteBox(box);
       }

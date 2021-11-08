@@ -7,7 +7,7 @@ export const StyledButton = styled(motion.button)`
   border: 5px solid #5000ff;
   padding: 15px 20px;
   margin: 8px;
-  width: 60%;
+  width: 45%;
   cursor: grab;
   font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
