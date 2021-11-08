@@ -8,8 +8,8 @@ export default class FrequencyLfoBox extends BasicBox {
     this.canConnect = ['osc', 'filter'];
     this.lfo = new FrequencyLfo(
       settings.rate,
-      settings.type,
-      settings.maxValue
+      settings.maxValue,
+      settings.type
     );
     this.init();
   }

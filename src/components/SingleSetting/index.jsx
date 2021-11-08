@@ -92,6 +92,32 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
       </StyledSingleSetting>
     );
   }
+  if (setting === 'type' && boxType === 'frequency-lfo') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value="sine">Sine</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+        </select>
+      </StyledSingleSetting>
+    );
+  }
+  if (setting === 'type' && boxType === 'amplitude-lfo') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value="sine">Sine</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+        </select>
+      </StyledSingleSetting>
+    );
+  }
   if (setting === 'type' && boxType === 'filter') {
     return (
       <StyledSingleSetting>

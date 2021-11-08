@@ -1,7 +1,7 @@
 import audio from './Audio';
 
 export default class FrequencyLfo {
-  constructor(rate, type, maxValue) {
+  constructor(rate, maxValue, type) {
     this.audio = audio;
     this.input = audio.context.createOscillator();
     this.input.type = type;

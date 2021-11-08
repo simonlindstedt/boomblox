@@ -8,8 +8,8 @@ export default class AmplitudeLfoBox extends BasicBox {
     this.canConnect = ['osc'];
     this.lfo = new AmplitudeLfo(
       this.settings.rate,
-      this.settings.type,
-      this.settings.maxValue
+      this.settings.maxValue,
+      this.settings.type
     );
     this.init();
   }

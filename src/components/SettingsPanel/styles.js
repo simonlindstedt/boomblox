@@ -16,9 +16,6 @@ export const StyledPanelWrapper = styled(motion.div)`
   h3 {
     margin: 10px 10px 5px;
   }
-
-  button {
-  }
 `;
 
 export const StyledButton = styled(motion.button)`

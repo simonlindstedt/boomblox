@@ -210,8 +210,8 @@ export default class Pixi {
           {
             name: 'F-LFO',
             rate: 5,
-            type: 'sine',
             maxValue: 400,
+            type: 'sine',
           }
         );
         this.list.push(frequencyLfoBox);
@@ -231,8 +231,8 @@ export default class Pixi {
           {
             name: 'A-LFO',
             rate: 5,
-            type: 'sawtooth',
             maxValue: 1,
+            type: 'sawtooth',
           }
         );
         this.list.push(amplitudeLfoBox);
