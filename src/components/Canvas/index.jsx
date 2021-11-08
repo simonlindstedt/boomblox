@@ -95,6 +95,13 @@ const Canvas = () => {
           isMovable={true}
           title="Amplitude LFO"
         />
+         <Button
+          handleMouseUp={(e) => {
+            pixi.addBox('drumbox', e.clientX, e.clientY);
+          }}
+          isMovable={true}
+          title="Drumbox"
+        />
         <Button
           handleClick={() => {
             setPlaying(!playing);

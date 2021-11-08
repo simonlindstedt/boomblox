@@ -1,18 +1,20 @@
-import audio from "../Audio/Audio";
-import BasicBox from "../Boxes/BasicBox";
+import audio from "../../Audio/Audio";
+import Gain from "../../Audio/Gain";
+import BasicBox from "../BasicBox";
 import HiHat from "./sounds/hh_sample.mp3";
 import Clap from "./sounds/clap_sample.mp3";
 import Bass from "./sounds/bass_sample.mp3";
-import MetroWorker from "./MetroWorker?worker";
+import Clock from "../../Clock";
 
 export default class DrumBox extends BasicBox {
-  constructor(x, y, w, h) {
-    super(x, y, w, h);
-
+  constructor(x, y, w, h, mediator, settings) {
+    super(x, y, w, h, mediator, settings);
+    this.canConnect = ["master"];
+    this.output = new Gain();
     this.audioNode;
     this.clapNode;
     this.bassNode;
-    this.worker = new MetroWorker();
+    this.worker = new Clock();
     this.currentTime;
     this.sequences = {
       hihat: {
@@ -38,20 +40,20 @@ export default class DrumBox extends BasicBox {
     this.handlePlay();
 
     this.init();
-    this.worker.postMessage("start");
-    this.worker.onmessage = (e) => {
-      if (e.data === "tick") {
-        Object.keys(this.sequences).forEach((key) => {
-          let { step, id, sequence } = this.sequences[key];
-          step > sequence.length ? (step = 0) : step;
+    // this.worker.postMessage("start");
+    // this.worker.onmessage = (e) => {
+    //   if (e.data === "tick") {
+    //     Object.keys(this.sequences).forEach((key) => {
+    //       let { step, id, sequence } = this.sequences[key];
+    //       step > sequence.length ? (step = 0) : step;
 
-          if (sequence[step]) {
-            this.playSound(id);
-          }
-          this.sequences[key].step++;
-        });
-      }
-    };
+    //       if (sequence[step]) {
+    //         this.playSound(id);
+    //       }
+    //       this.sequences[key].step++;
+    //     });
+    //   }
+    // };
   }
 
   handlePlay() {
@@ -70,18 +72,18 @@ export default class DrumBox extends BasicBox {
     });
   }
 
-  playHiHat = async () => {
-    const audioContext = audio.context;
-    this.audioNode = audioContext.createBufferSource();
-    const audioBuffer = await fetch(HiHat)
-      .then((res) => res.arrayBuffer())
-      .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
+  // playHiHat = async () => {
+  //   const audioContext = audio.context;
+  //   this.audioNode = audioContext.createBufferSource();
+  //   const audioBuffer = await fetch(HiHat)
+  //     .then((res) => res.arrayBuffer())
+  //     .then((ArrayBuffer) => audioContext.decodeAudioData(ArrayBuffer));
 
-    this.audioNode.buffer = audioBuffer;
-    this.audioNode.connect(audioContext.destination);
-    this.audioNode.start(0);
-    // this.audioNode.loop = true;
-  };
+  //   this.audioNode.buffer = audioBuffer;
+  //   this.audioNode.connect(audioContext.destination);
+  //   this.audioNode.start(0);
+  // this.audioNode.loop = true;
+  // };
 
   async playSound(index) {
     let bufferSource = audio.context.createBufferSource();
@@ -90,8 +92,29 @@ export default class DrumBox extends BasicBox {
     sample = await audio.context.decodeAudioData(sample);
 
     bufferSource.buffer = sample;
-    bufferSource.connect(audio.context.destination);
+    bufferSource.connect(this.output.node);
     bufferSource.start(0);
+  }
+
+  connectTo(box) {
+    this.addToConnectionList(box);
+    this.output.connectTo(box.input);
+  }
+
+  disconnectFrom(box) {
+    if (this.input != undefined) {
+      this.connections = this.connections.filter((item) => item.id !== box.id);
+      this.output.node.disconnect(box.input.node);
+    }
+  }
+
+  changeSettings(settings) {
+    this.settings = settings;
+    Object.keys(this.settings).forEach((setting) => {
+      if (setting === "volume") {
+        this.output.setVolume(this.settings.volume);
+      }
+    });
   }
 
   // playClap = async () => {

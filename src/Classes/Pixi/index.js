@@ -8,6 +8,7 @@ import Clock from "../Clock";
 import TrashCan from "../TrashCan";
 import FrequencyLfoBox from "../Boxes/FrequencyLfoBox";
 import AmplitudeLfoBox from "../Boxes/AmplitudeLfoBox";
+import DrumBox from "../Boxes/DrumBox";
 
 export default class Pixi {
   constructor(mediator) {
@@ -116,12 +117,12 @@ export default class Pixi {
       }
 
       // delete boxes at will
-      // if (
-      //   box.container.x <= this.trash.container.x &&
-      //   box.container.y >= this.trash.container.y
-      // ) {
-      //   this.deleteBox(box);
-      // }
+      if (
+        box.container.x <= this.trash.container.x &&
+        box.container.y >= this.trash.container.y
+      ) {
+        this.deleteBox(box);
+      }
     });
   }
 
@@ -239,6 +240,18 @@ export default class Pixi {
           amplitudeLfoBox.proximityLine,
           amplitudeLfoBox.connectionLine,
           amplitudeLfoBox.container
+        );
+        break;
+      case "drumbox":
+        const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
+          name: "Drumbox",
+          volume: 1,
+        });
+        this.list.push(drumBox);
+        this.app.stage.addChild(
+          drumBox.proximityLine,
+          drumBox.connectionLine,
+          drumBox.container
         );
         break;
       default:
