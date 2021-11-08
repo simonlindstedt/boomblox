@@ -14,7 +14,7 @@ export default class DrumBox extends BasicBox {
     this.audioNode;
     this.clapNode;
     this.bassNode;
-    this.worker = new Clock();
+    this.clock = new Clock();
     this.currentTime;
     this.sequences = {
       hihat: {
@@ -40,20 +40,21 @@ export default class DrumBox extends BasicBox {
     this.handlePlay();
 
     this.init();
-    // this.worker.postMessage("start");
-    // this.worker.onmessage = (e) => {
-    //   if (e.data === "tick") {
-    //     Object.keys(this.sequences).forEach((key) => {
-    //       let { step, id, sequence } = this.sequences[key];
-    //       step > sequence.length ? (step = 0) : step;
+    this.clock.start();
+    this.clock.onmessage = (e) => {
+      if (e.data === "tick") {
+        console.log(e.data);
+        Object.keys(this.sequences).forEach((key) => {
+          let { step, id, sequence } = this.sequences[key];
+          step > sequence.length ? (step = 0) : step;
 
-    //       if (sequence[step]) {
-    //         this.playSound(id);
-    //       }
-    //       this.sequences[key].step++;
-    //     });
-    //   }
-    // };
+          if (sequence[step]) {
+            this.playSound(id);
+          }
+          this.sequences[key].step++;
+        });
+      }
+    };
   }
 
   handlePlay() {
@@ -102,10 +103,8 @@ export default class DrumBox extends BasicBox {
   }
 
   disconnectFrom(box) {
-    if (this.input != undefined) {
-      this.connections = this.connections.filter((item) => item.id !== box.id);
-      this.output.node.disconnect(box.input.node);
-    }
+    this.connections = this.connections.filter((item) => item.id !== box.id);
+    this.output.disconnectFrom(box.input);
   }
 
   changeSettings(settings) {
