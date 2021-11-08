@@ -1,5 +1,5 @@
-import SingleSetting from "../SingleSetting";
-import { StyledPanelWrapper } from "./styles";
+import SingleSetting from '../SingleSetting';
+import { StyledPanelWrapper, StyledButton } from './styles';
 
 const SettingsPanel = ({ box, setBox }) => {
   const close = () => {
@@ -8,7 +8,8 @@ const SettingsPanel = ({ box, setBox }) => {
 
   return (
     <StyledPanelWrapper>
-      <p>{box.id}</p>
+      <h3>Settings</h3>
+      <p>{box.settings.name}</p>
       {!!box.settings &&
         Object.keys(box.settings).map((setting, key) => {
           return (
@@ -24,7 +25,15 @@ const SettingsPanel = ({ box, setBox }) => {
             />
           );
         })}
-      <button onClick={close}>X</button>
+      <StyledButton
+        whileHover={{
+          scale: 1.2,
+          transition: { duration: 0.2 },
+        }}
+        onClick={close}
+      >
+        X
+      </StyledButton>
     </StyledPanelWrapper>
   );
 };

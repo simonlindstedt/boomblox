@@ -1,12 +1,12 @@
-import BasicBox from "../BasicBox";
-import Filter from "../../Audio/Filter";
-import Gain from "../../Audio/Gain";
+import BasicBox from '../BasicBox';
+import Filter from '../../Audio/Filter';
+import Gain from '../../Audio/Gain';
 
 export default class FilterBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.type = "filter";
-    this.canConnect = ["master"];
+    this.type = 'filter';
+    this.canConnect = ['master'];
     this.input = new Filter(settings.type, settings.freq);
     this.output = new Gain();
     this.init();
@@ -25,11 +25,14 @@ export default class FilterBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(settings).forEach((setting) => {
-      if (setting === "volume") {
+      if (setting === 'volume') {
         this.output.setVolume(this.settings.volume);
       }
-      if (setting === "freq") {
+      if (setting === 'freq') {
         this.input.setFrequency(this.settings.freq);
+      }
+      if (setting === 'type') {
+        this.input.setType(this.settings.type);
       }
     });
   }

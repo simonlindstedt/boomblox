@@ -11,7 +11,7 @@ const Button = ({ handleMouseUp, title, handleClick, isMovable, playing }) => {
         dragElastic={1}
         dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
         whileDrag={{
-          width: '30%',
+          width: '35%',
           transition: { duration: 0.2 },
           cursor: 'grabbing',
         }}

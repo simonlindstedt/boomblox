@@ -17,7 +17,7 @@ export default class Visualizer {
     this.microphoneStream.connect(this.analyser);
   }
 
-  draw(w) {
+  draw(w, isMasterBox) {
     this.analyser.getByteTimeDomainData(this.dataArray);
 
     this.graphics.clear();
@@ -28,7 +28,14 @@ export default class Visualizer {
 
     for (let i = 0; i < this.bufferLength; i++) {
       let v = this.dataArray[i] / 128.0;
-      let y = (v * w) / 2;
+
+      let y;
+
+      if (isMasterBox) {
+        y = (v * w) / 1.5;
+      } else {
+        y = (v * w) / 2;
+      }
 
       if (i === 0) {
         this.graphics.moveTo(x, y);
@@ -45,27 +52,5 @@ export default class Visualizer {
 
     this.graphics.moveTo(0, w / 2);
     this.graphics.lineTo(w, w / 2);
-  }
-
-  masterDraw(w) {
-    this.analyser.getByteTimeDomainData(this.dataArray);
-
-    this.graphics.clear();
-    this.graphics.lineStyle(2, 0xa3c3d1);
-
-    let sliceWidth = w / this.bufferLength;
-    let x = 0;
-
-    for (let i = 0; i < this.bufferLength; i++) {
-      let v = this.dataArray[i] / 128.0;
-      let y = (v * w) / 1.5;
-
-      if (i === 0) {
-        this.graphics.moveTo(x, y);
-      } else {
-        this.graphics.lineTo(x, y);
-      }
-      x += sliceWidth;
-    }
   }
 }

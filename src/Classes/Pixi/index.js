@@ -26,26 +26,26 @@ export default class Pixi {
     this.list = [];
     this.clock = new Clock();
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
+    this.master = new MasterBox(
+      this.width / 2 - 50,
+      this.height / 2 - 50,
+      100,
+      100,
+      this.mediator,
+      { name: 'Master', volume: 0.2 }
+    );
     this.init();
   }
 
   init() {
     this.app.stage.addChild(this.trash.container);
 
-    const masterBox = new MasterBox(
-      this.width / 2 - 50,
-      this.height / 2 - 50,
-      100,
-      100,
-      this.mediator,
-      { name: 'Master', volume: 0.5 }
-    );
-    this.list.push(masterBox);
+    this.list.push(this.master);
 
     this.app.stage.addChild(
-      masterBox.proximityLine,
-      masterBox.connectionLine,
-      masterBox.container
+      this.master.proximityLine,
+      this.master.connectionLine,
+      this.master.container
     );
 
     window.onresize = () => {
@@ -116,12 +116,12 @@ export default class Pixi {
       }
 
       // delete boxes at will
-      // if (
-      //   box.container.x <= this.trash.container.x &&
-      //   box.container.y >= this.trash.container.y
-      // ) {
-      //   this.deleteBox(box);
-      // }
+      if (
+        box.container.x <= this.trash.container.x &&
+        box.container.y >= this.trash.container.y
+      ) {
+        this.deleteBox(box);
+      }
     });
   }
 
@@ -168,6 +168,7 @@ export default class Pixi {
           name: 'Filter',
           volume: 0.2,
           freq: 20000,
+          type: 'lowpass',
         });
         this.app.stage.addChild(
           filterBox.proximityLine,
@@ -252,6 +253,10 @@ export default class Pixi {
 
   pause() {
     this.clock.stop();
+  }
+
+  setMasterVolume(volume) {
+    this.master.input.setVolume(volume);
   }
 
   findAndChangeSettings(boxSettings) {

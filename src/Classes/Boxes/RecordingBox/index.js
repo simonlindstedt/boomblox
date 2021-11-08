@@ -44,7 +44,7 @@ export default class RecordingBox extends BasicBox {
 
   visualize() {
     if (this.recording) {
-      this.visualizer.draw(this.dimensions.w);
+      this.visualizer.draw(this.dimensions.w, false);
     } else {
       this.visualizer.stop(this.dimensions.w);
     }

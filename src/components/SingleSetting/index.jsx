@@ -1,7 +1,9 @@
+import { StyledSingleSetting } from './styles';
+
 const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
   if (setting === 'volume') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <input
           type="range"
@@ -11,13 +13,13 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.001}
           onChange={handleOnChange}
         />
-      </div>
+      </StyledSingleSetting>
     );
   }
 
   if (setting === 'freq') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <input
           type="range"
@@ -27,13 +29,13 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.01}
           onChange={handleOnChange}
         />
-      </div>
+      </StyledSingleSetting>
     );
   }
 
   if (setting === 'rate') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <input
           type="range"
@@ -43,13 +45,13 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.5}
           onChange={handleOnChange}
         />
-      </div>
+      </StyledSingleSetting>
     );
   }
 
   if (setting === 'maxValue' && boxType === 'frequency-lfo') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <input
           type="range"
@@ -59,12 +61,12 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.001}
           onChange={handleOnChange}
         />
-      </div>
+      </StyledSingleSetting>
     );
   }
   if (setting === 'maxValue' && boxType === 'amplitude-lfo') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <input
           type="range"
@@ -74,12 +76,12 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           step={0.001}
           onChange={handleOnChange}
         />
-      </div>
+      </StyledSingleSetting>
     );
   }
-  if (setting == 'type') {
+  if (setting === 'type' && boxType === 'osc') {
     return (
-      <div>
+      <StyledSingleSetting>
         <p>{setting}</p>
         <select onChange={handleOnChange} defaultValue={value}>
           <option value="sine">Sine</option>
@@ -87,7 +89,24 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           <option value="triangle">Triangle</option>
           <option value="square">Square</option>
         </select>
-      </div>
+      </StyledSingleSetting>
+    );
+  }
+  if (setting === 'type' && boxType === 'filter') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value="lowpass">Lowpass</option>
+          <option value="highpass">Highpass</option>
+          <option value="bandpass">Bandpass</option>
+          <option value="lowshelf">Lowshelf</option>
+          <option value="highshelf">Highshelf</option>
+          <option value="peaking">Peaking</option>
+          <option value="notch">Notch</option>
+          <option value="allpass">Allpass</option>
+        </select>
+      </StyledSingleSetting>
     );
   }
 

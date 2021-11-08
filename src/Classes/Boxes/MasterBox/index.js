@@ -15,6 +15,7 @@ export default class MasterBox extends BasicBox {
     };
     this.visualizer.analyser.fftSize = 256;
     this.input.node.connect(this.visualizer.analyser);
+    this.graphics.cube.interactive = false;
     this.init();
   }
 
@@ -28,6 +29,6 @@ export default class MasterBox extends BasicBox {
   }
 
   visualize() {
-    this.visualizer.masterDraw(this.dimensions.w);
+    this.visualizer.draw(this.dimensions.w, true);
   }
 }

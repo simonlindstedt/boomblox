@@ -19,6 +19,7 @@ const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState('30');
+  const [volume, setVolume] = useState('0.2');
   const [box, setBox] = useState();
 
   const handleMessages = (e) => {
@@ -109,6 +110,15 @@ const Canvas = () => {
             pixi.clock.setTempo(tempo);
           }}
           tempo={tempo}
+          isMaster={false}
+        />
+        <RangeInput
+          handleChange={(e) => {
+            setVolume(e.target.value);
+            pixi.setMasterVolume(volume);
+          }}
+          volume={volume}
+          isMaster={true}
         />
       </SideMenu>
     </main>
