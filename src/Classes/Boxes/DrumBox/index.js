@@ -1,15 +1,19 @@
 import audio from "../../Audio/Audio";
 import Gain from "../../Audio/Gain";
 import BasicBox from "../BasicBox";
-import HiHat from "./sounds/hh_sample.mp3";
-import Clap from "./sounds/clap_sample.mp3";
-import Bass from "./sounds/bass_sample.mp3";
+import HiHat1 from "./sounds/hh_sample.mp3";
+import Clap1 from "./sounds/clap_sample.mp3";
+import Bass1 from "./sounds/bass_sample.mp3";
+import HiHat2 from "./sounds/edm-hi-hat.wav";
+import Clap2 from "./sounds/good-snare.wav";
+import Bass2 from "./sounds/808-kick.wav";
 import Clock from "../../Clock";
 
 export default class DrumBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.canConnect = ["master"];
+    this.canConnect = ["master", "filter", "reverb"];
+    this.type = "drum";
     this.output = new Gain();
     this.audioNode;
     this.clapNode;
@@ -34,7 +38,7 @@ export default class DrumBox extends BasicBox {
       },
     };
 
-    this.samples = [HiHat, Clap, Bass];
+    this.samples = [HiHat1, Clap1, Bass1, HiHat2, Clap2, Bass2];
     this.buffers = [];
 
     this.handlePlay();
@@ -61,13 +65,13 @@ export default class DrumBox extends BasicBox {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "a":
-          this.playSound(2);
+          this.playSound(5);
           break;
         case "s":
-          this.playSound(1);
+          this.playSound(4);
           break;
         case "d":
-          this.playSound(0);
+          this.playSound(3);
           break;
       }
     });
@@ -86,17 +90,6 @@ export default class DrumBox extends BasicBox {
   // this.audioNode.loop = true;
   // };
 
-  async playSound(index) {
-    let bufferSource = audio.context.createBufferSource();
-    let sample = await fetch(this.samples[index]);
-    sample = await sample.arrayBuffer();
-    sample = await audio.context.decodeAudioData(sample);
-
-    bufferSource.buffer = sample;
-    bufferSource.connect(this.output.node);
-    bufferSource.start(0);
-  }
-
   connectTo(box) {
     this.addToConnectionList(box);
     this.output.connectTo(box.input);
@@ -113,9 +106,22 @@ export default class DrumBox extends BasicBox {
       if (setting === "volume") {
         this.output.setVolume(this.settings.volume);
       }
+      // if (setting === "samples") {
+      //   this.playSound(this.settings.samples);
+      // }
     });
   }
 
+  async playSound(index) {
+    let bufferSource = audio.context.createBufferSource();
+    let sample = await fetch(this.samples[index]);
+    sample = await sample.arrayBuffer();
+    sample = await audio.context.decodeAudioData(sample);
+
+    bufferSource.buffer = sample;
+    bufferSource.connect(this.output.node);
+    bufferSource.start(0);
+  }
   // playClap = async () => {
   //   const audioContext = audio.context;
   //   this.clapNode = audioContext.createBufferSource();

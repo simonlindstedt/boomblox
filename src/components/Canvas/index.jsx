@@ -97,7 +97,7 @@ const Canvas = () => {
         />
          <Button
           handleMouseUp={(e) => {
-            pixi.addBox('drumbox', e.clientX, e.clientY);
+            pixi.addBox('drum', e.clientX, e.clientY);
           }}
           isMovable={true}
           title="Drumbox"

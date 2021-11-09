@@ -77,7 +77,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
       </div>
     );
   }
-  if (setting == 'type') {
+  if (setting == 'type' && boxType === 'osc') {
     return (
       <div>
         <p>{setting}</p>
@@ -86,6 +86,18 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           <option value="sawtooth">Sawtooth</option>
           <option value="triangle">Triangle</option>
           <option value="square">Square</option>
+        </select>
+      </div>
+    );
+  }
+
+  if (setting === 'samples' && boxType === 'drum') {
+    return (
+      <div>
+        <p>{setting}</p>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value="hihat1">HiHat1</option>
+          <option value="hihat2">HiHat2</option>
         </select>
       </div>
     );

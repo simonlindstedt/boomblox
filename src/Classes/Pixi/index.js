@@ -242,10 +242,11 @@ export default class Pixi {
           amplitudeLfoBox.container
         );
         break;
-      case "drumbox":
+      case "drum":
         const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
           name: "Drumbox",
           volume: 1,
+          samples: "hihat",
         });
         this.list.push(drumBox);
         this.app.stage.addChild(
