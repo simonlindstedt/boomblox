@@ -1,12 +1,12 @@
-import Oscillator from '../../Audio/Oscillator';
-import Gain from '../../Audio/Gain';
-import BasicBox from '../BasicBox';
+import Oscillator from "../../Audio/Oscillator";
+import Gain from "../../Audio/Gain";
+import BasicBox from "../BasicBox";
 
 export default class OscBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.type = 'osc';
-    this.canConnect = ['master', 'filter', 'reverb'];
+    this.type = "osc";
+    this.canConnect = ["master", "filter", "reverb"];
     this.input = new Oscillator(settings.type, settings.freq);
     this.output = new Gain();
     this.init();
@@ -25,15 +25,24 @@ export default class OscBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
-      if (setting === 'volume') {
+      if (setting === "volume") {
         this.output.setVolume(this.settings.volume);
       }
-      if (setting === 'freq') {
+      if (setting === "freq") {
         this.input.setFrequency(this.settings.freq);
       }
-      if (setting === 'type') {
+      if (setting === "type") {
         this.input.setType(this.settings.type);
       }
     });
+  }
+
+  playNote(pitch, tempo, noteLength) {
+    let now = this.output.audio.context.currentTime;
+    let length = (60 / tempo) * noteLength;
+    console.log(length);
+    this.input.setFrequency(pitch);
+    this.output.node.gain.setValueAtTime(this.settings.volume, now);
+    this.output.node.gain.linearRampToValueAtTime(0, now + length);
   }
 }

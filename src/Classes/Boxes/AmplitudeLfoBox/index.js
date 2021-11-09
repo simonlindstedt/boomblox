@@ -1,11 +1,11 @@
-import AmplitudeLfo from '../../Audio/AmplitudeLfo';
-import BasicBox from '../BasicBox';
+import AmplitudeLfo from "../../Audio/AmplitudeLfo";
+import BasicBox from "../BasicBox";
 
 export default class AmplitudeLfoBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.type = 'amplitude-lfo';
-    this.canConnect = ['osc'];
+    this.type = "amplitude-lfo";
+    this.canConnect = ["osc"];
     this.lfo = new AmplitudeLfo(
       this.settings.rate,
       this.settings.type,
@@ -27,13 +27,13 @@ export default class AmplitudeLfoBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
-      if (setting === 'rate') {
+      if (setting === "rate") {
         this.lfo.setRate(this.settings.rate);
       }
-      if (setting === 'maxValue') {
+      if (setting === "maxValue") {
         this.lfo.setMaxValue(this.settings.maxValue);
       }
-      if (setting === 'type') {
+      if (setting === "type") {
         this.lfo.setType(this.settings.type);
       }
     });
