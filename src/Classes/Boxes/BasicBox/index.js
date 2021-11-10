@@ -29,7 +29,7 @@ export default class BasicBox {
     this.container.height = this.dimensions.h;
 
     let borderBox = new Graphics();
-    borderBox.lineStyle(4, 0xffffff, 1);
+    borderBox.lineStyle(4, 0xffffff);
     borderBox.drawRect(0, 0, this.dimensions.w, this.dimensions.h);
 
     let nameOfBox = new Text(this.settings.name, {
