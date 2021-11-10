@@ -1,13 +1,13 @@
-import propTypes from 'prop-types';
+import propTypes from "prop-types";
 import {
   StyledInput,
   InputWrapper,
   StyledText,
   StyledLabel,
   StyledMuteButton,
-} from './styles';
-import sound from './icon/sound.png';
-import mute from './icon/mute.png';
+} from "./styles";
+import sound from "./icon/sound.png";
+import mute from "./icon/mute.png";
 
 const RangeInput = ({
   handleChange,

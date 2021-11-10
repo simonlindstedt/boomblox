@@ -1,5 +1,6 @@
 let timeOutId = null;
-let time = 500;
+let resolution = 128;
+let time = (60000 / 120) * (1 / resolution);
 let running = false;
 
 const run = () => {
@@ -22,6 +23,8 @@ self.onmessage = (e) => {
   } else if (e.data === "stop") {
     running = false;
   } else if (e.data.time) {
-    time = e.data.time;
+    time = (60000 / e.data.time) * (1 / resolution);
+  } else if (e.data.resolution) {
+    resolution = e.data.resolution;
   }
 };

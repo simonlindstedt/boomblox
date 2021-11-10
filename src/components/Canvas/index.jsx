@@ -1,11 +1,18 @@
-import Pixi from '../../Classes/Pixi';
-import React, { useRef, useEffect, useState } from 'react';
-import Button from '../Button';
-import SideMenu from '../SideMenu';
-import RangeInput from '../RangeInput';
-import SettingsPanel from '../SettingsPanel';
-import Mediator from '../../Classes/Mediator';
-import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
+import Pixi from "../../Classes/Pixi";
+import React, { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
+import Button from "../Button";
+import SideMenu from "../SideMenu";
+import RangeInput from "../RangeInput";
+import SettingsPanel from "../SettingsPanel";
+import Mediator from "../../Classes/Mediator";
+import SequencerPanel from "../SequencerPanel";
+import { StyledButtonContainer, CanvasWrapper, StyledText } from "./styles";
+
+// const CanvasWrapper = styled.div`
+//   width: 100%;
+//   height: 100%;
+// `;
 
 const mediator = new Mediator();
 const pixi = new Pixi(mediator);
@@ -13,15 +20,19 @@ const pixi = new Pixi(mediator);
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
-  const [tempo, setTempo] = useState('30');
   const [volume, setVolume] = useState(pixi.master.settings.volume);
   const [box, setBox] = useState();
   const [isZero, setIsZero] = useState(false);
   const [oldValue, setOldValue] = useState();
+  const [tempo, setTempo] = useState(pixi.clock.tempo);
+  const [sequencerStates, setSequencerStates] = useState();
 
   const handleMessages = (e) => {
     if (e.data.box) {
       setBox(e.data.box);
+    }
+    if (e.data.sequencerStates) {
+      setSequencerStates(e.data.sequencerStates);
     }
   };
   const revertToPreviousVolume = () => {
@@ -32,7 +43,7 @@ const Canvas = () => {
   // On mount
   useEffect(() => {
     pixi.start(canvasRef.current);
-    mediator.worker.addEventListener('message', handleMessages);
+    mediator.worker.addEventListener("message", handleMessages);
   }, []);
 
   useEffect(() => {
@@ -45,7 +56,6 @@ const Canvas = () => {
 
   useEffect(() => {
     if (box) {
-      console.log(box);
       pixi.findAndChangeSettings(box);
     }
   }, [box]);
@@ -59,52 +69,68 @@ const Canvas = () => {
 
   return (
     <main>
-      {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
+      {box && box.type !== "seq" ? (
+        <SettingsPanel box={box} setBox={setBox} />
+      ) : null}
+      {box && box.type === "seq" ? (
+        <SequencerPanel
+          box={box}
+          setBox={setBox}
+          step={sequencerStates.find((item) => item.id === box.id).step}
+        />
+      ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <StyledButtonContainer>
           <StyledText>drag and drop to add to playground</StyledText>
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('filter', e.clientX, e.clientY);
+              pixi.addBox("filter", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Filter"
           />
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('osc', e.clientX, e.clientY);
+              pixi.addBox("osc", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Oscillator"
           />
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('rec', e.clientX, e.clientY);
+              pixi.addBox("rec", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Recording"
           />
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('reverb', e.clientX, e.clientY);
+              pixi.addBox("reverb", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Reverb"
           />
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('frequency-lfo', e.clientX, e.clientY);
+              pixi.addBox("frequency-lfo", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Frequency LFO"
           />
           <Button
             handleMouseUp={(e) => {
-              pixi.addBox('amplitude-lfo', e.clientX, e.clientY);
+              pixi.addBox("amplitude-lfo", e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Amplitude LFO"
+          />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox("seq", e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Sequencer"
           />
         </StyledButtonContainer>
         <Button
@@ -112,7 +138,7 @@ const Canvas = () => {
             setPlaying(!playing);
           }}
           isMovable={false}
-          title={playing ? 'Play' : 'Pause'}
+          title={playing ? "Play" : "Pause"}
           playing={playing}
         />
         <RangeInput
