@@ -1,9 +1,9 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
-import { Texture } from '@pixi/core';
-import { Graphics } from '@pixi/graphics';
-import { Text } from '@pixi/text';
-import icon from './icon/move-symbol.png';
+import { Container } from "@pixi/display";
+import { Sprite } from "@pixi/sprite";
+import { Texture } from "@pixi/core";
+import { Graphics } from "@pixi/graphics";
+import { Text } from "@pixi/text";
+import icon from "./icon/move-symbol.png";
 
 export default class BasicBox {
   constructor(x, y, w, h, mediator, settings = {}) {
@@ -33,10 +33,10 @@ export default class BasicBox {
     borderBox.drawRect(0, 0, this.dimensions.w, this.dimensions.h);
 
     let nameOfBox = new Text(this.settings.name, {
-      fontFamily: 'Courier New',
+      fontFamily: "Courier New",
       fontSize: 16,
       fill: 0xffffff,
-      align: 'center',
+      align: "center",
     });
     nameOfBox.anchor.x = 0.5;
     nameOfBox.anchor.y = 0.5;
@@ -54,10 +54,10 @@ export default class BasicBox {
     this.graphics.cube.tint = 0x000000;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
-    this.graphics.cube.cursor = 'pointer';
+    this.graphics.cube.cursor = "pointer";
 
     this.graphics.grabArea.interactive = true;
-    this.graphics.grabArea.cursor = 'grab';
+    this.graphics.grabArea.cursor = "grab";
     this.graphics.grabArea.width = this.dimensions.w / 3;
     this.graphics.grabArea.height = this.dimensions.h / 3;
 
@@ -65,7 +65,7 @@ export default class BasicBox {
 
     this.proximityLine = new Graphics();
     this.proximityLine.interactive = true;
-    this.proximityLine.cursor = 'pointer';
+    this.proximityLine.cursor = "pointer";
   }
 
   // Init function
@@ -79,7 +79,7 @@ export default class BasicBox {
     this.graphics.grabArea.x =
       this.container.width - this.graphics.grabArea.width - 4;
 
-    this.graphics.cube.on('pointerdown', () => {
+    this.graphics.cube.on("pointerdown", () => {
       // Post settings
       this.mediator.post({
         box: { id: this.id, type: this.type, settings: this.settings },
@@ -87,15 +87,15 @@ export default class BasicBox {
     });
 
     // Pick up
-    this.graphics.grabArea.on('pointerdown', (e) => {
-      this.graphics.grabArea.cursor = 'grabbing';
+    this.graphics.grabArea.on("pointerdown", (e) => {
+      this.graphics.grabArea.cursor = "grabbing";
       const { x, y } = e.data.global;
       this.moving = true;
       this.setPosition(x, y);
     });
 
     // Move
-    this.graphics.grabArea.on('pointermove', (e) => {
+    this.graphics.grabArea.on("pointermove", (e) => {
       if (this.moving) {
         const { x, y } = e.data.global;
         this.setPosition(x, y);
@@ -103,15 +103,15 @@ export default class BasicBox {
     });
 
     // Drop
-    this.graphics.grabArea.on('pointerup', (e) => {
-      this.graphics.grabArea.cursor = 'grab';
+    this.graphics.grabArea.on("pointerup", (e) => {
+      this.graphics.grabArea.cursor = "grab";
       const { x, y } = e.data.global;
       this.setPosition(x, y);
       this.moving = false;
     });
 
     // Click to connect and disconnect
-    this.proximityLine.on('pointerdown', (e) => {
+    this.proximityLine.on("pointerdown", (e) => {
       this.handleConnection(e.data.global);
     });
 
@@ -212,7 +212,7 @@ export default class BasicBox {
       this.connections.forEach((connection) => {
         this.connectionLine
           .lineStyle(4, 0x7bf3ab, 1)
-          .moveTo(this.container.x, this.container.y)
+          .moveTo(this.container.x + this.container.width, this.container.y)
           .lineTo(connection.position.x, connection.position.y);
       });
     }
@@ -222,7 +222,7 @@ export default class BasicBox {
         if (this.distanceTo(option) < 200) {
           this.proximityLine
             .lineStyle(4, 0x21aefe, 0.5)
-            .moveTo(this.container.x, this.container.y)
+            .moveTo(this.container.x + this.container.width, this.container.y)
             .lineTo(option.position.x, option.position.y);
           this.proximityLine.hitArea = this.proximityLine.getBounds();
         }
