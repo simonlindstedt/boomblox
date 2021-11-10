@@ -1,11 +1,11 @@
-import BasicBox from "../BasicBox";
+import BasicBox from '../BasicBox';
 
 export default class SequencerBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings, clock) {
     super(x, y, w, h, mediator, settings);
-    this.type = "seq";
+    this.type = 'seq';
     this.clock = clock;
-    this.canConnect = ["osc"];
+    this.canConnect = ['osc'];
     this.sequence = this.settings.sequence;
     this.count = 0;
     this.currentStep = 0;
@@ -33,11 +33,11 @@ export default class SequencerBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
-      if (setting === "sequence") {
+      if (setting === 'sequence') {
         this.sequence = this.settings.sequence;
         console.log(this.sequence);
       }
-      if (setting === "speed") {
+      if (setting === 'speed') {
         this.speed = 1 / this.settings.speed;
       }
     });

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { StyledPanelWrapper } from "./styles";
+import { useEffect, useState } from 'react';
+import { StyledPanelWrapper } from './styles';
 
 const SequencerPanel = ({ box, setBox, step }) => {
   const [sequencerStep, setSequencerStep] = useState(step);
@@ -33,7 +33,7 @@ const SequencerPanel = ({ box, setBox, step }) => {
                 setBox({ ...box });
               }}
             />
-            <span style={{ color: key === sequencerStep ? "red" : "black" }}>
+            <span style={{ color: key === sequencerStep ? 'red' : 'black' }}>
               Is here
             </span>
           </div>

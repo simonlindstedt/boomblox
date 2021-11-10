@@ -5,7 +5,7 @@ let running = false;
 
 const run = () => {
   if (running) {
-    postMessage("tick");
+    postMessage('tick');
     timeOutId = setTimeout(() => {
       return run();
     }, time);
@@ -17,10 +17,10 @@ const run = () => {
 };
 
 self.onmessage = (e) => {
-  if (e.data === "start") {
+  if (e.data === 'start') {
     running = true;
     run();
-  } else if (e.data === "stop") {
+  } else if (e.data === 'stop') {
     running = false;
   } else if (e.data.time) {
     time = (60000 / e.data.time) * (1 / resolution);

@@ -1,4 +1,4 @@
-import MediatorWorker from "./Worker/MediatorWorker?worker";
+import MediatorWorker from './Worker/MediatorWorker?worker';
 
 export default class Mediator {
   constructor() {

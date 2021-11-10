@@ -1,14 +1,14 @@
-import * as PIXI from "pixi.js";
-import OscBox from "../Boxes/OscBox";
-import RecordingBox from "../Boxes/RecordingBox";
-import ReverbBox from "../Boxes/ReverbBox";
-import MasterBox from "../Boxes/MasterBox";
-import FilterBox from "../Boxes/FilterBox";
-import Clock from "../Clock";
-import TrashCan from "../TrashCan";
-import FrequencyLfoBox from "../Boxes/FrequencyLfoBox";
-import AmplitudeLfoBox from "../Boxes/AmplitudeLfoBox";
-import SequencerBox from "../Boxes/SequencerBox";
+import * as PIXI from 'pixi.js';
+import OscBox from '../Boxes/OscBox';
+import RecordingBox from '../Boxes/RecordingBox';
+import ReverbBox from '../Boxes/ReverbBox';
+import MasterBox from '../Boxes/MasterBox';
+import FilterBox from '../Boxes/FilterBox';
+import Clock from '../Clock';
+import TrashCan from '../TrashCan';
+import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
+import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
+import SequencerBox from '../Boxes/SequencerBox';
 
 export default class Pixi {
   constructor(mediator) {
@@ -34,7 +34,7 @@ export default class Pixi {
       100,
       100,
       this.mediator,
-      { name: "Master", volume: 0.5 }
+      { name: 'Master', volume: 0.5 }
     );
     this.init();
   }
@@ -52,7 +52,7 @@ export default class Pixi {
 
     // Add reaction to each tick
     this.clock.worker.onmessage = (e) => {
-      if (e.data === "tick") {
+      if (e.data === 'tick') {
         let sequencerStates = [];
 
         this.sequencers.forEach((sequencer) => {
@@ -137,7 +137,7 @@ export default class Pixi {
       if (
         box.container.x <= this.trash.container.x &&
         box.container.y >= this.trash.container.y &&
-        box.type != "master"
+        box.type != 'master'
       ) {
         this.deleteBox(box);
       }
@@ -150,7 +150,7 @@ export default class Pixi {
         box.container.removeChild(child);
       });
     }
-    if (box.type == "osc") {
+    if (box.type == 'osc') {
       box.input.node.stop();
     }
     this.app.stage.removeChild(box.container);
@@ -161,7 +161,7 @@ export default class Pixi {
     box.input = null;
     box.output = null;
     box.container.destroy(true);
-    console.log("flush flush");
+    console.log('flush flush');
 
     this.list = this.list.filter((item) => item.id !== box.id);
   }
@@ -169,12 +169,12 @@ export default class Pixi {
   addBox(type, x, y) {
     if (x < this.width - 400) {
       switch (type) {
-        case "osc":
+        case 'osc':
           let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
-            name: "Osc",
+            name: 'Osc',
             volume: 0.2,
             freq: 550,
-            type: "sine",
+            type: 'sine',
           });
           this.app.stage.addChild(
             oscBox.proximityLine,
@@ -183,12 +183,12 @@ export default class Pixi {
           );
           this.list.push(oscBox);
           break;
-        case "filter":
+        case 'filter':
           let filterBox = new FilterBox(x - 30, y - 30, 60, 60, this.mediator, {
-            name: "Filter",
+            name: 'Filter',
             volume: 0.2,
             freq: 20000,
-            type: "lowpass",
+            type: 'lowpass',
           });
           this.app.stage.addChild(
             filterBox.proximityLine,
@@ -197,9 +197,9 @@ export default class Pixi {
           );
           this.list.push(filterBox);
           break;
-        case "reverb":
+        case 'reverb':
           let reverbBox = new ReverbBox(x, y, 60, 60, this.mediator, {
-            name: "Reverb",
+            name: 'Reverb',
             volume: 0.2,
           });
           this.list.push(reverbBox);
@@ -209,7 +209,7 @@ export default class Pixi {
             reverbBox.container
           );
           break;
-        case "rec":
+        case 'rec':
           let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
             volume: 0.2,
           });
@@ -220,7 +220,7 @@ export default class Pixi {
             recBox.container
           );
           break;
-        case "frequency-lfo":
+        case 'frequency-lfo':
           const frequencyLfoBox = new FrequencyLfoBox(
             x,
             y,
@@ -228,10 +228,10 @@ export default class Pixi {
             60,
             this.mediator,
             {
-              name: "F-LFO",
+              name: 'F-LFO',
               rate: 5,
               maxValue: 400,
-              type: "sine",
+              type: 'sine',
             }
           );
           this.list.push(frequencyLfoBox);
@@ -241,7 +241,7 @@ export default class Pixi {
             frequencyLfoBox.container
           );
           break;
-        case "amplitude-lfo":
+        case 'amplitude-lfo':
           const amplitudeLfoBox = new AmplitudeLfoBox(
             x,
             y,
@@ -249,10 +249,10 @@ export default class Pixi {
             60,
             this.mediator,
             {
-              name: "A-LFO",
+              name: 'A-LFO',
               rate: 5,
               maxValue: 1,
-              type: "sawtooth",
+              type: 'sawtooth',
             }
           );
           this.list.push(amplitudeLfoBox);
@@ -262,7 +262,7 @@ export default class Pixi {
             amplitudeLfoBox.container
           );
           break;
-        case "seq":
+        case 'seq':
           const sequencerBox = new SequencerBox(
             x,
             y,
@@ -270,7 +270,7 @@ export default class Pixi {
             50,
             this.mediator,
             {
-              name: "seq",
+              name: 'seq',
               speed: 1 / 1,
               sequence: [
                 { play: true, value: 220 },
