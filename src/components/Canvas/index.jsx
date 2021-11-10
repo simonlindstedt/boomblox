@@ -6,6 +6,7 @@ import SideMenu from "../SideMenu";
 import RangeInput from "../RangeInput";
 import SettingsPanel from "../SettingsPanel";
 import Mediator from "../../Classes/Mediator";
+import SequencerPanel from "../SequencerPanel";
 
 const CanvasWrapper = styled.div`
   width: 100%;
@@ -20,10 +21,14 @@ const Canvas = () => {
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState(pixi.clock.tempo);
   const [box, setBox] = useState();
+  const [sequencerStates, setSequencerStates] = useState();
 
   const handleMessages = (e) => {
     if (e.data.box) {
       setBox(e.data.box);
+    }
+    if (e.data.sequencerStates) {
+      setSequencerStates(e.data.sequencerStates);
     }
   };
 
@@ -49,7 +54,16 @@ const Canvas = () => {
 
   return (
     <main>
-      {box ? <SettingsPanel box={box} setBox={setBox} /> : null}
+      {box && box.type !== "seq" ? (
+        <SettingsPanel box={box} setBox={setBox} />
+      ) : null}
+      {box && box.type === "seq" ? (
+        <SequencerPanel
+          box={box}
+          setBox={setBox}
+          step={sequencerStates.find((item) => item.id === box.id).step}
+        />
+      ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <Button

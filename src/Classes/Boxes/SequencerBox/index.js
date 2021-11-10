@@ -6,7 +6,7 @@ export default class SequencerBox extends BasicBox {
     this.type = "seq";
     this.clock = clock;
     this.canConnect = ["osc"];
-    this.sequence = [];
+    this.sequence = this.settings.sequence;
     this.count = 0;
     this.currentStep = 0;
     this.speed = 1 / this.settings.speed;
@@ -28,6 +28,19 @@ export default class SequencerBox extends BasicBox {
   play() {
     this.currentStep = this.count++ % this.sequence.length;
     return this.sequence[this.currentStep];
+  }
+
+  changeSettings(settings) {
+    this.settings = settings;
+    Object.keys(this.settings).forEach((setting) => {
+      if (setting === "sequence") {
+        this.sequence = this.settings.sequence;
+        console.log(this.sequence);
+      }
+      if (setting === "speed") {
+        this.speed = 1 / this.settings.speed;
+      }
+    });
   }
 
   connectTo(box) {

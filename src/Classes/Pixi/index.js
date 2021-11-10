@@ -25,7 +25,7 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.list = [];
-    this.clock = new Clock(120, 128);
+    this.clock = new Clock(120, 8);
     this.sequencers = [];
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
     this.init();
@@ -53,12 +53,32 @@ export default class Pixi {
     // Add reaction to each tick
     this.clock.worker.onmessage = (e) => {
       if (e.data === "tick") {
+        let sequencerStates = [];
+
         this.sequencers.forEach((sequencer) => {
           const speed = Math.floor(this.clock.resolution / sequencer.speed);
+
+          sequencerStates.push({
+            id: sequencer.id,
+            step: sequencer.currentStep,
+          });
+
           if (this.clock.step % speed === 0) {
-            console.log(sequencer.play());
+            if (sequencer.connections) {
+              sequencer.connections.forEach((connection) => {
+                let box = this.list.find((item) => item.id === connection.id);
+                let note = sequencer.play();
+                if (note.play) {
+                  box.playNote(note.value, this.clock.tempo, sequencer.speed);
+                }
+              });
+            }
           }
         });
+
+        if (sequencerStates.length) {
+          this.mediator.post({ sequencerStates: sequencerStates });
+        }
         this.clock.step++;
       }
     };
@@ -246,7 +266,16 @@ export default class Pixi {
           50,
           50,
           this.mediator,
-          { name: "seq", speed: 1 / 1 },
+          {
+            name: "seq",
+            speed: 1 / 1,
+            sequence: [
+              { play: true, value: 220 },
+              { play: true, value: 220 },
+              { play: true, value: 220 },
+              { play: false, value: 220 },
+            ],
+          },
           this.clock
         );
 
@@ -257,6 +286,17 @@ export default class Pixi {
           sequencerBox.connectionLine,
           sequencerBox.container
         );
+
+        let sequencerStates = [];
+
+        this.sequencers.forEach((sequencer) => {
+          sequencerStates.push({
+            id: sequencer.id,
+            step: sequencer.currentStep,
+          });
+        });
+
+        this.mediator.post({ sequencerStates: sequencerStates });
         break;
       default:
         return;
