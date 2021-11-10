@@ -1,12 +1,11 @@
 import audio from './Audio';
 
-export default class Oscillator {
-  constructor(type = 'sawtooth', frequency = 440) {
+export default class Filter {
+  constructor(type = 'lowpass', freq = 200) {
     this.audio = audio;
-    this.node = audio.context.createOscillator();
+    this.node = audio.context.createBiquadFilter();
     this.node.type = type;
-    this.node.frequency.setValueAtTime(frequency, audio.context.currentTime);
-    this.node.start();
+    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
   }
   connectTo(output) {
     this.node.connect(output.node);
