@@ -2,7 +2,6 @@ import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { Texture } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
-import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { Text } from '@pixi/text';
 import icon from './icon/move-symbol.png';
 
@@ -30,7 +29,7 @@ export default class BasicBox {
     this.container.height = this.dimensions.h;
 
     let borderBox = new Graphics();
-    borderBox.lineStyle(4, 0xffffff);
+    borderBox.lineStyle(4, 0xffffff, 1);
     borderBox.drawRect(0, 0, this.dimensions.w, this.dimensions.h);
 
     let nameOfBox = new Text(this.settings.name, {
@@ -212,7 +211,7 @@ export default class BasicBox {
       this.connectionLine.clear();
       this.connections.forEach((connection) => {
         this.connectionLine
-          .lineStyle(2, 0x00ff00, 1)
+          .lineStyle(4, 0x7bf3ab, 1)
           .moveTo(this.container.x, this.container.y)
           .lineTo(connection.position.x, connection.position.y);
       });
@@ -222,7 +221,7 @@ export default class BasicBox {
       this.options.forEach((option) => {
         if (this.distanceTo(option) < 200) {
           this.proximityLine
-            .lineStyle(2, 0x00fff0, 0.5)
+            .lineStyle(4, 0x21aefe, 0.5)
             .moveTo(this.container.x, this.container.y)
             .lineTo(option.position.x, option.position.y);
           this.proximityLine.hitArea = this.proximityLine.getBounds();

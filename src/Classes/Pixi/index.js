@@ -149,102 +149,104 @@ export default class Pixi {
   }
 
   addBox(type, x, y) {
-    switch (type) {
-      case 'osc':
-        let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
-          name: 'Osc',
-          volume: 0.2,
-          freq: 550,
-          type: 'sine',
-        });
-        this.app.stage.addChild(
-          oscBox.proximityLine,
-          oscBox.connectionLine,
-          oscBox.container
-        );
-        this.list.push(oscBox);
-        break;
-      case 'filter':
-        let filterBox = new FilterBox(x - 30, y - 30, 60, 60, this.mediator, {
-          name: 'Filter',
-          volume: 0.2,
-          freq: 20000,
-          type: 'lowpass',
-        });
-        this.app.stage.addChild(
-          filterBox.proximityLine,
-          filterBox.connectionLine,
-          filterBox.container
-        );
-        this.list.push(filterBox);
-        break;
-      case 'reverb':
-        let reverbBox = new ReverbBox(x, y, 60, 60, this.mediator, {
-          name: 'Reverb',
-          volume: 0.2,
-        });
-        this.list.push(reverbBox);
-        this.app.stage.addChild(
-          reverbBox.proximityLine,
-          reverbBox.connectionLine,
-          reverbBox.container
-        );
-        break;
-      case 'rec':
-        let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
-          volume: 0.2,
-        });
-        this.list.push(recBox);
-        this.app.stage.addChild(
-          recBox.proximityLine,
-          recBox.connectionLine,
-          recBox.container
-        );
-        break;
-      case 'frequency-lfo':
-        const frequencyLfoBox = new FrequencyLfoBox(
-          x,
-          y,
-          60,
-          60,
-          this.mediator,
-          {
-            name: 'F-LFO',
-            rate: 5,
-            maxValue: 400,
+    if (x < this.width - 400) {
+      switch (type) {
+        case 'osc':
+          let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
+            name: 'Osc',
+            volume: 0.2,
+            freq: 550,
             type: 'sine',
-          }
-        );
-        this.list.push(frequencyLfoBox);
-        this.app.stage.addChild(
-          frequencyLfoBox.proximityLine,
-          frequencyLfoBox.connectionLine,
-          frequencyLfoBox.container
-        );
-        break;
-      case 'amplitude-lfo':
-        const amplitudeLfoBox = new AmplitudeLfoBox(
-          x,
-          y,
-          60,
-          60,
-          this.mediator,
-          {
-            name: 'A-LFO',
-            rate: 5,
-            maxValue: 1,
-            type: 'sawtooth',
-          }
-        );
-        this.list.push(amplitudeLfoBox);
-        this.app.stage.addChild(
-          amplitudeLfoBox.proximityLine,
-          amplitudeLfoBox.connectionLine,
-          amplitudeLfoBox.container
-        );
-        break;
-      default:
-        return;
+          });
+          this.app.stage.addChild(
+            oscBox.proximityLine,
+            oscBox.connectionLine,
+            oscBox.container
+          );
+          this.list.push(oscBox);
+          break;
+        case 'filter':
+          let filterBox = new FilterBox(x - 30, y - 30, 60, 60, this.mediator, {
+            name: 'Filter',
+            volume: 0.2,
+            freq: 20000,
+            type: 'lowpass',
+          });
+          this.app.stage.addChild(
+            filterBox.proximityLine,
+            filterBox.connectionLine,
+            filterBox.container
+          );
+          this.list.push(filterBox);
+          break;
+        case 'reverb':
+          let reverbBox = new ReverbBox(x, y, 60, 60, this.mediator, {
+            name: 'Reverb',
+            volume: 0.2,
+          });
+          this.list.push(reverbBox);
+          this.app.stage.addChild(
+            reverbBox.proximityLine,
+            reverbBox.connectionLine,
+            reverbBox.container
+          );
+          break;
+        case 'rec':
+          let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
+            volume: 0.2,
+          });
+          this.list.push(recBox);
+          this.app.stage.addChild(
+            recBox.proximityLine,
+            recBox.connectionLine,
+            recBox.container
+          );
+          break;
+        case 'frequency-lfo':
+          const frequencyLfoBox = new FrequencyLfoBox(
+            x,
+            y,
+            60,
+            60,
+            this.mediator,
+            {
+              name: 'F-LFO',
+              rate: 5,
+              maxValue: 400,
+              type: 'sine',
+            }
+          );
+          this.list.push(frequencyLfoBox);
+          this.app.stage.addChild(
+            frequencyLfoBox.proximityLine,
+            frequencyLfoBox.connectionLine,
+            frequencyLfoBox.container
+          );
+          break;
+        case 'amplitude-lfo':
+          const amplitudeLfoBox = new AmplitudeLfoBox(
+            x,
+            y,
+            60,
+            60,
+            this.mediator,
+            {
+              name: 'A-LFO',
+              rate: 5,
+              maxValue: 1,
+              type: 'sawtooth',
+            }
+          );
+          this.list.push(amplitudeLfoBox);
+          this.app.stage.addChild(
+            amplitudeLfoBox.proximityLine,
+            amplitudeLfoBox.connectionLine,
+            amplitudeLfoBox.container
+          );
+          break;
+        default:
+          return;
+      }
     }
   }
 

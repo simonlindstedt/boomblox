@@ -1,6 +1,5 @@
 import Pixi from '../../Classes/Pixi';
 import React, { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import Button from '../Button';
 import SideMenu from '../SideMenu';
 import RangeInput from '../RangeInput';
@@ -15,13 +14,19 @@ const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
   const [tempo, setTempo] = useState('30');
-  const [volume, setVolume] = useState('0.2');
+  const [volume, setVolume] = useState(pixi.master.settings.volume);
   const [box, setBox] = useState();
+  const [isZero, setIsZero] = useState(false);
+  const [oldValue, setOldValue] = useState();
 
   const handleMessages = (e) => {
     if (e.data.box) {
       setBox(e.data.box);
     }
+  };
+  const revertToPreviousVolume = () => {
+    setVolume(oldValue);
+    pixi.setMasterVolume(oldValue);
   };
 
   // On mount
@@ -44,6 +49,13 @@ const Canvas = () => {
       pixi.findAndChangeSettings(box);
     }
   }, [box]);
+
+  useEffect(() => {
+    if (volume > 0) {
+      setIsZero(false);
+      setOldValue(volume);
+    }
+  }, [volume]);
 
   return (
     <main>
@@ -118,6 +130,17 @@ const Canvas = () => {
           }}
           volume={volume}
           isMaster={true}
+          isZero={isZero}
+          handleClick={() => {
+            setIsZero(!isZero);
+
+            if (isZero) {
+              revertToPreviousVolume();
+            } else {
+              setVolume(0);
+              pixi.setMasterVolume(0);
+            }
+          }}
         />
       </SideMenu>
     </main>

@@ -1,7 +1,22 @@
 import propTypes from 'prop-types';
-import { StyledInput, InputWrapper, StyledText, StyledLabel } from './styles';
+import {
+  StyledInput,
+  InputWrapper,
+  StyledText,
+  StyledLabel,
+  StyledMuteButton,
+} from './styles';
+import sound from './icon/sound.png';
+import mute from './icon/mute.png';
 
-const RangeInput = ({ handleChange, tempo, volume, isMaster }) => {
+const RangeInput = ({
+  handleChange,
+  handleClick,
+  tempo,
+  volume,
+  isMaster,
+  isZero,
+}) => {
   if (isMaster) {
     return (
       <InputWrapper>
@@ -10,19 +25,22 @@ const RangeInput = ({ handleChange, tempo, volume, isMaster }) => {
           type="range"
           id="volume"
           name="volume"
-          min="0"
-          max="1"
-          defaultValue="0.2"
-          step="0.001"
+          min={0.0}
+          max={1.0}
+          step={0.001}
           onChange={handleChange}
+          value={volume}
         />
+        <StyledMuteButton onClick={handleClick}>
+          <img src={isZero ? mute : sound} />
+        </StyledMuteButton>
         <StyledText>{volume}</StyledText>
       </InputWrapper>
     );
   } else {
     return (
       <InputWrapper>
-        <StyledLabel htmlFor="tempo">choose BPM</StyledLabel>
+        <StyledLabel htmlFor="tempo">BPM</StyledLabel>
         <StyledInput
           type="range"
           id="tempo"
@@ -39,9 +57,11 @@ const RangeInput = ({ handleChange, tempo, volume, isMaster }) => {
 
 RangeInput.propTypes = {
   handleChange: propTypes.func,
+  handleClick: propTypes.func,
   tempo: propTypes.string,
-  volume: propTypes.string,
+  volume: propTypes.oneOfType([propTypes.string, propTypes.number]),
   isMaster: propTypes.bool,
+  isZero: propTypes.bool,
 };
 
 export default RangeInput;

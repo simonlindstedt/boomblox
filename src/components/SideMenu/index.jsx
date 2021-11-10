@@ -23,6 +23,11 @@ const SideMenu = ({ children }) => {
         initial="inactive"
         animate={active ? 'active' : 'inactive'}
         variants={buttonVariants}
+        whileHover={{
+          scale: 1.1,
+          transition: { duration: 0.2 },
+          cursor: 'pointer',
+        }}
         onClick={() => {
           setActive(!active);
         }}
