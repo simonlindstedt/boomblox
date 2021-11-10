@@ -5,7 +5,7 @@ export default class SequencerBox extends BasicBox {
     super(x, y, w, h, mediator, settings);
     this.type = 'seq';
     this.clock = clock;
-    this.canConnect = ['osc'];
+    this.canConnect = ['osc', 'drum'];
     this.sequence = this.settings.sequence;
     this.count = 0;
     this.currentStep = 0;

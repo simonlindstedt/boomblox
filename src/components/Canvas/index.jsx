@@ -132,6 +132,13 @@ const Canvas = () => {
             isMovable={true}
             title="Sequencer"
           />
+            <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('drum', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Drumbox"
+          />
         </StyledButtonContainer>
         <Button
           handleClick={() => {

@@ -136,14 +136,10 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
-  if (setting === 'samples' && boxType === 'drum') {
+  if (setting === 'volume' && boxType === 'drum') {
     return (
       <div>
         <p>{setting}</p>
-        <select onChange={handleOnChange} defaultValue={value}>
-          <option value="hihat1">HiHat1</option>
-          <option value="hihat2">HiHat2</option>
-        </select>
       </div>
     );
   }

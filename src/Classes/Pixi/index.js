@@ -9,6 +9,7 @@ import TrashCan from '../TrashCan';
 import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
+import DrumBox from '../Boxes/DrumBox';
 
 export default class Pixi {
   constructor(mediator) {
@@ -260,6 +261,18 @@ export default class Pixi {
             amplitudeLfoBox.proximityLine,
             amplitudeLfoBox.connectionLine,
             amplitudeLfoBox.container
+          );
+          break;
+        case 'drum':
+          const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
+            name: 'Drumbox',
+            volume: 1,
+          });
+          this.list.push(drumBox);
+          this.app.stage.addChild(
+            drumBox.proximityLine,
+            drumBox.connectionLine,
+            drumBox.container
           );
           break;
         case 'seq':
