@@ -132,6 +132,13 @@ const Canvas = () => {
             isMovable={true}
             title="Sequencer"
           />
+          <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('delay', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Delay"
+          />
         </StyledButtonContainer>
         <Button
           handleClick={() => {

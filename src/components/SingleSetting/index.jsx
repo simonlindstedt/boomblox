@@ -136,6 +136,37 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
+  if (setting === 'feedback' && boxType === 'delay') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <input
+          type="range"
+          defaultValue={value}
+          min={0.0}
+          max={1.0}
+          step={0.001}
+          onChange={handleOnChange}
+        />
+      </StyledSingleSetting>
+    );
+  }
+
+  if (setting === 'delayTime' && boxType === 'delay') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <input
+          type="range"
+          defaultValue={value}
+          min={0.0}
+          max={2.0}
+          step={0.001}
+          onChange={handleOnChange}
+        />
+      </StyledSingleSetting>
+    );
+  }
   return null;
 };
 

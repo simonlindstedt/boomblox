@@ -6,7 +6,7 @@ export default class OscBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.type = 'osc';
-    this.canConnect = ['master', 'filter', 'reverb'];
+    this.canConnect = ['master', 'filter', 'reverb', 'delay'];
     this.input = new Oscillator(settings.type, settings.freq);
     this.output = new Gain();
     this.init();

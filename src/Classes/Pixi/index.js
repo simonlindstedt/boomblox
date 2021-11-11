@@ -9,6 +9,7 @@ import TrashCan from '../TrashCan';
 import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
+import DelayBox from '../Boxes/DelayBox';
 
 export default class Pixi {
   constructor(mediator) {
@@ -300,6 +301,21 @@ export default class Pixi {
           });
 
           this.mediator.post({ sequencerStates: sequencerStates });
+        case 'delay':
+          const delayBox = new DelayBox(x, y, 50, 50, this.mediator, {
+            volume: 0.2,
+            name: 'Delay',
+            feedback: 0.1,
+            delayTime: 100,
+          });
+
+          this.list.push(delayBox);
+          this.app.stage.addChild(
+            delayBox.proximityLine,
+            delayBox.connectionLine,
+            delayBox.container
+          );
+          break;
         default:
           return;
       }
