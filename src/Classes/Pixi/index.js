@@ -303,6 +303,7 @@ export default class Pixi {
           });
 
           this.mediator.post({ sequencerStates: sequencerStates });
+          break;
         case 'delay':
           const delayBox = new DelayBox(x, y, 50, 50, this.mediator, {
             volume: 0.2,
@@ -319,7 +320,7 @@ export default class Pixi {
           );
           break;
         default:
-          return;
+          break;
       }
     }
   }
