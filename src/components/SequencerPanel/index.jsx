@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react';
 import { StyledPanelWrapper } from './styles';
 
-const SequencerPanel = ({ box, setBox, step }) => {
-  const [sequencerStep, setSequencerStep] = useState(step);
-
+const SequencerPanel = ({ box, setBox, seqState }) => {
+  const [sequencerStep, setSequencerStep] = useState(seqState);
   const close = () => {
     setBox(null);
   };
 
   useEffect(() => {
-    setSequencerStep(step);
-  }, [step]);
+    console.log('seq panel mount');
+  }, []);
+
+  useEffect(() => {
+    setSequencerStep(seqState);
+  }, [seqState]);
+
+  if (sequencerStep === undefined) {
+    return null;
+  }
 
   return (
     <StyledPanelWrapper>
@@ -40,6 +47,14 @@ const SequencerPanel = ({ box, setBox, step }) => {
         );
       })}
       <p>{sequencerStep}</p>
+      <input
+        type="number"
+        defaultValue={box.settings.speed}
+        onChange={(e) => {
+          box.settings.speed = 1 / e.target.value;
+          setBox({ ...box });
+        }}
+      />
       <button onClick={close}>X</button>
     </StyledPanelWrapper>
   );
