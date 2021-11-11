@@ -35,7 +35,6 @@ export default class SequencerBox extends BasicBox {
     Object.keys(this.settings).forEach((setting) => {
       if (setting === 'sequence') {
         this.sequence = this.settings.sequence;
-        console.log(this.sequence);
       }
       if (setting === 'speed') {
         this.speed = 1 / this.settings.speed;

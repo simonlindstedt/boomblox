@@ -10,6 +10,7 @@ import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
 import DrumBox from '../Boxes/DrumBox';
+import DelayBox from '../Boxes/DelayBox';
 
 export default class Pixi {
   constructor(mediator) {
@@ -59,16 +60,22 @@ export default class Pixi {
         this.sequencers.forEach((sequencer) => {
           const speed = Math.floor(this.clock.resolution / sequencer.speed);
 
-          sequencerStates.push({
-            id: sequencer.id,
-            step: sequencer.currentStep,
-          });
-
           if (this.clock.step % speed === 0) {
+            let note = sequencer.play();
+
+            // Send states to react
+            this.sequencers.forEach((sequencer) => {
+              sequencerStates.push({
+                id: sequencer.id,
+                step: sequencer.currentStep,
+              });
+
+              this.mediator.post({ sequencerStates: sequencerStates });
+            });
+
             if (sequencer.connections) {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
-                let note = sequencer.play();
                 if (note.play) {
                   box.playNote(note.value, this.clock.tempo, sequencer.speed);
                 }
@@ -76,10 +83,6 @@ export default class Pixi {
             }
           }
         });
-
-        if (sequencerStates.length) {
-          this.mediator.post({ sequencerStates: sequencerStates });
-        }
         this.clock.step++;
       }
     };
@@ -283,7 +286,7 @@ export default class Pixi {
             50,
             this.mediator,
             {
-              name: 'seq',
+              name: 'Seq',
               speed: 1 / 1,
               sequence: [
                 { play: true, value: 220 },
@@ -313,6 +316,21 @@ export default class Pixi {
           });
 
           this.mediator.post({ sequencerStates: sequencerStates });
+        case 'delay':
+          const delayBox = new DelayBox(x, y, 50, 50, this.mediator, {
+            volume: 0.2,
+            name: 'Delay',
+            feedback: 0.1,
+            delayTime: 100,
+          });
+
+          this.list.push(delayBox);
+          this.app.stage.addChild(
+            delayBox.proximityLine,
+            delayBox.connectionLine,
+            delayBox.container
+          );
+          break;
         default:
           return;
       }
