@@ -59,16 +59,22 @@ export default class Pixi {
         this.sequencers.forEach((sequencer) => {
           const speed = Math.floor(this.clock.resolution / sequencer.speed);
 
-          sequencerStates.push({
-            id: sequencer.id,
-            step: sequencer.currentStep,
-          });
-
           if (this.clock.step % speed === 0) {
+            let note = sequencer.play();
+
+            // Send states to react
+            this.sequencers.forEach((sequencer) => {
+              sequencerStates.push({
+                id: sequencer.id,
+                step: sequencer.currentStep,
+              });
+
+              this.mediator.post({ sequencerStates: sequencerStates });
+            });
+
             if (sequencer.connections) {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
-                let note = sequencer.play();
                 if (note.play) {
                   box.playNote(note.value, this.clock.tempo, sequencer.speed);
                 }
@@ -76,10 +82,6 @@ export default class Pixi {
             }
           }
         });
-
-        if (sequencerStates.length) {
-          this.mediator.post({ sequencerStates: sequencerStates });
-        }
         this.clock.step++;
       }
     };
@@ -271,7 +273,7 @@ export default class Pixi {
             50,
             this.mediator,
             {
-              name: 'seq',
+              name: 'Seq',
               speed: 1 / 1,
               sequence: [
                 { play: true, value: 220 },
