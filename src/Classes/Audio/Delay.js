@@ -20,7 +20,7 @@ export default class Delay {
   }
 
   setDelayTime(time) {
-    time *= 1000;
+    time /= 1000;
     this.node.delayTime.setValueAtTime(time, audio.context.currentTime);
   }
   setFeedback(feedback) {
