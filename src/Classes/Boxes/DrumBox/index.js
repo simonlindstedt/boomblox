@@ -27,21 +27,21 @@ export default class DrumBox extends BasicBox {
     this.handlePlay();
 
     this.init();
-    this.clock.start();
-    this.clock.onmessage = (e) => {
-      if (e.data === 'tick') {
-        console.log(e.data);
-        Object.keys(this.sequences).forEach((key) => {
-          let { step, id, sequence } = this.sequences[key];
-          step > sequence.length ? (step = 0) : step;
+    // this.clock.start();
+    // this.clock.onmessage = (e) => {
+    //   if (e.data === 'tick') {
+    //     console.log(e.data);
+    //     Object.keys(this.sequences).forEach((key) => {
+    //       let { step, id, sequence } = this.sequences[key];
+    //       step > sequence.length ? (step = 0) : step;
 
-          if (sequence[step]) {
-            this.playSound(id);
-          }
-          this.sequences[key].step++;
-        });
-      }
-    };
+    //       if (sequence[step]) {
+    //         this.playSound(id);
+    //       }
+    //       this.sequences[key].step++;
+    //     });
+    //   }
+    // };
   }
 
   handlePlay() {
