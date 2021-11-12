@@ -160,7 +160,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           type="range"
           defaultValue={value}
           min={0.0}
-          max={2.0}
+          max={5000.0}
           step={0.001}
           onChange={handleOnChange}
         />

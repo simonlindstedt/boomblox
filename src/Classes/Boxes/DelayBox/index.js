@@ -7,10 +7,8 @@ export default class DelayBox extends BasicBox {
     super(x, y, w, h, mediator, settings);
     this.type = 'delay';
     this.canConnect = ['master'];
-    this.input = new Delay(100, 0.1);
+    this.input = new Delay(this.settings.delayTime, this.settings.feedback);
     this.output = new Gain();
-    this.input.setDelayTime(this.settings.delayTime);
-    this.input.setFeedback(this.settings.feedback);
     this.init();
   }
 

@@ -24,6 +24,7 @@ export default class Delay {
     this.node.delayTime.setValueAtTime(time, audio.context.currentTime);
   }
   setFeedback(feedback) {
+    feedback > 1 ? (feedback = 1) : feedback;
     this.feedback.gain.setValueAtTime(feedback, audio.context.currentTime);
   }
 }
