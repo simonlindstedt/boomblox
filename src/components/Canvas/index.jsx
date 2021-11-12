@@ -138,6 +138,7 @@ const Canvas = () => {
             }}
             isMovable={true}
             title="Drumbox"
+            />
           <Button
             handleMouseUp={(e) => {
               pixi.addBox('delay', e.clientX, e.clientY);

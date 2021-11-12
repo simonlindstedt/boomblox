@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { StyledInput } from '../RangeInput/styles';
 import { StyledPanelWrapper } from './styles';
 
 const SequencerPanel = ({ box, setBox, step }) => {
