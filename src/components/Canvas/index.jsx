@@ -23,11 +23,10 @@ const Canvas = () => {
 
   const handleMessages = (e) => {
     if (e.data.box) {
-      console.log(e.data.box);
       setBox(e.data.box);
     }
+
     if (e.data.sequencerStates) {
-      console.log(e.data.sequencerStates);
       setSequencerStates(e.data.sequencerStates);
     }
   };
