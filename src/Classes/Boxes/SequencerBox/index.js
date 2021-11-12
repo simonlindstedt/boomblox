@@ -13,10 +13,6 @@ export default class SequencerBox extends BasicBox {
     this.init();
   }
 
-  setStep(step, value) {
-    this.sequence[step] = { play: false, value: value };
-  }
-
   play() {
     this.currentStep = this.count++ % this.sequence.length;
     return this.sequence[this.currentStep];
