@@ -40,6 +40,8 @@ const Canvas = () => {
     mediator.worker.addEventListener('message', handleMessages);
   }, []);
 
+  useEffect(() => {}, [sequencerStates]);
+
   useEffect(() => {
     if (playing) {
       pixi.pause();
