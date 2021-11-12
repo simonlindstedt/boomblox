@@ -297,6 +297,7 @@ export default class Pixi {
                 { play: false, value: 0 },
                 { play: false, value: 0 },
                 { play: false, value: 0 },
+                { play: false, value: 0 },
               ],
               [
                 { play: false, value: 1 },
@@ -306,8 +307,10 @@ export default class Pixi {
                 { play: false, value: 1 },
                 { play: false, value: 1 },
                 { play: false, value: 1 },
+                { play: false, value: 1 },
               ],
               [
+                { play: false, value: 2 },
                 { play: false, value: 2 },
                 { play: false, value: 2 },
                 { play: false, value: 2 },
