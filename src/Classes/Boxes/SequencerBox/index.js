@@ -9,20 +9,12 @@ export default class SequencerBox extends BasicBox {
     this.sequence = this.settings.sequence;
     this.count = 0;
     this.currentStep = 0;
-    this.speed = 1 / this.settings.speed;
+    this.speed = this.settings.speed;
     this.init();
   }
 
   setStep(step, value) {
     this.sequence[step] = { play: false, value: value };
-  }
-
-  addStep() {
-    this.sequence.push({ play: false, value: null });
-  }
-
-  removeStep() {
-    this.sequence.pop();
   }
 
   play() {
@@ -37,7 +29,7 @@ export default class SequencerBox extends BasicBox {
         this.sequence = this.settings.sequence;
       }
       if (setting === 'speed') {
-        this.speed = 1 / this.settings.speed;
+        this.speed = this.settings.speed;
       }
     });
   }

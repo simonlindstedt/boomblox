@@ -27,7 +27,7 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.list = [];
-    this.clock = new Clock(120, 8);
+    this.clock = new Clock(120, 64);
     this.sequencers = [];
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
     this.master = new MasterBox(
@@ -57,27 +57,38 @@ export default class Pixi {
       if (e.data === 'tick') {
         let sequencerStates = [];
 
+        // All sequencers
+        this.sequencers.forEach((sequencer) => {
+          sequencerStates.push({
+            id: sequencer.id,
+            step: sequencer.currentStep,
+          });
+        });
+
+        // Play all sequencers
         this.sequencers.forEach((sequencer) => {
           const speed = Math.floor(this.clock.resolution / sequencer.speed);
-
           if (this.clock.step % speed === 0) {
             let note = sequencer.play();
 
-            // Send states to react
-            this.sequencers.forEach((sequencer) => {
-              sequencerStates.push({
-                id: sequencer.id,
-                step: sequencer.currentStep,
-              });
-
-              this.mediator.post({ sequencerStates: sequencerStates });
+            // Send states to react (could probably be more effective).
+            sequencerStates.map((states) => {
+              if (states.id === sequencer.id) {
+                states.step = sequencer.currentStep;
+              }
             });
+
+            this.mediator.post({ sequencerStates: sequencerStates });
 
             if (sequencer.connections) {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
-                  box.playNote(note.value, this.clock.tempo, sequencer.speed);
+                  box.playNote(
+                    note.value * note.octave,
+                    this.clock.tempo,
+                    sequencer.speed
+                  );
                 }
               });
             }
@@ -287,12 +298,15 @@ export default class Pixi {
             this.mediator,
             {
               name: 'Seq',
-              speed: 1 / 1,
+              speed: 1,
               sequence: [
-                { play: true, value: 220 },
-                { play: true, value: 220 },
-                { play: true, value: 220 },
-                { play: false, value: 220 },
+                { play: true, value: 440, octave: 1 },
+                { play: true, value: 440, octave: 1 },
+                { play: true, value: 440, octave: 1 },
+                { play: false, value: 440, octave: 1 },
+                { play: false, value: 440, octave: 1 },
+                { play: false, value: 440, octave: 1 },
+                { play: false, value: 440, octave: 1 },
               ],
             },
             this.clock
@@ -333,7 +347,7 @@ export default class Pixi {
           );
           break;
         default:
-          return;
+          break;
       }
     }
   }

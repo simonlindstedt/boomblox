@@ -1,6 +1,5 @@
 import Pixi from '../../Classes/Pixi';
 import React, { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import Button from '../Button';
 import SideMenu from '../SideMenu';
 import RangeInput from '../RangeInput';
@@ -8,11 +7,6 @@ import SettingsPanel from '../SettingsPanel';
 import Mediator from '../../Classes/Mediator';
 import SequencerPanel from '../SequencerPanel';
 import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
-
-// const CanvasWrapper = styled.div`
-//   width: 100%;
-//   height: 100%;
-// `;
 
 const mediator = new Mediator();
 const pixi = new Pixi(mediator);
@@ -46,6 +40,8 @@ const Canvas = () => {
     mediator.worker.addEventListener('message', handleMessages);
   }, []);
 
+  useEffect(() => {}, [sequencerStates]);
+
   useEffect(() => {
     if (playing) {
       pixi.pause();
@@ -76,7 +72,7 @@ const Canvas = () => {
         <SequencerPanel
           box={box}
           setBox={setBox}
-          step={sequencerStates.find((item) => item.id === box.id).step}
+          seqState={sequencerStates.find((item) => item.id === box.id)?.step}
         />
       ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
