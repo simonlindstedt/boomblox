@@ -25,6 +25,7 @@ const Canvas = () => {
     if (e.data.box) {
       setBox(e.data.box);
     }
+
     if (e.data.sequencerStates) {
       setSequencerStates(e.data.sequencerStates);
     }

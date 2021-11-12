@@ -290,29 +290,21 @@ export default class Pixi {
           );
           break;
         case 'seq':
-          const sequencerBox = new SequencerBox(
-            x,
-            y,
-            50,
-            50,
-            this.mediator,
-            {
-              name: 'Seq',
-              speed: 1,
-              sequence: [
-                { play: true, value: 440, octave: 1 },
-                { play: true, value: 440, octave: 1 },
-                { play: true, value: 440, octave: 1 },
-                { play: false, value: 440, octave: 1 },
-                { play: false, value: 440, octave: 1 },
-                { play: false, value: 440, octave: 1 },
-                { play: false, value: 440, octave: 1 },
-              ],
-            },
-            this.clock
-          );
+          const sequencerBox = new SequencerBox(x, y, 50, 50, this.mediator, {
+            name: 'Seq',
+            speed: 1,
+            sequence: [
+              { play: true, value: 440, octave: 1 },
+              { play: true, value: 440, octave: 1 },
+              { play: true, value: 440, octave: 1 },
+              { play: false, value: 440, octave: 1 },
+              { play: false, value: 440, octave: 1 },
+              { play: false, value: 440, octave: 1 },
+              { play: false, value: 440, octave: 1 },
+            ],
+          });
 
-          this.sequencers.push(sequencerBox);
+          this.sequencers.push(sequencerBox.sequencer);
           this.list.push(sequencerBox);
           this.app.stage.addChild(
             sequencerBox.proximityLine,
