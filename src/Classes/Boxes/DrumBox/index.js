@@ -7,6 +7,7 @@ import Bass1 from './sounds/bass_sample.mp3';
 import HiHat2 from './sounds/edm-hi-hat.wav';
 import Clap2 from './sounds/good-snare.wav';
 import Bass2 from './sounds/808-kick.wav';
+import Sequencer from '../../Audio/Sequencer';
 
 export default class DrumBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
@@ -18,13 +19,20 @@ export default class DrumBox extends BasicBox {
     this.clapNode;
     this.bassNode;
     this.currentTime;
-
+    this.sequencers = [];
     this.samples = [HiHat1, Clap1, Bass1, HiHat2, Clap2, Bass2];
     this.buffers = [];
 
-    this.handlePlay();
-
     this.init();
+    this.setup();
+  }
+
+  setup() {
+    for (let i = 0; i < this.samples.length / 2; i++) {
+      this.sequencers.push(
+        new Sequencer(this.settings.speeds[i], this.settings.sequences[i])
+      );
+    }
   }
 
   connectTo(box) {
@@ -43,10 +51,15 @@ export default class DrumBox extends BasicBox {
       if (setting === 'volume') {
         this.output.setVolume(this.settings.volume);
       }
+      if (setting === 'sequences') {
+        this.settings.sequences.forEach((sequence, key) => {
+          this.sequencers[key].sequence = sequence;
+        });
+      }
     });
   }
 
-  async playSound(index) {
+  async loadSound(index) {
     let bufferSource = audio.context.createBufferSource();
     let sample = await fetch(this.samples[index]);
     sample = await sample.arrayBuffer();
@@ -57,7 +70,7 @@ export default class DrumBox extends BasicBox {
     bufferSource.start(0);
   }
 
-  async playNote(index) {
-    await this.playSound(index);
+  async playSound(index) {
+    await this.loadSound(index);
   }
 }

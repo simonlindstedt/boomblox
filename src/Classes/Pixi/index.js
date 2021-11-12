@@ -84,11 +84,17 @@ export default class Pixi {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
-                  box.playNote(
-                    note.value * note.octave,
-                    this.clock.tempo,
-                    sequencer.speed
-                  );
+                  if (box.playNote) {
+                    box.playNote(
+                      note.value * note.octave,
+                      this.clock.tempo,
+                      sequencer.speed
+                    );
+                  }
+                  if (box.playSound) {
+                    console.log(note.value);
+                    box.playSound(note.value);
+                  }
                 }
               });
             }
@@ -281,8 +287,43 @@ export default class Pixi {
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
             name: 'Drumbox',
             volume: 1,
+            speeds: [1, 1, 1],
+            sequences: [
+              [
+                { play: true, value: 0 },
+                { play: true, value: 0 },
+                { play: true, value: 0 },
+                { play: false, value: 0 },
+                { play: false, value: 0 },
+                { play: false, value: 0 },
+                { play: false, value: 0 },
+              ],
+              [
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+                { play: false, value: 1 },
+              ],
+              [
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+                { play: false, value: 2 },
+              ],
+            ],
           });
+
           this.list.push(drumBox);
+          drumBox.sequencers.forEach((sequencer) => {
+            this.sequencers.push(sequencer);
+            sequencer.connectTo(drumBox);
+          });
           this.app.stage.addChild(
             drumBox.proximityLine,
             drumBox.connectionLine,
