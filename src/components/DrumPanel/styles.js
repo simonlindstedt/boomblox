@@ -17,17 +17,18 @@ export const StyledPanelWrapper = styled(motion.div)`
     -webkit-appearance: none;
     appearance: none;
     display: inline-grid;
-    width: 1em;
-    height: 1em;
+    width: auto;
+    height: auto;
     border: 0.15em solid black;
-    border-radius: 0.15em;
+    border-radius: 50%;
     place-content: center;
   }
 
   input[type='checkbox']::before {
     content: '';
-    width: 0.55em;
-    height: 0.55em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
     /* box-shadow: inset 1em 1em #5000ff; */

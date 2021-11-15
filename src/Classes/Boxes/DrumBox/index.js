@@ -22,6 +22,7 @@ export default class DrumBox extends BasicBox {
     this.sequencers = [];
     this.samples = [HiHat1, Clap1, Bass1, HiHat2, Clap2, Bass2];
     this.buffers = [];
+    this.buffer = null;
 
     this.init();
     this.setup();
@@ -58,6 +59,25 @@ export default class DrumBox extends BasicBox {
       }
     });
   }
+
+  // load(index) {
+  //   const request = new XMLHttpRequest();
+  //   request.open('GET', this.samples[index]);
+  //   console.log(this.samples[index]);
+  //   request.responseType = 'arraybuffer';
+  //   request.onload = function () {
+  //     let undecodedAudio = request.response;
+  //     audio.context.decodeAudioData(undecodedAudio, (data) => (buffer = data));
+  //   };
+  //   request.send();
+  // }
+
+  // play() {
+  //   const source = audio.context.createBufferSource();
+  //   source.buffer = this.buffer;
+  //   source.connect(this.output.node);
+  //   source.start();
+  // }
 
   async loadSound(index) {
     let bufferSource = audio.context.createBufferSource();
