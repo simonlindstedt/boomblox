@@ -14,7 +14,7 @@ export default class MasterBox extends BasicBox {
       visualizer: this.visualizer.graphics,
     };
     this.visualizer.analyser.fftSize = 256;
-    this.input.node.connect(this.visualizer.analyser);
+    this.input.output.connect(this.visualizer.analyser);
     this.graphics.cube.interactive = false;
     this.init();
   }

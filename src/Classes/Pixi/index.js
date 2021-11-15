@@ -10,9 +10,11 @@ import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
 import DelayBox from '../Boxes/DelayBox';
+import audio from '../Audio/Audio';
 
 export default class Pixi {
   constructor(mediator) {
+    this.audio = audio;
     this.mediator = mediator;
     this.ref;
     this.width = window.innerWidth;
@@ -120,16 +122,6 @@ export default class Pixi {
         });
 
         box.options = options;
-
-        // For each option, check if close enough to connect
-        // for (let i = 0; i < options.length; i++) {
-        //   let otherBox = options[i];
-
-        //   // Connect if distance < 200 and is not currently connected
-        //   if (box.distanceTo(otherBox) < 200 && !box.isConnectedTo(otherBox)) {
-        //     box.connectTo(otherBox);
-        //   }
-        // }
       }
 
       // If box have connections
@@ -159,22 +151,17 @@ export default class Pixi {
   }
 
   deleteBox(box) {
-    if (box.container.children.length > 0) {
-      box.container.children.forEach((child) => {
-        box.container.removeChild(child);
-      });
-    }
-    if (box.type == 'osc') {
-      box.input.node.stop();
-    }
+    box.container.removeChildren(0, box.container.children.length);
+
     this.app.stage.removeChild(box.container);
     this.app.stage.removeChild(box.connectionLine);
     this.app.stage.removeChild(box.proximityLine);
-    box.container.graphics = {};
+    box.container.destroy(true);
+    box.connectionLine.destroy(true);
+    box.proximityLine.destroy(true);
     box.connections = [];
     box.input = null;
     box.output = null;
-    box.container.destroy(true);
     console.log('flush flush');
 
     this.list = this.list.filter((item) => item.id !== box.id);
@@ -333,10 +320,12 @@ export default class Pixi {
 
   play() {
     this.clock.start();
+    this.audio.context.resume();
   }
 
   pause() {
     this.clock.stop();
+    this.audio.context.suspend();
   }
 
   setMasterVolume(volume) {
@@ -344,8 +333,6 @@ export default class Pixi {
   }
 
   findAndChangeSettings(boxSettings) {
-    // let box = this.list.find((box) => box.id === boxSettings.id);
-    // box.changeSettings(boxSettings.settings);
     this.list
       .find((box) => box.id === boxSettings.id)
       .changeSettings(boxSettings.settings);
