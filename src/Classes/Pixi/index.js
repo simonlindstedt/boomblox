@@ -361,7 +361,7 @@ export default class Pixi {
 
     window.onresize = () => {
       if (this.ref) {
-        this.app.renderer.resize(this.ref.clientWidth, this.ref.clientHeight);
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
       }
     };
   }
