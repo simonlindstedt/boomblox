@@ -1,4 +1,5 @@
-import { StyledPanelWrapper } from "../SettingsPanel/styles";
+import { StyledPanelWrapper, StyledButton } from "./styles";
+
 
 const DrumPanel = ({box, setBox}) => {
 
@@ -97,7 +98,7 @@ const DrumPanel = ({box, setBox}) => {
           break;
         }
       })}
-      <button onClick={close}>X</button>
+      <StyledButton onClick={close}>X</StyledButton>
     </StyledPanelWrapper>
   )
 }
