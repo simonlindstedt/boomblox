@@ -265,7 +265,7 @@ export default class Pixi {
             {
               name: 'A-LFO',
               rate: 5,
-              maxValue: 1,
+              maxValue: 0.5,
               type: 'sawtooth',
             }
           );
@@ -352,6 +352,7 @@ export default class Pixi {
   }
 
   start(ref) {
+    this.app.ticker.speed = 0.1;
     this.app.ticker.add(() => {
       this.update();
     });

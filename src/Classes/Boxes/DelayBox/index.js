@@ -25,6 +25,9 @@ export default class DelayBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
+      if (setting === 'volume') {
+        this.output.setVolume(this.settings.volume);
+      }
       if (setting === 'delayTime') {
         this.input.setDelayTime(this.settings.delayTime);
       }

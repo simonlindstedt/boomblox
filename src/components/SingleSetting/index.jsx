@@ -10,7 +10,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           defaultValue={value}
           min={0.0}
           max={1.0}
-          step={0.001}
+          step={0.01}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
@@ -26,7 +26,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           defaultValue={value}
           min={20}
           max={10000}
-          step={0.01}
+          step={0.1}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
@@ -58,7 +58,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           defaultValue={value}
           min={20}
           max={10000}
-          step={0.001}
+          step={0.1}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
@@ -73,7 +73,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           defaultValue={value}
           min={0.0}
           max={1.0}
-          step={0.001}
+          step={0.01}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
@@ -145,7 +145,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           defaultValue={value}
           min={0.0}
           max={1.0}
-          step={0.001}
+          step={0.01}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
@@ -160,8 +160,8 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           type="range"
           defaultValue={value}
           min={0.0}
-          max={5000.0}
-          step={0.001}
+          max={1000.0}
+          step={0.01}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
