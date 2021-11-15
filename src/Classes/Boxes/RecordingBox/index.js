@@ -10,7 +10,7 @@ export default class RecordingBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.type = 'rec';
-    this.canConnect = ['master', 'reverb', 'filter'];
+    this.canConnect = ['master', 'reverb', 'filter', 'delay'];
     this.input;
     this.output = new Gain();
     this.dimensions = { w, h };
@@ -29,14 +29,17 @@ export default class RecordingBox extends BasicBox {
     this.graphics.stopBtn.width = this.dimensions.w / 4;
     this.graphics.stopBtn.height = this.dimensions.h / 4;
 
-    this.graphics.recordBtn.x = this.dimensions.w / 3;
+    this.graphics.recordBtn.x =
+      this.dimensions.w / 2 + this.graphics.recordBtn.width / 2;
     this.graphics.recordBtn.y = this.dimensions.h - this.dimensions.h / 10;
-    this.graphics.stopBtn.x = this.dimensions.w - this.dimensions.w / 10;
+    this.graphics.stopBtn.x =
+      this.dimensions.w / 2 + this.graphics.stopBtn.width / 2;
     this.graphics.stopBtn.y = this.dimensions.h - this.dimensions.h / 10;
 
     this.graphics.recordBtn.interactive = true;
     this.graphics.stopBtn.interactive = false;
 
+    this.graphics.stopBtn.alpha = 0;
     this.recording = false;
     this.init();
     this.recordSound();
@@ -52,8 +55,6 @@ export default class RecordingBox extends BasicBox {
 
   recordSound() {
     if (navigator.mediaDevices.getUserMedia) {
-      console.log('getUserMedia supported.');
-
       const constraints = { audio: true };
 
       navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
@@ -66,25 +67,23 @@ export default class RecordingBox extends BasicBox {
           mediaRecorder.start();
           this.recording = true;
           this.graphics.stopBtn.interactive = true;
-          console.log(mediaRecorder.state);
-          console.log('recorder started');
+          this.graphics.recordBtn.interactive = false;
+          this.graphics.recordBtn.alpha = 0;
+          this.graphics.stopBtn.alpha = 1;
         });
 
         this.graphics.stopBtn.on('mousedown', (e) => {
           this.recording = false;
           mediaRecorder.stop();
-          console.log(mediaRecorder.state);
-          console.log('recorder stopped');
+          this.graphics.stopBtn.interactive = false;
+          this.graphics.stopBtn.cursor = 'default';
+          this.graphics.recordBtn.alpha = 0;
         });
 
         mediaRecorder.onstop = function (e) {
-          console.log('data available after MediaRecorder.stop() called.');
-
           const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
-
-          console.log('recorder stopped');
 
           playSound(audioURL);
         };
