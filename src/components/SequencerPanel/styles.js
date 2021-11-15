@@ -29,7 +29,7 @@ export const StyledPanelWrapper = styled(motion.div)`
     height: 0.55em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em #5000ff;
+    background: #5000ff;
   }
 
   input[type='checkbox']:checked::before {
