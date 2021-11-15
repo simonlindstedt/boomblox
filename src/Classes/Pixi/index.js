@@ -174,7 +174,9 @@ export default class Pixi {
           let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
             name: 'Osc',
             volume: 0.2,
-            freq: 550,
+            freq: 440,
+            octave: 1,
+            detune: 0,
             type: 'sine',
           });
           this.app.stage.addChild(

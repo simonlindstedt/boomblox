@@ -50,6 +50,7 @@ const Canvas = () => {
   }, [playing]);
 
   useEffect(() => {
+    console.log(box);
     if (box) {
       pixi.findAndChangeSettings(box);
     }

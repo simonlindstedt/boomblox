@@ -17,7 +17,9 @@ export default class Oscillator {
   setFrequency(freq) {
     this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
   }
-
+  setDetune(cent) {
+    this.node.detune.setValueAtTime(cent, audio.context.currentTime);
+  }
   setType(type) {
     this.node.type = type;
   }

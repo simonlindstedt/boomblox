@@ -1,4 +1,5 @@
 import { StyledSingleSetting } from './styles';
+import notes from '../../Helpers/middleScale';
 
 const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
   if (setting === 'volume') {
@@ -17,7 +18,7 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
-  if (setting === 'freq') {
+  if (setting === 'freq' && boxType === 'filter') {
     return (
       <StyledSingleSetting>
         <p>{setting}</p>
@@ -27,6 +28,60 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
           min={20}
           max={10000}
           step={0.1}
+          onChange={handleOnChange}
+        />
+      </StyledSingleSetting>
+    );
+  }
+
+  if (setting === 'freq' && boxType === 'osc') {
+    return (
+      <>
+        <StyledSingleSetting>
+          <select defaultValue={value} onChange={handleOnChange}>
+            {notes.map((note, key) => {
+              return (
+                <option key={key} value={note.freq}>
+                  {note.name}
+                </option>
+              );
+            })}
+          </select>
+        </StyledSingleSetting>
+      </>
+    );
+  }
+
+  if (setting === 'octave' && boxType === 'osc') {
+    return (
+      <StyledSingleSetting>
+        <select defaultValue={value} onChange={handleOnChange}>
+          <option value={1 / 32}>-5</option>
+          <option value={1 / 16}>-4</option>
+          <option value={1 / 8}>-3</option>
+          <option value={1 / 4}>-2</option>
+          <option value={1 / 2}>-1</option>
+          <option value={1}>0</option>
+          <option value={2}>+1</option>
+          <option value={4}>+2</option>
+          <option value={8}>+3</option>
+          <option value={16}>+4</option>
+          <option value={32}>+5</option>
+        </select>
+      </StyledSingleSetting>
+    );
+  }
+
+  if (setting === 'detune' && boxType === 'osc') {
+    return (
+      <StyledSingleSetting>
+        <p>{setting}</p>
+        <input
+          type="range"
+          defaultValue={value}
+          min={-50}
+          max={50}
+          step={0.5}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
