@@ -15,7 +15,7 @@ export const variants = {
 
 export const buttonContainerVariants = {
   active: {
-    bottom: '15%',
+    bottom: '25%',
     transition: {
       duration: 0.5,
     },
@@ -30,13 +30,14 @@ export const buttonContainerVariants = {
 
 export const buttonVariants = {
   active: {
-    backgroundColor: '#5000ff',
+    backgroundColor: '#7F63B7',
     transition: {
       duration: 0.5,
     },
   },
   inactive: {
     backgroundColor: '#000',
+    fontSize: '30px',
     transition: {
       duration: 0.5,
     },

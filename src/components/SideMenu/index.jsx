@@ -39,7 +39,7 @@ const SideMenu = ({ children }) => {
         animate={active ? 'visible' : 'hidden'}
         variants={menuVariants}
       >
-        <Title title="[Cool project]" />
+        <Title title="[cool project]" />
         {children}
       </StyledSideMenu>
     </>

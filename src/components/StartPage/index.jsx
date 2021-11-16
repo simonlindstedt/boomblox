@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { StyledButton, StyledButtonContainer, StyledPage } from './styles';
+import {
+  StyledButton,
+  StyledButtonContainer,
+  StyledPage,
+  StyledTextContainer,
+} from './styles';
 import { variants, buttonContainerVariants, buttonVariants } from './variants';
+import Title from '../Title';
 
 const StartPage = () => {
   const [active, setActive] = useState(true);
@@ -12,8 +18,10 @@ const StartPage = () => {
         animate={active ? 'visible' : 'hidden'}
         variants={variants}
       >
-        <h1>Hello</h1>
-        <p>choose your audio blocks and connect them to create sound.</p>
+        <StyledTextContainer>
+          <Title title="hello" />
+          <p>choose your audio blocks and connect them to create sound.</p>
+        </StyledTextContainer>
       </StyledPage>
       <StyledButtonContainer
         initial="active"
@@ -33,7 +41,7 @@ const StartPage = () => {
             transition: { duration: 0.2 },
           }}
         >
-          {active ? 'Start' : 'v'}
+          {active ? 'Start' : '⌄'}
         </StyledButton>
       </StyledButtonContainer>
     </>
