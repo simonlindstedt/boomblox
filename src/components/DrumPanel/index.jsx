@@ -2,7 +2,6 @@ import { StyledPanelWrapper, StyledButton } from "./styles";
 
 
 const DrumPanel = ({box, setBox}) => {
-
   const close = () => {
     setBox(null);
   }
@@ -26,6 +25,36 @@ const DrumPanel = ({box, setBox}) => {
           case 0:
             return (
             <div>
+              <select
+               onChange={(e) => {
+                 box.settings.speeds[key] = e.target.value;
+                 setBox({ ...box});
+               }}
+               defaultValue={box.settings.speeds[key]}>
+                <option value={0.25}>0.25</option>
+                <option value={0.5}>0.5</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={4}>4</option>
+                <option value={8}>8</option>
+                <option value={16}>16</option>
+              </select>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].push({ play: false, value: box.settings.sequences[key][0].value });
+                setBox({ ...box });
+                }}
+              >
+              Add step
+              </button>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].pop();
+                setBox({ ...box });
+                }}
+              >
+              Remove step
+              </button>
               <select onChange={(e) => {
                 let value = parseInt(e.target.value);
                 let newSequence = [];
@@ -50,6 +79,36 @@ const DrumPanel = ({box, setBox}) => {
           case 1:
             return (
               <div>
+                <select
+               onChange={(e) => {
+                 box.settings.speeds[key] = e.target.value;
+                 setBox({ ...box});
+               }}
+               defaultValue={box.settings.speeds[key]}>
+                <option value={0.25}>0.25</option>
+                <option value={0.5}>0.5</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={4}>4</option>
+                <option value={8}>8</option>
+                <option value={16}>16</option>
+              </select>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].push({ play: false, value: box.settings.sequences[key][0].value });
+                setBox({ ...box });
+                }}
+              >
+              Add step
+              </button>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].pop();
+                setBox({ ...box });
+                }}
+              >
+              Remove step
+              </button>
                 <select onChange={(e) => {
                   let value = parseInt(e.target.value);
                   let newSequence = [];
@@ -74,6 +133,36 @@ const DrumPanel = ({box, setBox}) => {
           case 2:
             return (
               <div>
+                <select
+               onChange={(e) => {
+                 box.settings.speeds[key] = e.target.value;
+                 setBox({ ...box});
+               }}
+               defaultValue={box.settings.speeds[key]}>
+                <option value={0.25}>0.25</option>
+                <option value={0.5}>0.5</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={4}>4</option>
+                <option value={8}>8</option>
+                <option value={16}>16</option>
+              </select>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].push({ play: false, value: box.settings.sequences[key][0].value });
+                setBox({ ...box });
+                }}
+              >
+              Add step
+              </button>
+              <button
+                onClick={() => {
+                box.settings.sequences[key].pop();
+                setBox({ ...box });
+                }}
+              >
+              Remove step
+              </button>
                 <select onChange={(e) => {
                   let value = parseInt(e.target.value);
                   let newSequence = [];

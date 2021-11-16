@@ -41,9 +41,7 @@ export default class DrumBox extends BasicBox {
       buffer = await buffer.arrayBuffer();
       buffer = await audio.context.decodeAudioData(buffer);
       this.buffers.push(buffer);
-      console.log('for');
     }
-    console.log(this.buffers);
   }
 
   connectTo(box) {
@@ -65,6 +63,11 @@ export default class DrumBox extends BasicBox {
       if (setting === 'sequences') {
         this.settings.sequences.forEach((sequence, key) => {
           this.sequencers[key].sequence = sequence;
+        });
+      }
+      if (setting === 'speeds') {
+        this.settings.speeds.forEach((speed, key) => {
+          this.sequencers[key].speed = speed;
         });
       }
     });
@@ -98,7 +101,7 @@ export default class DrumBox extends BasicBox {
     bufferSource.buffer = this.buffers[index];
     bufferSource.connect(this.output.node);
     bufferSource.start(0);
-    bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
+    // bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
   }
 
   playSound(index) {
