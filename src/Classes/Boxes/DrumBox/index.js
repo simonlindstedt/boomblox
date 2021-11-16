@@ -20,27 +20,42 @@ export default class DrumBox extends BasicBox {
     this.bassNode;
     this.currentTime;
     this.sequencers = [];
-    this.samples = [HiHat1, Clap1, Bass1, HiHat2, Clap2, Bass2];
+    this.samples = [
+      [HiHat1, HiHat2],
+      [Bass1, Bass2],
+      [Clap1, Clap2],
+    ];
     this.buffers = [];
-    // this.buffer = null;
 
     this.init();
     this.setup();
   }
 
   async setup() {
-    for (let i = 0; i < this.samples.length / 2; i++) {
+    for (let i = 0; i < this.samples.length; i++) {
       this.sequencers.push(
         new Sequencer(this.settings.speeds[i], this.settings.sequences[i])
       );
     }
 
+    // for (let i = 0; i < this.samples.length; i++) {
+    //   let sample = this.samples[i];
+    //   let buffer = await fetch(sample);
+    //   buffer = await buffer.arrayBuffer();
+    //   buffer = await audio.context.decodeAudioData(buffer);
+    //   this.buffers.push(buffer);
+    // }
+
     for (let i = 0; i < this.samples.length; i++) {
-      let sample = this.samples[i];
-      let buffer = await fetch(sample);
-      buffer = await buffer.arrayBuffer();
-      buffer = await audio.context.decodeAudioData(buffer);
-      this.buffers.push(buffer);
+      let category = [];
+      for (let y = 0; y < this.samples[i].length; y++) {
+        let sample = this.samples[i][y];
+        let buffer = await fetch(sample);
+        buffer = await buffer.arrayBuffer();
+        buffer = await audio.context.decodeAudioData(buffer);
+        category.push(buffer);
+      }
+      this.buffers.push(category);
     }
   }
 
@@ -92,19 +107,19 @@ export default class DrumBox extends BasicBox {
   //   source.start();
   // }
 
-  loadSound(index) {
+  loadSound(category, index) {
     let bufferSource = audio.context.createBufferSource();
     // let sample = await fetch(this.samples[index]);
     // sample = await sample.arrayBuffer();
     // sample = await audio.context.decodeAudioData(sample);
 
-    bufferSource.buffer = this.buffers[index];
+    bufferSource.buffer = this.buffers[category][index];
     bufferSource.connect(this.output.node);
     bufferSource.start(0);
     // bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
   }
 
-  playSound(index) {
-    this.loadSound(index);
+  playSound(category, index) {
+    this.loadSound(category, index);
   }
 }

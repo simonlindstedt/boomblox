@@ -94,8 +94,7 @@ export default class Pixi {
                     );
                   }
                   if (box.playSound) {
-                    console.log(note.value);
-                    box.playSound(note.value);
+                    box.playSound(note.category, note.value);
                   }
                 }
               });
@@ -279,34 +278,34 @@ export default class Pixi {
             speeds: [1, 1, 1],
             sequences: [
               [
-                { play: true, value: 0 },
-                { play: true, value: 0 },
-                { play: true, value: 0 },
-                { play: false, value: 0 },
-                { play: false, value: 0 },
-                { play: false, value: 0 },
-                { play: false, value: 0 },
-                { play: false, value: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
               ],
               [
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
-                { play: false, value: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
               ],
               [
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
-                { play: false, value: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
               ],
             ],
           });
