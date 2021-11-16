@@ -6,33 +6,40 @@ export const StyledPanelWrapper = styled(motion.div)`
   top: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
-  width: 400px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-width: 400px;
+  max-width: 500px;
   height: auto;
+  padding: 10px 50px;
   background-color: white;
   border-radius: 8px;
+  margin: 24px;
 
   input[type='checkbox'] {
-    -webkit-appearance: none;
     appearance: none;
-    display: inline-grid;
-    width: 1em;
-    height: 1em;
-    border: 0.15em solid black;
-    border-radius: 0.15em;
-    place-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
   }
 
-  input[type='checkbox']::before {
-    content: '';
-    width: 0.55em;
-    height: 0.55em;
-    transform: scale(0);
-    transition: 120ms transform ease-in-out;
-    background: #5000ff;
+  input[type='checkbox']:checked {
+    background-color: black;
   }
 
-  input[type='checkbox']:checked::before {
-    transform: scale(1);
+  .step {
+    * {
+      margin: 2px 0px;
+    }
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
   }
 `;

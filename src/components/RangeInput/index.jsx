@@ -27,7 +27,7 @@ const RangeInput = ({
           name="volume"
           min={0.0}
           max={1.0}
-          step={0.001}
+          step={0.1}
           onChange={handleChange}
           value={volume}
         />
@@ -47,6 +47,7 @@ const RangeInput = ({
           name="tempo"
           min="30"
           max="200"
+          defaultValue={tempo}
           onChange={handleChange}
           value={tempo}
         />

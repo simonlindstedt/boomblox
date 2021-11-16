@@ -1,5 +1,5 @@
 import BasicBox from '../BasicBox';
-import impulse from './sound/ir.wav';
+import chapel from './sound/Ely-Chapel.wav';
 import Reverb from '../../Audio/Reverb';
 import Gain from '../../Audio/Gain';
 
@@ -8,7 +8,7 @@ export default class ReverbBox extends BasicBox {
     super(x, y, w, h, mediator, settings);
     this.type = 'reverb';
     this.canConnect = ['master'];
-    this.input = new Reverb(impulse);
+    this.input = new Reverb(chapel);
     this.output = new Gain();
     this.init();
   }

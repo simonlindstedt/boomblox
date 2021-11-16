@@ -42,8 +42,6 @@ const Canvas = () => {
     mediator.worker.addEventListener('message', handleMessages);
   }, []);
 
-  useEffect(() => {}, [sequencerStates]);
-
   useEffect(() => {
     if (playing) {
       pixi.pause();
@@ -179,6 +177,7 @@ const Canvas = () => {
               revertToPreviousVolume();
             } else {
               setVolume(0);
+
               pixi.setMasterVolume(0);
             }
           }}
