@@ -9,10 +9,6 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
   };
 
   useEffect(() => {
-    console.log('seq panel mount');
-  }, []);
-
-  useEffect(() => {
     setSequencerStep(seqState);
   }, [seqState]);
 
@@ -53,6 +49,15 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           }}
         >
           Remove step
+        </button>
+        <button
+          onClick={() => {
+            box.settings.currentStep = 0;
+            setSequencerStep(0);
+            setBox({ ...box });
+          }}
+        >
+          reset
         </button>
         <button onClick={close}>X</button>
       </div>

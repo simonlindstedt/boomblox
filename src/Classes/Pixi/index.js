@@ -278,6 +278,7 @@ export default class Pixi {
               { play: false, value: 440, octave: 1 },
               { play: false, value: 440, octave: 1 },
             ],
+            currentStep: 0,
           });
 
           this.sequencers.push(sequencerBox.sequencer);
