@@ -85,8 +85,8 @@ const DrumPanel = ({box, setBox}) => {
                   setBox({ ...box })
                   }}
                 >
-                  <option value={3}>Bass1</option>
-                  <option value={6}>Bass2</option>
+                  <option value={2}>Bass1</option>
+                  <option value={5}>Bass2</option>
                 </select>
                 {sequence.map((step, key) => {
                   return <input type="checkbox" defaultChecked={step.play} onChange={(e) => {

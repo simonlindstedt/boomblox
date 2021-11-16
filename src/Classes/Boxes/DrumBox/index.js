@@ -22,18 +22,28 @@ export default class DrumBox extends BasicBox {
     this.sequencers = [];
     this.samples = [HiHat1, Clap1, Bass1, HiHat2, Clap2, Bass2];
     this.buffers = [];
-    this.buffer = null;
+    // this.buffer = null;
 
     this.init();
     this.setup();
   }
 
-  setup() {
+  async setup() {
     for (let i = 0; i < this.samples.length / 2; i++) {
       this.sequencers.push(
         new Sequencer(this.settings.speeds[i], this.settings.sequences[i])
       );
     }
+
+    for (let i = 0; i < this.samples.length; i++) {
+      let sample = this.samples[i];
+      let buffer = await fetch(sample);
+      buffer = await buffer.arrayBuffer();
+      buffer = await audio.context.decodeAudioData(buffer);
+      this.buffers.push(buffer);
+      console.log('for');
+    }
+    console.log(this.buffers);
   }
 
   connectTo(box) {
@@ -79,18 +89,19 @@ export default class DrumBox extends BasicBox {
   //   source.start();
   // }
 
-  async loadSound(index) {
+  loadSound(index) {
     let bufferSource = audio.context.createBufferSource();
-    let sample = await fetch(this.samples[index]);
-    sample = await sample.arrayBuffer();
-    sample = await audio.context.decodeAudioData(sample);
+    // let sample = await fetch(this.samples[index]);
+    // sample = await sample.arrayBuffer();
+    // sample = await audio.context.decodeAudioData(sample);
 
-    bufferSource.buffer = sample;
+    bufferSource.buffer = this.buffers[index];
     bufferSource.connect(this.output.node);
     bufferSource.start(0);
+    bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
   }
 
-  async playSound(index) {
-    await this.loadSound(index);
+  playSound(index) {
+    this.loadSound(index);
   }
 }
