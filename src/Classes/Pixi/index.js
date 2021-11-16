@@ -9,6 +9,7 @@ import TrashCan from '../TrashCan';
 import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
+import DrumBox from '../Boxes/DrumBox';
 import DelayBox from '../Boxes/DelayBox';
 import audio from '../Audio/Audio';
 
@@ -85,11 +86,16 @@ export default class Pixi {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
-                  box.playNote(
-                    note.value * note.octave,
-                    this.clock.tempo,
-                    sequencer.speed
-                  );
+                  if (box.playNote) {
+                    box.playNote(
+                      note.value * note.octave,
+                      this.clock.tempo,
+                      sequencer.speed
+                    );
+                  }
+                  if (box.playSound) {
+                    box.playSound(note.category, note.value);
+                  }
                 }
               });
             }
@@ -263,6 +269,56 @@ export default class Pixi {
             amplitudeLfoBox.proximityLine,
             amplitudeLfoBox.connectionLine,
             amplitudeLfoBox.container
+          );
+          break;
+        case 'drum':
+          const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
+            name: 'Drumbox',
+            volume: 1,
+            speeds: [1, 1, 1],
+            sequences: [
+              [
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+              ],
+              [
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+              ],
+              [
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+              ],
+            ],
+          });
+
+          this.list.push(drumBox);
+          drumBox.sequencers.forEach((sequencer) => {
+            this.sequencers.push(sequencer);
+            sequencer.connectTo(drumBox);
+          });
+          this.app.stage.addChild(
+            drumBox.proximityLine,
+            drumBox.connectionLine,
+            drumBox.container
           );
           break;
         case 'seq':

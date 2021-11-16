@@ -49,6 +49,7 @@ const RangeInput = ({
           max="200"
           defaultValue={tempo}
           onChange={handleChange}
+          value={tempo}
         />
         <StyledText>{tempo}</StyledText>
       </InputWrapper>

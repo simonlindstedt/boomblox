@@ -191,6 +191,55 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
 
+  if (setting === 'volume' && boxType === 'drum') {
+    return (
+      <div>
+        <p>{setting}</p>
+      </div>
+    );
+  }
+
+  if (setting === 'sequences' && boxType === 'drum') {
+    console.log(value);
+    return value.map((sequence, key) => {
+      switch (key) {
+        case 0:
+          return (<div>
+            <select>
+              <option value={0}>Hihat1</option>
+              <option value={3}>Hihat2</option>
+            </select>
+            {value[key].map(step => {
+              return <input type="checkbox" defaultChecked={step.play} />
+            })}
+          </div>)
+        break;
+        case 1:
+          return (<div>
+            <select>
+              <option value={1}>Clap1</option>
+              <option value={4}>Clap2</option>
+            </select>
+            {value[key].map(step => {
+              return <input type="checkbox" defaultChecked={step.play} />
+            })}
+          </div>)
+        break;
+        case 2: 
+        return (<div>
+          <select>
+            <option value={3}>Bass1</option>
+            <option value={6}>Bass2</option>
+          </select>
+          {value[key].map(step => {
+            return <input type="checkbox" defaultChecked={step.play} />
+            })}
+          </div>)
+        break;
+      }
+  })
+  }
+
   if (setting === 'feedback' && boxType === 'delay') {
     return (
       <StyledSingleSetting>

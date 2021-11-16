@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { StyledInput } from '../RangeInput/styles';
 import { StyledPanelWrapper } from './styles';
 import notes from '../../Helpers/middleScale';
 
