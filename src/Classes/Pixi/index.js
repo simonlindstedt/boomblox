@@ -9,6 +9,7 @@ import TrashCan from '../TrashCan';
 import FrequencyLfoBox from '../Boxes/FrequencyLfoBox';
 import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
+import DrumBox from '../Boxes/DrumBox';
 import DelayBox from '../Boxes/DelayBox';
 import audio from '../Audio/Audio';
 
@@ -85,11 +86,16 @@ export default class Pixi {
               sequencer.connections.forEach((connection) => {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
-                  box.playNote(
-                    note.value * note.octave,
-                    this.clock.tempo,
-                    sequencer.speed
-                  );
+                  if (box.playNote) {
+                    box.playNote(
+                      note.value * note.octave,
+                      this.clock.tempo,
+                      sequencer.speed
+                    );
+                  }
+                  if (box.playSound) {
+                    box.playSound(note.category, note.value);
+                  }
                 }
               });
             }
@@ -174,7 +180,9 @@ export default class Pixi {
           let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
             name: 'Osc',
             volume: 0.2,
-            freq: 550,
+            freq: 440,
+            octave: 1,
+            detune: 0,
             type: 'sine',
           });
           this.app.stage.addChild(
@@ -263,6 +271,56 @@ export default class Pixi {
             amplitudeLfoBox.container
           );
           break;
+        case 'drum':
+          const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
+            name: 'Drumbox',
+            volume: 1,
+            speeds: [1, 1, 1],
+            sequences: [
+              [
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: true, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+              ],
+              [
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+                { play: false, value: 0, category: 1 },
+              ],
+              [
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+                { play: false, value: 0, category: 2 },
+              ],
+            ],
+          });
+
+          this.list.push(drumBox);
+          drumBox.sequencers.forEach((sequencer) => {
+            this.sequencers.push(sequencer);
+            sequencer.connectTo(drumBox);
+          });
+          this.app.stage.addChild(
+            drumBox.proximityLine,
+            drumBox.connectionLine,
+            drumBox.container
+          );
+          break;
         case 'seq':
           const sequencerBox = new SequencerBox(x, y, 50, 50, this.mediator, {
             name: 'Seq',
@@ -276,6 +334,7 @@ export default class Pixi {
               { play: false, value: 440, octave: 1 },
               { play: false, value: 440, octave: 1 },
             ],
+            currentStep: 0,
           });
 
           this.sequencers.push(sequencerBox.sequencer);

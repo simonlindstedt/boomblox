@@ -1,10 +1,10 @@
-import { Sprite } from '@pixi/sprite';
-import BasicBox from '../BasicBox';
-import recordButton from './images/record.png';
-import stopButton from './images/stop.png';
-import Visualizer from '../Visualizer';
-import audio from '../../Audio/Audio';
-import Gain from '../../Audio/Gain';
+import { Sprite } from "@pixi/sprite";
+import BasicBox from "../BasicBox";
+import recordButton from "./images/record.png";
+import stopButton from "./images/stop.png";
+import Visualizer from "../Visualizer";
+import audio from "../../Audio/Audio";
+import Gain from "../../Audio/Gain";
 
 export default class RecordingBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
@@ -63,7 +63,7 @@ export default class RecordingBox extends BasicBox {
         let chunks = [];
         this.visualizer.createMediaStreamSourceAndConnectToAnalyser(stream);
 
-        this.graphics.recordBtn.on('mousedown', (e) => {
+        this.graphics.recordBtn.on("mousedown", (e) => {
           mediaRecorder.start();
           this.recording = true;
           this.graphics.stopBtn.interactive = true;
@@ -72,7 +72,7 @@ export default class RecordingBox extends BasicBox {
           this.graphics.stopBtn.alpha = 1;
         });
 
-        this.graphics.stopBtn.on('mousedown', (e) => {
+        this.graphics.stopBtn.on("mousedown", (e) => {
           this.recording = false;
           mediaRecorder.stop();
           this.graphics.stopBtn.interactive = false;
@@ -108,12 +108,12 @@ export default class RecordingBox extends BasicBox {
         };
       }, this.onError);
     } else {
-      console.log('getUserMedia not supported on your browser!');
+      console.log("getUserMedia not supported on your browser!");
     }
   }
 
   onError(err) {
-    console.log('The following error occured: ' + err);
+    console.log("The following error occured: " + err);
   }
 
   connectTo(box) {
@@ -133,7 +133,7 @@ export default class RecordingBox extends BasicBox {
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
-      if (setting === 'volume') {
+      if (setting === "volume") {
         this.output.setVolume(this.settings.volume);
       }
     });

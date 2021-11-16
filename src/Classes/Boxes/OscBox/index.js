@@ -6,8 +6,9 @@ export default class OscBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.type = 'osc';
+    this.octave = this.settings.octave;
     this.canConnect = ['master', 'filter', 'reverb', 'delay'];
-    this.input = new Oscillator(settings.type, settings.freq);
+    this.input = new Oscillator(this.settings.type, this.settings.freq);
     this.output = new Gain();
     this.init();
   }
@@ -29,10 +30,17 @@ export default class OscBox extends BasicBox {
         this.output.setVolume(this.settings.volume);
       }
       if (setting === 'freq') {
-        this.input.setFrequency(this.settings.freq);
+        this.input.setFrequency(this.settings.freq * this.octave);
       }
       if (setting === 'type') {
         this.input.setType(this.settings.type);
+      }
+      if (setting === 'octave') {
+        this.octave = this.settings.octave;
+        this.input.setFrequency(this.settings.freq * this.octave);
+      }
+      if (setting === 'detune') {
+        this.input.setDetune(this.settings.detune);
       }
     });
   }

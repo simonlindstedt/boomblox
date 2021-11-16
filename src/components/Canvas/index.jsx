@@ -6,6 +6,7 @@ import RangeInput from '../RangeInput';
 import SettingsPanel from '../SettingsPanel';
 import Mediator from '../../Classes/Mediator';
 import SequencerPanel from '../SequencerPanel';
+import DrumPanel from '../DrumPanel';
 import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
 
 const mediator = new Mediator();
@@ -64,7 +65,7 @@ const Canvas = () => {
 
   return (
     <main>
-      {box && box.type !== 'seq' ? (
+      {box && box.type !== 'seq' && box.type !== 'drum' ? (
         <SettingsPanel box={box} setBox={setBox} />
       ) : null}
       {box && box.type === 'seq' ? (
@@ -74,6 +75,9 @@ const Canvas = () => {
           seqState={sequencerStates.find((item) => item.id === box.id)?.step}
         />
       ) : null}
+      {box && box.type === 'drum' ? (
+        <DrumPanel box={box} setBox={setBox} />
+      ): null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <StyledButtonContainer>
@@ -127,6 +131,13 @@ const Canvas = () => {
             isMovable={true}
             title="Sequencer"
           />
+            <Button
+            handleMouseUp={(e) => {
+              pixi.addBox('drum', e.clientX, e.clientY);
+            }}
+            isMovable={true}
+            title="Drumbox"
+            />
           <Button
             handleMouseUp={(e) => {
               pixi.addBox('delay', e.clientX, e.clientY);

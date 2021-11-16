@@ -112,6 +112,7 @@ export default class BasicBox {
 
     // Click to connect and disconnect
     this.proximityLine.on('pointerdown', (e) => {
+      console.log(e.data.global);
       this.handleConnection(e.data.global);
     });
 
