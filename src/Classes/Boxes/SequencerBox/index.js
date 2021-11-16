@@ -37,6 +37,9 @@ export default class SequencerBox extends BasicBox {
 
   disconnectFrom(box) {
     this.connections = this.connections.filter((item) => item.id !== box.id);
+    this.sequencer.connections = this.sequencer.connections.filter(
+      (item) => item.id !== box.id
+    );
     this.sequencer.disconnectFrom(box);
   }
 }
