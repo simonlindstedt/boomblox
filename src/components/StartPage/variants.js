@@ -19,12 +19,14 @@ export const buttonContainerVariants = {
     transition: {
       duration: 0.5,
     },
+    zIndex: '7',
   },
   inactive: {
     bottom: '89%',
     transition: {
       duration: 0.5,
     },
+    zIndex: '3',
   },
 };
 

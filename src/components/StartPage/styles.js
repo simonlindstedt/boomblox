@@ -8,7 +8,7 @@ export const StyledPage = styled(motion.div)`
   color: white;
   position: absolute;
   top: 0;
-  z-index: 2;
+  z-index: 6;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +49,6 @@ export const StyledButtonContainer = styled(motion.div)`
   width: 100%;
   position: absolute;
   bottom: 80px;
-  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
