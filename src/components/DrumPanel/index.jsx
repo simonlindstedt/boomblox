@@ -1,6 +1,6 @@
 import { StyledPanelWrapper } from './styles';
 
-const names = ['HiHat', 'Kick', 'Clap'];
+const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
 
 const DrumPanel = ({ box, setBox }) => {
   return (

@@ -275,7 +275,7 @@ export default class Pixi {
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
             name: 'Drumbox',
             volume: 1,
-            speeds: [1, 1, 1],
+            speeds: [1, 1, 1, 1],
             sequences: [
               [
                 { play: true, value: 0, category: 0 },
@@ -306,6 +306,16 @@ export default class Pixi {
                 { play: false, value: 0, category: 2 },
                 { play: false, value: 0, category: 2 },
                 { play: false, value: 0, category: 2 },
+              ],
+              [
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
               ],
             ],
           });
