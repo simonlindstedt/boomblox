@@ -141,11 +141,11 @@ export default class Pixi {
           let otherBox = options[i];
           let line = box.lines.find((item) => item.id === otherBox.id);
 
-          if (box.distanceTo(otherBox) < 200 && line === undefined) {
+          if (box.distanceTo(otherBox) < 400 && line === undefined) {
             let connectionLine = new ConnectionLine(box, otherBox);
             this.app.stage.addChild(connectionLine.graphics);
             box.lines.push(connectionLine);
-          } else if (box.distanceTo(otherBox) > 200 && line !== undefined) {
+          } else if (box.distanceTo(otherBox) > 400 && line !== undefined) {
             this.app.stage.removeChild(line.graphics);
             line.graphics.destroy(true);
             box.lines = box.lines.filter((item) => item.id !== line.id);
@@ -161,8 +161,8 @@ export default class Pixi {
             (item) => item.id === connection.id
           );
 
-          // Disconnect if distance > 200
-          if (box.distanceTo(connectedBox) > 200) {
+          // Disconnect if distance > 400
+          if (box.distanceTo(connectedBox) > 400) {
             box.disconnectFrom(connectedBox);
           }
         });
@@ -296,7 +296,7 @@ export default class Pixi {
           break;
         case 'drum':
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
-            name: 'Drumbox',
+            name: 'Drum',
             volume: 1,
             speeds: [1, 1, 1],
             sequences: [

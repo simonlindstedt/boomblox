@@ -14,17 +14,17 @@ const StartPage = () => {
   return (
     <>
       <StyledPage
-        initial="visible"
+        initial="hidden"
         animate={active ? 'visible' : 'hidden'}
         variants={variants}
       >
         <StyledTextContainer>
-          <Title title="hello" />
-          <p>choose your audio blocks and connect them to create sound.</p>
+          <Title title="boomblox" />
+          <p>choose your audio blocks and connect them to create sound</p>
         </StyledTextContainer>
       </StyledPage>
       <StyledButtonContainer
-        initial="active"
+        initial="inactive"
         animate={active ? 'active' : 'inactive'}
         variants={buttonContainerVariants}
       >
@@ -37,6 +37,7 @@ const StartPage = () => {
           }}
           whileHover={{
             scale: 1.1,
+            filter: active ? 'drop-shadow(2px -2px 0px #4A327A)' : 'none',
             cursor: 'pointer',
             transition: { duration: 0.2 },
           }}

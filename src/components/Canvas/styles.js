@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledButtonContainer = styled.div`
   flex-wrap: wrap;
-  margin: 20px 0;
+  margin: 20px 0 10px;
 `;
 
 export const CanvasWrapper = styled.div`

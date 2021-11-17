@@ -66,7 +66,7 @@ export default class ConnectionLine {
   draw() {
     this.graphics.clear();
     this.graphics
-      .lineStyle(4, 0xff0000, 0.5)
+      .lineStyle(4, 0x7bf3ab, 0.5)
       .moveTo(
         this.from.container.x + this.from.container.width,
         this.from.container.y
