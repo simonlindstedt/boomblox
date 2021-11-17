@@ -2,6 +2,7 @@ import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { Texture } from '@pixi/core';
 import { Graphics } from '@pixi/graphics';
+import { Polygon } from '@pixi/math';
 import { Text } from '@pixi/text';
 import icon from './icon/move-symbol.png';
 
@@ -124,6 +125,44 @@ export default class BasicBox {
 
   // Methods
 
+  lineToPolygon(distance, points) {
+    // https://jsfiddle.net/bigtimebuddy/xspmq8au/ thanks Matt.
+    const numPoints = points.length / 2;
+    const output = new Array(points.length * 2);
+    for (let i = 0; i < numPoints; i++) {
+      const j = i * 2;
+
+      // Position of current point
+      const x = points[j];
+      const y = points[j + 1];
+
+      // Start
+      const x0 = points[j - 2] !== undefined ? points[j - 2] : x;
+      const y0 = points[j - 1] !== undefined ? points[j - 1] : y;
+
+      // End
+      const x1 = points[j + 2] !== undefined ? points[j + 2] : x;
+      const y1 = points[j + 3] !== undefined ? points[j + 3] : y;
+
+      // Get the angle of the line
+      const a = Math.atan2(-x1 + x0, y1 - y0);
+      const deltaX = distance * Math.cos(a);
+      const deltaY = distance * Math.sin(a);
+
+      // Add the x, y at the beginning
+      output[j] = x + deltaX;
+      output[j + 1] = y + deltaY;
+
+      // Add the reflected x, y at the end
+      output[output.length - 1 - j - 1] = x - deltaX;
+      output[output.length - 1 - j] = y - deltaY;
+    }
+    // close the shape
+    output.push(output[0], output[1]);
+
+    return new Polygon(output);
+  }
+
   setPosition(x, y) {
     if (this.moving) {
       this.container.x =
@@ -225,7 +264,11 @@ export default class BasicBox {
             .lineStyle(4, 0x21aefe, 0.5)
             .moveTo(this.container.x + this.container.width, this.container.y)
             .lineTo(option.position.x, option.position.y);
-          this.proximityLine.hitArea = this.proximityLine.getBounds();
+          let bounds = this.lineToPolygon(
+            this.proximityLine.line.width,
+            this.proximityLine.currentPath.points
+          );
+          this.proximityLine.hitArea = bounds;
         }
       });
     }
