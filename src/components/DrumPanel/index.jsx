@@ -23,7 +23,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
         type="range"
         min={0.0}
         max={1.0}
-        step={0.001}
+        step={0.1}
         defaultValue={box.settings.volume}
         onChange={(e) => {
           box.settings.volume = parseFloat(e.target.value);
@@ -41,13 +41,15 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 }}
                 defaultValue={box.settings.speeds[key]}
               >
-                <option value={0.25}>0.25</option>
-                <option value={0.5}>0.5</option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={4}>4</option>
-                <option value={8}>8</option>
-                <option value={16}>16</option>
+                <option value={0.0625}>4 bars</option>
+                <option value={0.125}>2 bars</option>
+                <option value={0.25}>1 bars</option>
+                <option value={0.5}>1 / 2</option>
+                <option value={1}>1 / 4</option>
+                <option value={2}>1 / 8</option>
+                <option value={4}>1 / 16</option>
+                <option value={8}>1 / 32</option>
+                <option value={16}>1 / 64</option>
               </select>
               <button
                 onClick={() => {
@@ -81,6 +83,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   setBox({ ...box });
                 }}
               >
+              
                 <option value={0}>{`${names[key]}1`}</option>
                 <option value={1}>{`${names[key]}2`}</option>
               </select>

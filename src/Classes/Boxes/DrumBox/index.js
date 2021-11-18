@@ -1,14 +1,14 @@
 import audio from '../../Audio/Audio';
 import Gain from '../../Audio/Gain';
 import BasicBox from '../BasicBox';
-import HiHat1 from './sounds/hh_sample.mp3';
-import Clap1 from './sounds/clap_sample.mp3';
-import Kick1 from './sounds/bass_sample.mp3';
-import CowBell1 from './sounds/707MoogDrive_CB_SP.wav';
-import HiHat2 from './sounds/edm-hi-hat.wav';
-import Clap2 from './sounds/good-snare.wav';
-import Kick2 from './sounds/808-kick.wav';
-import CowBell2 from './sounds/808MoogDrive_CB_SP.wav';
+import HiHat1 from './sounds/hihat/hh_sample.mp3';
+import Clap1 from './sounds/snare/clap_sample.mp3';
+import Kick1 from './sounds/kick/bass_sample.mp3';
+import HiHat2 from './sounds/hihat/edm-hi-hat.wav';
+import Clap2 from './sounds/snare/good-snare.wav';
+import Kick2 from './sounds/kick/808-kick.wav';
+import CowBell1 from './sounds/cowbell/CASIO_MT-140_PERC-COWBELL.wav';
+import CowBell2 from './sounds/cowbell/Cowbell.wav';
 import Sequencer from '../../Audio/Sequencer';
 
 export default class DrumBox extends BasicBox {
