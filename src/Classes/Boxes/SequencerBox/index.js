@@ -7,7 +7,7 @@ export default class SequencerBox extends BasicBox {
     this.sequencer = new Sequencer(this.settings.speed, this.settings.sequence);
     this.sequencer.belongsTo = this.id;
     this.type = 'seq';
-    this.canConnect = ['osc', 'drum'];
+    this.canConnect = ['osc'];
     this.init();
   }
 

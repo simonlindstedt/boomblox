@@ -28,15 +28,15 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           }}
           defaultValue={box.settings.speed}
         >
-          <option value={0.0625}>0.0625</option>
-          <option value={0.125}>0.125</option>
-          <option value={0.25}>0.25</option>
-          <option value={0.5}>0.5</option>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={4}>4</option>
-          <option value={8}>8</option>
-          <option value={16}>16</option>
+          <option value={0.0625}>4 bars</option>
+          <option value={0.125}>2 bars</option>
+          <option value={0.25}>1 bars</option>
+          <option value={0.5}>1 / 2</option>
+          <option value={1}>1 / 4</option>
+          <option value={2}>1 / 8</option>
+          <option value={4}>1 / 16</option>
+          <option value={8}>1 / 32</option>
+          <option value={16}>1 / 64</option>
         </select>
         <button
           onClick={() => {
