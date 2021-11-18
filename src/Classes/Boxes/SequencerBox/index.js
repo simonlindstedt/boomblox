@@ -1,5 +1,6 @@
 import BasicBox from '../BasicBox';
 import Sequencer from '../../Audio/Sequencer';
+import { IGLUniformData } from '@pixi/core';
 
 export default class SequencerBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
@@ -23,6 +24,11 @@ export default class SequencerBox extends BasicBox {
       }
       if (setting === 'speed') {
         this.sequencer.speed = this.settings.speed;
+      }
+      if (setting === 'reset') {
+        if (this.settings[setting]) {
+          this.sequencer.reset();
+        }
       }
     });
   }

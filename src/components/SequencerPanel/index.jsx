@@ -4,6 +4,7 @@ import notes from '../../Helpers/middleScale';
 
 const SequencerPanel = ({ box, setBox, seqState }) => {
   const [sequencerStep, setSequencerStep] = useState(seqState);
+
   const close = () => {
     setBox(null);
   };
@@ -21,6 +22,7 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
       <div className="controls">
         <select
           onChange={(e) => {
+            box.settings.reset = false;
             box.settings.speed = e.target.value;
             setBox({ ...box });
           }}
@@ -36,6 +38,7 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
         </select>
         <button
           onClick={() => {
+            box.settings.reset = false;
             box.settings.sequence.push({ play: false, value: 440, octave: 1 });
             setBox({ ...box });
           }}
@@ -43,12 +46,21 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           Add step
         </button>
         <button
-          onClick={(e) => {
+          onClick={() => {
+            box.settings.reset = false;
             box.settings.sequence.pop();
             setBox({ ...box });
           }}
         >
           Remove step
+        </button>
+        <button
+          onClick={() => {
+            box.settings.reset = true;
+            setBox({ ...box });
+          }}
+        >
+          Reset
         </button>
         <button onClick={close}>X</button>
       </div>
@@ -58,6 +70,7 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
             <select
               defaultValue={item.value}
               onChange={(e) => {
+                box.settings.reset = false;
                 box.settings.sequence[key].value = parseFloat(e.target.value);
                 setBox({ ...box });
               }}
@@ -73,6 +86,7 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
             <select
               defaultValue={item.octave}
               onChange={(e) => {
+                box.settings.reset = false;
                 box.settings.sequence[key].octave = parseFloat(e.target.value);
                 setBox({ ...box });
               }}
@@ -96,6 +110,7 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
               }}
               defaultChecked={item.play}
               onChange={(e) => {
+                box.settings.reset = false;
                 box.settings.sequence[key].play = e.target.checked;
                 setBox({ ...box });
               }}

@@ -77,7 +77,7 @@ const Canvas = () => {
       ) : null}
       {box && box.type === 'drum' ? (
         <DrumPanel box={box} setBox={setBox} />
-      ): null}
+      ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <StyledButtonContainer>
@@ -131,13 +131,13 @@ const Canvas = () => {
             isMovable={true}
             title="Sequencer"
           />
-            <Button
+          <Button
             handleMouseUp={(e) => {
               pixi.addBox('drum', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Drumbox"
-            />
+          />
           <Button
             handleMouseUp={(e) => {
               pixi.addBox('delay', e.clientX, e.clientY);
