@@ -1,8 +1,21 @@
 import { StyledPanelWrapper } from './styles';
+import { useEffect, useState } from 'react';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
 
-const DrumPanel = ({ box, setBox }) => {
+
+const DrumPanel = ({ box, setBox, seqState }) => {
+  const [sequencerSteps, setSequencerSteps] = useState(seqState);
+  const close = () => {
+    setBox(null);
+  };
+
+  useEffect(() => {
+    setSequencerSteps(seqState);
+    console.log(sequencerSteps)
+  }, [seqState]);
+
+
   return (
     <StyledPanelWrapper>
       <p>Volume</p>
@@ -71,13 +84,17 @@ const DrumPanel = ({ box, setBox }) => {
               <option value={0}>{`${names[key]}1`}</option>
               <option value={1}>{`${names[key]}2`}</option>
             </select>
-            {sequence.map((step, key) => {
+            {sequence.map((note, step) => {
+              console.log(step, key, note);
               return (
                 <input
                   type="checkbox"
-                  defaultChecked={step.play}
+                  defaultChecked={note.play}
+                  style={{
+                    border: `2px solid ${step === sequencerSteps[key].step ? 'red' : 'black'}`,
+                  }}
                   onChange={(e) => {
-                    sequence[key].play = e.target.checked;
+                    sequence[step].play = e.target.checked;
                   }}
                 />
               );
@@ -85,6 +102,7 @@ const DrumPanel = ({ box, setBox }) => {
           </div>
         );
       })}
+       <button onClick={close}>X</button>
     </StyledPanelWrapper>
   );
 };

@@ -36,9 +36,12 @@ export default class DrumBox extends BasicBox {
 
   async setup() {
     for (let i = 0; i < this.samples.length; i++) {
-      this.sequencers.push(
-        new Sequencer(this.settings.speeds[i], this.settings.sequences[i])
+      let seq = new Sequencer(
+        this.settings.speeds[i],
+        this.settings.sequences[i]
       );
+      seq.id = this.id;
+      this.sequencers.push(seq);
     }
 
     // for (let i = 0; i < this.samples.length; i++) {

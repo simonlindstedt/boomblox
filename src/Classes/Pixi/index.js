@@ -174,6 +174,7 @@ export default class Pixi {
   }
 
   addBox(type, x, y) {
+    let sequencerStates = [];
     if (x < this.width - 400) {
       switch (type) {
         case 'osc':
@@ -330,6 +331,17 @@ export default class Pixi {
             drumBox.connectionLine,
             drumBox.container
           );
+
+          sequencerStates = [];
+
+          this.sequencers.forEach((sequencer) => {
+            sequencerStates.push({
+              id: sequencer.id,
+              step: sequencer.currentStep,
+            });
+          });
+
+          this.mediator.post({ sequencerStates: sequencerStates });
           break;
         case 'seq':
           const sequencerBox = new SequencerBox(x, y, 50, 50, this.mediator, {
@@ -355,7 +367,7 @@ export default class Pixi {
             sequencerBox.container
           );
 
-          let sequencerStates = [];
+          sequencerStates = [];
 
           this.sequencers.forEach((sequencer) => {
             sequencerStates.push({
