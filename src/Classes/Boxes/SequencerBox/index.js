@@ -1,12 +1,11 @@
 import BasicBox from '../BasicBox';
 import Sequencer from '../../Audio/Sequencer';
-import { IGLUniformData } from '@pixi/core';
 
 export default class SequencerBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.sequencer = new Sequencer(this.settings.speed, this.settings.sequence);
-    this.sequencer.id = this.id;
+    this.sequencer.belongsTo = this.id;
     this.type = 'seq';
     this.canConnect = ['osc', 'drum'];
     this.init();

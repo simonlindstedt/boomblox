@@ -1,6 +1,8 @@
 export default class Sequencer {
   constructor(speed, sequence = []) {
     this.sequence = sequence;
+    this.id = Math.random().toString(36).substr(2);
+    this.belongsTo = null;
     this.count = 0;
     this.currentStep = 0;
     this.connections = [];

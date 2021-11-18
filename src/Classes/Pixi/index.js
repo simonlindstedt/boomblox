@@ -61,6 +61,7 @@ export default class Pixi {
           sequencerStates.push({
             id: sequencer.id,
             step: sequencer.currentStep,
+            belongsTo: sequencer.belongsTo,
           });
         });
 
@@ -331,11 +332,8 @@ export default class Pixi {
             this.sequencers.push(sequencer);
             sequencer.connectTo(drumBox);
           });
-          this.app.stage.addChild(
-            // drumBox.proximityLine,
-            drumBox.connectionLine,
-            drumBox.container
-          );
+
+          this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
 
           sequencerStates = [];
 
@@ -343,6 +341,7 @@ export default class Pixi {
             sequencerStates.push({
               id: sequencer.id,
               step: sequencer.currentStep,
+              belongsTo: sequencer.belongsTo,
             });
           });
 
@@ -376,6 +375,7 @@ export default class Pixi {
             sequencerStates.push({
               id: sequencer.id,
               step: sequencer.currentStep,
+              belongsTo: sequencer.belongsTo,
             });
           });
 

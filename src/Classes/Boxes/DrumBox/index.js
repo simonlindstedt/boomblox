@@ -40,7 +40,7 @@ export default class DrumBox extends BasicBox {
         this.settings.speeds[i],
         this.settings.sequences[i]
       );
-      seq.id = this.id;
+      seq.belongsTo = this.id;
       this.sequencers.push(seq);
     }
 

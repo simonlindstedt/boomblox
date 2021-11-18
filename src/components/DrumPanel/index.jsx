@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
 
-
 const DrumPanel = ({ box, setBox, seqState }) => {
   const [sequencerSteps, setSequencerSteps] = useState(seqState);
   const close = () => {
@@ -12,9 +11,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
 
   useEffect(() => {
     setSequencerSteps(seqState);
-    console.log(sequencerSteps);
   }, [seqState]);
-
 
   return (
     <StyledPanelWrapper>
@@ -90,7 +87,9 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   type="checkbox"
                   defaultChecked={note.play}
                   style={{
-                    border: `2px solid ${step === sequencerSteps[key].step ? 'red' : 'black'}`,
+                    border: `2px solid ${
+                      step === sequencerSteps[key].step ? 'red' : 'black'
+                    }`,
                   }}
                   onChange={(e) => {
                     sequence[step].play = e.target.checked;
@@ -102,7 +101,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
           </div>
         );
       })}
-       <button onClick={close}>X</button>
+      <button onClick={close}>X</button>
     </StyledPanelWrapper>
   );
 };

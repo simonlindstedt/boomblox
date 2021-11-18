@@ -72,12 +72,18 @@ const Canvas = () => {
         <SequencerPanel
           box={box}
           setBox={setBox}
-          seqState={sequencerStates.find((item) => item.id === box.id)?.step}
+          seqState={
+            sequencerStates.find((item) => item.belongsTo === box.id)?.step
+          }
         />
       ) : null}
       {box && box.type === 'drum' ? (
-        <DrumPanel box={box} setBox={setBox} seqState={sequencerStates.filter((item) => item.id === box.id)}/>
-      ): null}
+        <DrumPanel
+          box={box}
+          setBox={setBox}
+          seqState={sequencerStates.filter((item) => item.belongsTo === box.id)}
+        />
+      ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <StyledButtonContainer>
