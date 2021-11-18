@@ -12,7 +12,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
 
   useEffect(() => {
     setSequencerSteps(seqState);
-    console.log(sequencerSteps)
+    console.log(sequencerSteps);
   }, [seqState]);
 
 
@@ -85,7 +85,6 @@ const DrumPanel = ({ box, setBox, seqState }) => {
               <option value={1}>{`${names[key]}2`}</option>
             </select>
             {sequence.map((note, step) => {
-              console.log(step, key, note);
               return (
                 <input
                   type="checkbox"
@@ -95,6 +94,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   }}
                   onChange={(e) => {
                     sequence[step].play = e.target.checked;
+                    setBox({ ...box });
                   }}
                 />
               );
