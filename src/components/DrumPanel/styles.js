@@ -12,6 +12,7 @@ export const StyledPanelWrapper = styled(motion.div)`
   background-color: white;
   border-radius: 8px;
   margin: 20px;
+  z-index: 5;
 
   input[type='checkbox'] {
     -webkit-appearance: none;

@@ -14,7 +14,7 @@ import Sequencer from '../../Audio/Sequencer';
 export default class DrumBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
-    this.canConnect = ['master', 'filter', 'reverb'];
+    this.canConnect = ['master', 'filter', 'reverb', 'delay'];
     this.type = 'drum';
     this.output = new Gain();
     this.audioNode;

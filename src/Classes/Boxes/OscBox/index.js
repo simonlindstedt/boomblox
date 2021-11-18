@@ -48,6 +48,7 @@ export default class OscBox extends BasicBox {
   playNote(pitch, tempo, noteLength) {
     let now = this.output.audio.context.currentTime;
     let length = (60 / tempo) * (1 / noteLength);
+    this.settings.freq = pitch;
     this.input.setFrequency(pitch);
     this.output.node.gain.cancelScheduledValues(now);
     this.output.node.gain.linearRampToValueAtTime(

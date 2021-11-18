@@ -11,6 +11,7 @@ import AmplitudeLfoBox from '../Boxes/AmplitudeLfoBox';
 import SequencerBox from '../Boxes/SequencerBox';
 import DrumBox from '../Boxes/DrumBox';
 import DelayBox from '../Boxes/DelayBox';
+import ConnectionLine from '../Boxes/ConnectionLine';
 import audio from '../Audio/Audio';
 
 export default class Pixi {
@@ -49,7 +50,7 @@ export default class Pixi {
     this.list.push(this.master);
 
     this.app.stage.addChild(
-      this.master.proximityLine,
+      // this.master.proximityLine,
       this.master.connectionLine,
       this.master.container
     );
@@ -114,6 +115,12 @@ export default class Pixi {
         box.visualize();
       }
 
+      if (box.lines.length) {
+        box.lines.forEach((line) => {
+          line.draw();
+        });
+      }
+
       // If box can connect
       if (box.canConnect) {
         let options = [];
@@ -128,6 +135,22 @@ export default class Pixi {
         });
 
         box.options = options;
+
+        // Handle connectionLines
+        for (let i = 0; i < options.length; i++) {
+          let otherBox = options[i];
+          let line = box.lines.find((item) => item.id === otherBox.id);
+
+          if (box.distanceTo(otherBox) < 400 && line === undefined) {
+            let connectionLine = new ConnectionLine(box, otherBox);
+            this.app.stage.addChild(connectionLine.graphics);
+            box.lines.push(connectionLine);
+          } else if (box.distanceTo(otherBox) > 400 && line !== undefined) {
+            this.app.stage.removeChild(line.graphics);
+            line.graphics.destroy(true);
+            box.lines = box.lines.filter((item) => item.id !== line.id);
+          }
+        }
       }
 
       // If box have connections
@@ -138,8 +161,8 @@ export default class Pixi {
             (item) => item.id === connection.id
           );
 
-          // Disconnect if distance > 200
-          if (box.distanceTo(connectedBox) > 200) {
+          // Disconnect if distance > 400
+          if (box.distanceTo(connectedBox) > 400) {
             box.disconnectFrom(connectedBox);
           }
         });
@@ -161,10 +184,10 @@ export default class Pixi {
 
     this.app.stage.removeChild(box.container);
     this.app.stage.removeChild(box.connectionLine);
-    this.app.stage.removeChild(box.proximityLine);
+    // this.app.stage.removeChild(box.proximityLine);
     box.container.destroy(true);
     box.connectionLine.destroy(true);
-    box.proximityLine.destroy(true);
+    // box.proximityLine.destroy(true);
     box.connections = [];
     box.input = null;
     box.output = null;
@@ -187,7 +210,7 @@ export default class Pixi {
             type: 'sine',
           });
           this.app.stage.addChild(
-            oscBox.proximityLine,
+            // oscBox.proximityLine,
             oscBox.connectionLine,
             oscBox.container
           );
@@ -201,7 +224,7 @@ export default class Pixi {
             type: 'lowpass',
           });
           this.app.stage.addChild(
-            filterBox.proximityLine,
+            // filterBox.proximityLine,
             filterBox.connectionLine,
             filterBox.container
           );
@@ -214,7 +237,7 @@ export default class Pixi {
           });
           this.list.push(reverbBox);
           this.app.stage.addChild(
-            reverbBox.proximityLine,
+            // reverbBox.proximityLine,
             reverbBox.connectionLine,
             reverbBox.container
           );
@@ -225,7 +248,7 @@ export default class Pixi {
           });
           this.list.push(recBox);
           this.app.stage.addChild(
-            recBox.proximityLine,
+            // recBox.proximityLine,
             recBox.connectionLine,
             recBox.container
           );
@@ -246,7 +269,7 @@ export default class Pixi {
           );
           this.list.push(frequencyLfoBox);
           this.app.stage.addChild(
-            frequencyLfoBox.proximityLine,
+            // frequencyLfoBox.proximityLine,
             frequencyLfoBox.connectionLine,
             frequencyLfoBox.container
           );
@@ -267,14 +290,14 @@ export default class Pixi {
           );
           this.list.push(amplitudeLfoBox);
           this.app.stage.addChild(
-            amplitudeLfoBox.proximityLine,
+            // amplitudeLfoBox.proximityLine,
             amplitudeLfoBox.connectionLine,
             amplitudeLfoBox.container
           );
           break;
         case 'drum':
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
-            name: 'Drumbox',
+            name: 'Drum',
             volume: 1,
             speeds: [1, 1, 1, 1],
             sequences: [
@@ -327,7 +350,7 @@ export default class Pixi {
             sequencer.connectTo(drumBox);
           });
           this.app.stage.addChild(
-            drumBox.proximityLine,
+            // drumBox.proximityLine,
             drumBox.connectionLine,
             drumBox.container
           );
@@ -362,7 +385,7 @@ export default class Pixi {
           this.sequencers.push(sequencerBox.sequencer);
           this.list.push(sequencerBox);
           this.app.stage.addChild(
-            sequencerBox.proximityLine,
+            // sequencerBox.proximityLine,
             sequencerBox.connectionLine,
             sequencerBox.container
           );
@@ -388,7 +411,7 @@ export default class Pixi {
 
           this.list.push(delayBox);
           this.app.stage.addChild(
-            delayBox.proximityLine,
+            // delayBox.proximityLine,
             delayBox.connectionLine,
             delayBox.container
           );

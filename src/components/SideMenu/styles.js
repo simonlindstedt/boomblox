@@ -5,13 +5,14 @@ export const StyledSideMenu = styled(motion.aside)`
   width: 400px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   position: absolute;
   right: 0;
   top: 0;
   background-color: white;
   align-items: center;
   padding: 20px;
+  z-index: 8;
 `;
 
 export const StyledMenuButton = styled(motion.button)`
