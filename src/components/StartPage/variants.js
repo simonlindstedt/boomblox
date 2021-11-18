@@ -39,7 +39,6 @@ export const buttonVariants = {
   },
   inactive: {
     backgroundColor: '#000',
-    filter: 'none',
     fontSize: '30px',
     transition: {
       duration: 0.9,

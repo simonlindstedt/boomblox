@@ -7,6 +7,7 @@ import {
 } from './styles';
 import { variants, buttonContainerVariants, buttonVariants } from './variants';
 import Title from '../Title';
+import BoxContainer from '../BoxContainer';
 
 const StartPage = () => {
   const [active, setActive] = useState(true);
@@ -22,6 +23,7 @@ const StartPage = () => {
           <Title title="boomblox" />
           <p>choose your audio blocks and connect them to create sound</p>
         </StyledTextContainer>
+        <BoxContainer />
       </StyledPage>
       <StyledButtonContainer
         initial="inactive"
@@ -37,7 +39,6 @@ const StartPage = () => {
           }}
           whileHover={{
             scale: 1.1,
-            filter: active ? 'drop-shadow(2px -2px 0px #4A327A)' : 'none',
             cursor: 'pointer',
             transition: { duration: 0.2 },
           }}
