@@ -24,9 +24,6 @@ export default class SequencerBox extends BasicBox {
       if (setting === 'speed') {
         this.sequencer.speed = this.settings.speed;
       }
-      if (setting === 'currentStep') {
-        this.sequencer.setCurrentStep(this.settings.currentStep);
-      }
     });
   }
 

@@ -49,11 +49,7 @@ export default class Pixi {
 
     this.list.push(this.master);
 
-    this.app.stage.addChild(
-      // this.master.proximityLine,
-      this.master.connectionLine,
-      this.master.container
-    );
+    this.app.stage.addChild(this.master.connectionLine, this.master.container);
 
     // Add reaction to each tick
     this.clock.worker.onmessage = (e) => {
@@ -184,10 +180,8 @@ export default class Pixi {
 
     this.app.stage.removeChild(box.container);
     this.app.stage.removeChild(box.connectionLine);
-    // this.app.stage.removeChild(box.proximityLine);
     box.container.destroy(true);
     box.connectionLine.destroy(true);
-    // box.proximityLine.destroy(true);
     box.connections = [];
     box.input = null;
     box.output = null;
@@ -208,11 +202,7 @@ export default class Pixi {
             detune: 0,
             type: 'sine',
           });
-          this.app.stage.addChild(
-            // oscBox.proximityLine,
-            oscBox.connectionLine,
-            oscBox.container
-          );
+          this.app.stage.addChild(oscBox.connectionLine, oscBox.container);
           this.list.push(oscBox);
           break;
         case 'filter':
@@ -223,7 +213,6 @@ export default class Pixi {
             type: 'lowpass',
           });
           this.app.stage.addChild(
-            // filterBox.proximityLine,
             filterBox.connectionLine,
             filterBox.container
           );
@@ -236,7 +225,6 @@ export default class Pixi {
           });
           this.list.push(reverbBox);
           this.app.stage.addChild(
-            // reverbBox.proximityLine,
             reverbBox.connectionLine,
             reverbBox.container
           );
@@ -246,11 +234,7 @@ export default class Pixi {
             volume: 0.2,
           });
           this.list.push(recBox);
-          this.app.stage.addChild(
-            // recBox.proximityLine,
-            recBox.connectionLine,
-            recBox.container
-          );
+          this.app.stage.addChild(recBox.connectionLine, recBox.container);
           break;
         case 'frequency-lfo':
           const frequencyLfoBox = new FrequencyLfoBox(
@@ -268,7 +252,6 @@ export default class Pixi {
           );
           this.list.push(frequencyLfoBox);
           this.app.stage.addChild(
-            // frequencyLfoBox.proximityLine,
             frequencyLfoBox.connectionLine,
             frequencyLfoBox.container
           );
@@ -289,7 +272,6 @@ export default class Pixi {
           );
           this.list.push(amplitudeLfoBox);
           this.app.stage.addChild(
-            // amplitudeLfoBox.proximityLine,
             amplitudeLfoBox.connectionLine,
             amplitudeLfoBox.container
           );
@@ -338,11 +320,7 @@ export default class Pixi {
             this.sequencers.push(sequencer);
             sequencer.connectTo(drumBox);
           });
-          this.app.stage.addChild(
-            // drumBox.proximityLine,
-            drumBox.connectionLine,
-            drumBox.container
-          );
+          this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
           break;
         case 'seq':
           const sequencerBox = new SequencerBox(x, y, 50, 50, this.mediator, {
@@ -357,13 +335,11 @@ export default class Pixi {
               { play: false, value: 440, octave: 1 },
               { play: false, value: 440, octave: 1 },
             ],
-            currentStep: 0,
           });
 
           this.sequencers.push(sequencerBox.sequencer);
           this.list.push(sequencerBox);
           this.app.stage.addChild(
-            // sequencerBox.proximityLine,
             sequencerBox.connectionLine,
             sequencerBox.container
           );
@@ -388,11 +364,7 @@ export default class Pixi {
           });
 
           this.list.push(delayBox);
-          this.app.stage.addChild(
-            // delayBox.proximityLine,
-            delayBox.connectionLine,
-            delayBox.container
-          );
+          this.app.stage.addChild(delayBox.connectionLine, delayBox.container);
           break;
         default:
           break;

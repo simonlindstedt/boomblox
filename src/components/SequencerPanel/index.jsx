@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { StyledInput } from '../RangeInput/styles';
 import { StyledPanelWrapper } from './styles';
 import notes from '../../Helpers/middleScale';
 
@@ -50,15 +49,6 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           }}
         >
           Remove step
-        </button>
-        <button
-          onClick={() => {
-            box.settings.currentStep = 0;
-            setSequencerStep(0);
-            setBox({ ...box });
-          }}
-        >
-          reset
         </button>
         <button onClick={close}>X</button>
       </div>

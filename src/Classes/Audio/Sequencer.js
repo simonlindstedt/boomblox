@@ -12,11 +12,6 @@ export default class Sequencer {
     return this.sequence[this.currentStep];
   }
 
-  setCurrentStep(step) {
-    this.currentStep = step;
-    this.count = 0;
-  }
-
   connectTo(box) {
     this.connections.push(box);
   }
