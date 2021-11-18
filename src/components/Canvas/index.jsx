@@ -8,6 +8,7 @@ import Mediator from '../../Classes/Mediator';
 import SequencerPanel from '../SequencerPanel';
 import DrumPanel from '../DrumPanel';
 import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
+import HelpButton from '../HelpButton';
 
 const mediator = new Mediator();
 const pixi = new Pixi(mediator);
@@ -21,6 +22,7 @@ const Canvas = () => {
   const [oldValue, setOldValue] = useState();
   const [tempo, setTempo] = useState(pixi.clock.tempo);
   const [sequencerStates, setSequencerStates] = useState();
+  const [helpIsActive, setHelpIsActive] = useState(false);
 
   const handleMessages = (e) => {
     if (e.data.box) {
@@ -85,7 +87,7 @@ const Canvas = () => {
         />
       ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
-      <SideMenu>
+      <SideMenu helpIsActive={helpIsActive} setHelpIsActive={setHelpIsActive}>
         <StyledButtonContainer>
           <StyledText>drag and drop to add to playground</StyledText>
           <Button
@@ -150,6 +152,12 @@ const Canvas = () => {
             }}
             isMovable={true}
             title="Delay"
+          />
+          <HelpButton
+            handleClick={() => {
+              setHelpIsActive(true);
+            }}
+            title="Help?"
           />
         </StyledButtonContainer>
         <Button
