@@ -191,6 +191,7 @@ export default class Pixi {
   }
 
   addBox(type, x, y) {
+    let sequencerStates = [];
     if (x < this.width - 400) {
       switch (type) {
         case 'osc':
@@ -280,7 +281,7 @@ export default class Pixi {
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
             name: 'Drum',
             volume: 1,
-            speeds: [1, 1, 1],
+            speeds: [1, 1, 1, 1],
             sequences: [
               [
                 { play: true, value: 0, category: 0 },
@@ -312,6 +313,16 @@ export default class Pixi {
                 { play: false, value: 0, category: 2 },
                 { play: false, value: 0, category: 2 },
               ],
+              [
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+                { play: false, value: 0, category: 3 },
+              ],
             ],
           });
 
@@ -320,7 +331,22 @@ export default class Pixi {
             this.sequencers.push(sequencer);
             sequencer.connectTo(drumBox);
           });
-          this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
+          this.app.stage.addChild(
+            // drumBox.proximityLine,
+            drumBox.connectionLine,
+            drumBox.container
+          );
+
+          sequencerStates = [];
+
+          this.sequencers.forEach((sequencer) => {
+            sequencerStates.push({
+              id: sequencer.id,
+              step: sequencer.currentStep,
+            });
+          });
+
+          this.mediator.post({ sequencerStates: sequencerStates });
           break;
         case 'seq':
           const sequencerBox = new SequencerBox(x, y, 50, 50, this.mediator, {
@@ -344,7 +370,7 @@ export default class Pixi {
             sequencerBox.container
           );
 
-          let sequencerStates = [];
+          sequencerStates = [];
 
           this.sequencers.forEach((sequencer) => {
             sequencerStates.push({

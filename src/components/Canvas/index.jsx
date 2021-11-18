@@ -76,8 +76,8 @@ const Canvas = () => {
         />
       ) : null}
       {box && box.type === 'drum' ? (
-        <DrumPanel box={box} setBox={setBox} />
-      ) : null}
+        <DrumPanel box={box} setBox={setBox} seqState={sequencerStates.filter((item) => item.id === box.id)}/>
+      ): null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu>
         <StyledButtonContainer>

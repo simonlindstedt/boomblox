@@ -3,10 +3,12 @@ import Gain from '../../Audio/Gain';
 import BasicBox from '../BasicBox';
 import HiHat1 from './sounds/hh_sample.mp3';
 import Clap1 from './sounds/clap_sample.mp3';
-import Bass1 from './sounds/bass_sample.mp3';
+import Kick1 from './sounds/bass_sample.mp3';
+import CowBell1 from './sounds/707MoogDrive_CB_SP.wav';
 import HiHat2 from './sounds/edm-hi-hat.wav';
 import Clap2 from './sounds/good-snare.wav';
-import Bass2 from './sounds/808-kick.wav';
+import Kick2 from './sounds/808-kick.wav';
+import CowBell2 from './sounds/808MoogDrive_CB_SP.wav';
 import Sequencer from '../../Audio/Sequencer';
 
 export default class DrumBox extends BasicBox {
@@ -22,8 +24,9 @@ export default class DrumBox extends BasicBox {
     this.sequencers = [];
     this.samples = [
       [HiHat1, HiHat2],
-      [Bass1, Bass2],
+      [Kick1, Kick2],
       [Clap1, Clap2],
+      [CowBell1, CowBell2],
     ];
     this.buffers = [];
 
@@ -33,9 +36,12 @@ export default class DrumBox extends BasicBox {
 
   async setup() {
     for (let i = 0; i < this.samples.length; i++) {
-      this.sequencers.push(
-        new Sequencer(this.settings.speeds[i], this.settings.sequences[i])
+      let seq = new Sequencer(
+        this.settings.speeds[i],
+        this.settings.sequences[i]
       );
+      seq.id = this.id;
+      this.sequencers.push(seq);
     }
 
     // for (let i = 0; i < this.samples.length; i++) {
