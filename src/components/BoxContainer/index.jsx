@@ -24,7 +24,7 @@ const BoxContainer = () => {
       <StyledBox
         src={box2}
         animate={{
-          scale: [1, 2, 2, 1, 1],
+          scale: [1, 1.7, 1.3, 1, 1],
           rotate: [0, 0, 270, 270, 0],
           top: ['0%', '75%', '40%', '20%'],
           opacity: 0,

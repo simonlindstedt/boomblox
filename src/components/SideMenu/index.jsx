@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import propTypes from 'prop-types';
 import { StyledSideMenu, StyledMenuButton } from './styles';
 import arrowLeft from './icons/left.png';
 import arrowRight from './icons/right.png';
 import Title from '../Title';
-
-const SideMenu = ({ children }) => {
+import Instructions from '../Instructions';
+const SideMenu = ({ children, helpIsActive, setHelpIsActive }) => {
   const [active, setActive] = useState(false);
 
   const menuVariants = {
@@ -30,6 +31,7 @@ const SideMenu = ({ children }) => {
         }}
         onClick={() => {
           setActive(!active);
+          setHelpIsActive(false);
         }}
       >
         <img src={active ? arrowRight : arrowLeft} alt="arrow button" />
@@ -42,8 +44,15 @@ const SideMenu = ({ children }) => {
         <Title title="boomblox" />
         {children}
       </StyledSideMenu>
+      <Instructions
+        helpIsActive={helpIsActive}
+        setHelpIsActive={setHelpIsActive}
+      />
     </>
   );
 };
-
+SideMenu.propTypes = {
+  helpIsActive: propTypes.bool,
+  setHelpIsActive: propTypes.func,
+};
 export default SideMenu;
