@@ -359,6 +359,7 @@ export default class Pixi {
               { play: false, value: 440, octave: 1 },
               { play: false, value: 440, octave: 1 },
               { play: false, value: 440, octave: 1 },
+              { play: false, value: 440, octave: 1 },
             ],
           });
 
