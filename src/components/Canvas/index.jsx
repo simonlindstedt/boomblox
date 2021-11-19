@@ -180,6 +180,7 @@ const Canvas = () => {
               const file = e.target.files[0];
               const content = await file.text();
               pixi.loadPreset(JSON.parse(content));
+              e.target.value = '';
             }}
           />
         </StyledButtonContainer>
