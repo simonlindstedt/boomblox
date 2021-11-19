@@ -1,4 +1,5 @@
-import { StyledInstructions, StyledButton } from './styles';
+import { StyledInstructions } from './styles';
+import Button from '../Button';
 import propTypes from 'prop-types';
 
 const Instructions = ({ helpIsActive, setHelpIsActive }) => {
@@ -44,19 +45,18 @@ const Instructions = ({ helpIsActive, setHelpIsActive }) => {
           <span>Click on an audio object</span> to change the settings such as
           volume, frequency, rate, sequence and sound
         </li>
+        <li>
+          <span>To delete an object</span> drag it over the trash can in the
+          bottom left corner.
+        </li>
       </ul>
-      <StyledButton
-        onClick={() => {
+      <Button
+        handleClick={() => {
           setHelpIsActive(false);
-        }}
-        whileHover={{
-          scale: 1.1,
-          transition: { duration: 0.2 },
-          cursor: 'pointer',
         }}
       >
         Got it!
-      </StyledButton>
+      </Button>
     </StyledInstructions>
   );
 };

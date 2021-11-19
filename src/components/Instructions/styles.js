@@ -29,18 +29,10 @@ export const StyledInstructions = styled(motion.div)`
   li {
     list-style: none;
     margin: 20px 0;
+    font-size: 15px;
   }
-`;
 
-export const StyledButton = styled(motion.button)`
-  margin: 20px 0;
-  border: none;
-  padding: 10px 20px;
-  background-color: #5000ff;
-  color: white;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 20px;
-  font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  button {
+    font-size: 20px;
+  }
 `;

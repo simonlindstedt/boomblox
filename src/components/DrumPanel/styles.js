@@ -57,14 +57,3 @@ export const StyledPanelWrapper = styled(motion.div)`
     }
   }
 `;
-
-export const StyledButton = styled(motion.button)`
-  /* margin: 20px; */
-  margin-top: 8px;
-  border: none;
-  padding: 10px 20px;
-  background-color: #5000ff;
-  color: white;
-  cursor: pointer;
-  border-radius: 8px;
-`;

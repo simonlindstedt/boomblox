@@ -1,4 +1,5 @@
-import { StyledPanelWrapper, StyledButton } from './styles';
+import { StyledPanelWrapper } from './styles';
+import Button from '../Button';
 import { useEffect, useState } from 'react';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
@@ -32,7 +33,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
       />
       {box.settings.sequences.map((sequence, key) => {
         return (
-          <div>
+          <div key={key}>
             <div>
               <select
                 onChange={(e) => {
@@ -49,8 +50,8 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 <option value={8}>8</option>
                 <option value={16}>16</option>
               </select>
-              <button
-                onClick={() => {
+              <Button
+                handleClick={() => {
                   box.settings.sequences[key].push({
                     play: false,
                     value: box.settings.sequences[key][0].value,
@@ -59,15 +60,15 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 }}
               >
                 Add step
-              </button>
-              <button
-                onClick={() => {
+              </Button>
+              <Button
+                handleClick={() => {
                   box.settings.sequences[key].pop();
                   setBox({ ...box });
                 }}
               >
                 Remove step
-              </button>
+              </Button>
               <select
                 onChange={(e) => {
                   let value = parseInt(e.target.value);
@@ -90,6 +91,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
               {sequence.map((note, step) => {
                 return (
                   <input
+                    key={step}
                     type="checkbox"
                     defaultChecked={note.play}
                     style={{
@@ -108,7 +110,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
           </div>
         );
       })}
-      <StyledButton onClick={close}>X</StyledButton>
+      <Button handleClick={close}>X</Button>
     </StyledPanelWrapper>
   );
 };

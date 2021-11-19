@@ -1,6 +1,6 @@
 import Pixi from '../../Classes/Pixi';
 import React, { useRef, useEffect, useState } from 'react';
-import Button from '../Button';
+import MenuButton from '../MenuButton';
 import SideMenu from '../SideMenu';
 import RangeInput from '../RangeInput';
 import SettingsPanel from '../SettingsPanel';
@@ -26,6 +26,7 @@ const Canvas = () => {
 
   const handleMessages = (e) => {
     if (e.data.box) {
+      setBox(null);
       setBox(e.data.box);
     }
 
@@ -90,63 +91,63 @@ const Canvas = () => {
       <SideMenu helpIsActive={helpIsActive} setHelpIsActive={setHelpIsActive}>
         <StyledButtonContainer>
           <StyledText>drag and drop to add to playground</StyledText>
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('filter', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Filter"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('osc', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Oscillator"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('rec', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Recording"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('reverb', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Reverb"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('frequency-lfo', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Frequency LFO"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('amplitude-lfo', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Amplitude LFO"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('seq', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Sequencer"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('drum', e.clientX, e.clientY);
             }}
             isMovable={true}
             title="Drumbox"
           />
-          <Button
+          <MenuButton
             handleMouseUp={(e) => {
               pixi.addBox('delay', e.clientX, e.clientY);
             }}
@@ -186,7 +187,7 @@ const Canvas = () => {
             title="Help?"
           />
         </StyledButtonContainer>
-        <Button
+        <MenuButton
           handleClick={() => {
             setPlaying(!playing);
           }}

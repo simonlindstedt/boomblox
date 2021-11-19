@@ -19,13 +19,13 @@ export const StyledPanelWrapper = styled(motion.div)`
 
   input[type='checkbox'] {
     appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 25px;
   }
 
   input[type='checkbox']:checked {
-    background-color: black;
+    background-color: #c8affa;
   }
 
   .step {
@@ -42,5 +42,11 @@ export const StyledPanelWrapper = styled(motion.div)`
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+  }
+
+  select {
+    &:nth-child(1) {
+      margin: 10px 0 0;
+    }
   }
 `;

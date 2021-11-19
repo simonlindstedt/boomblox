@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyledPanelWrapper } from './styles';
+import Button from '../Button';
 import notes from '../../Helpers/middleScale';
 
 const SequencerPanel = ({ box, setBox, seqState }) => {
@@ -38,33 +39,41 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           <option value={8}>1 / 32</option>
           <option value={16}>1 / 64</option>
         </select>
-        <button
-          onClick={() => {
+        <Button
+          handleClick={() => {
             box.settings.reset = false;
             box.settings.sequence.push({ play: false, value: 440, octave: 1 });
             setBox({ ...box });
           }}
         >
           Add step
-        </button>
-        <button
-          onClick={() => {
+        </Button>
+        <Button
+          handleClick={() => {
             box.settings.reset = false;
             box.settings.sequence.pop();
             setBox({ ...box });
           }}
         >
           Remove step
-        </button>
-        <button
-          onClick={() => {
+        </Button>
+        <Button
+          handleClick={() => {
             box.settings.reset = true;
             setBox({ ...box });
           }}
         >
           Reset
-        </button>
-        <button onClick={close}>X</button>
+        </Button>
+        <Button
+          whileHover={{
+            scale: 1.05,
+            transition: { duration: 0.2 },
+          }}
+          handleClick={close}
+        >
+          X
+        </Button>
       </div>
       {box.settings.sequence.map((item, key) => {
         return (
@@ -108,7 +117,9 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
             <input
               type="checkbox"
               style={{
-                border: `2px solid ${key === sequencerStep ? 'red' : 'black'}`,
+                border: `2px solid ${
+                  key === sequencerStep ? '#FB6A4A' : 'black'
+                }`,
               }}
               defaultChecked={item.play}
               onChange={(e) => {
