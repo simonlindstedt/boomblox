@@ -9,6 +9,8 @@ import SequencerPanel from '../SequencerPanel';
 import DrumPanel from '../DrumPanel';
 import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
 import HelpButton from '../HelpButton';
+import SaveButton from '../PresetButtons/SaveButton';
+import UploadButton from '../PresetButtons/UploadButton';
 
 const mediator = new Mediator();
 const pixi = new Pixi(mediator);
@@ -154,8 +156,14 @@ const Canvas = () => {
             isMovable={true}
             title="Delay"
           />
-          <button
-            onClick={() => {
+          <HelpButton
+            handleClick={() => {
+              setHelpIsActive(true);
+            }}
+            title="Help?"
+          />
+          <SaveButton
+            handleClick={() => {
               const preset = pixi.savePreset();
               const string =
                 'data:text/json;charset=utf-8,' +
@@ -166,25 +174,13 @@ const Canvas = () => {
               linkElement.click();
               linkElement.remove();
             }}
-          >
-            save preset
-          </button>
-          <label>
-            load preset
-            <input
-              type="file"
-              onInput={async (e) => {
-                const file = e.target.files[0];
-                const content = await file.text();
-                pixi.loadPreset(JSON.parse(content));
-              }}
-            />
-          </label>
-          <HelpButton
-            handleClick={() => {
-              setHelpIsActive(true);
+          />
+          <UploadButton
+            handleInput={async (e) => {
+              const file = e.target.files[0];
+              const content = await file.text();
+              pixi.loadPreset(JSON.parse(content));
             }}
-            title="Help?"
           />
         </StyledButtonContainer>
         <MenuButton
