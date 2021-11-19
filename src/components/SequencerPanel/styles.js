@@ -9,7 +9,7 @@ export const StyledPanelWrapper = styled(motion.div)`
   flex-direction: row;
   flex-wrap: wrap;
   min-width: 400px;
-  max-width: 550px;
+  max-width: 570px;
   height: auto;
   padding: 10px 50px;
   background-color: white;

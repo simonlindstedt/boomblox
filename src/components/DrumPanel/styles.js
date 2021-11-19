@@ -38,8 +38,8 @@ export const StyledPanelWrapper = styled(motion.div)`
   }
   select {
     margin-right: 4px;
-    width: 82px;
-    font-size: 16px;
+    width: 65px;
+    font-size: 14px;
     font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;

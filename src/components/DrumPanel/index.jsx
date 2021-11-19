@@ -1,4 +1,3 @@
-import { StyledPanelWrapper } from './styles';
 import Button from '../Button';
 import { StyledPanelWrapper, StyledBtnContainer } from './styles';
 import { useEffect, useState } from 'react';
