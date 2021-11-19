@@ -53,8 +53,8 @@ export const StyledPanelWrapper = styled(motion.div)`
     -webkit-appearance: none;
     appearance: none;
     display: inline-grid;
-    width: auto;
-    height: auto;
+    width: 20px;
+    height: 20px;
     border: 0.15em solid black;
     border-radius: 50%;
     place-content: center;
@@ -62,12 +62,12 @@ export const StyledPanelWrapper = styled(motion.div)`
 
   input[type='checkbox']::before {
     content: '';
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    background: #7f63b7;
+    background: #c8affa;
   }
 
   input[type='checkbox']:checked::before {
@@ -80,6 +80,7 @@ export const StyledPanelWrapper = styled(motion.div)`
     max-width: 394px;
     * {
       margin: 8px 10px;
+      margin-top: 12px;
     }
   }
 `;
