@@ -8,7 +8,7 @@ export const StyledPanelWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 10px 50px;
+  padding: 10px 20px;
   background-color: white;
   border-radius: 8px;
   margin: 20px;
@@ -21,6 +21,7 @@ export const StyledPanelWrapper = styled(motion.div)`
   .drumVolume {
     height: 10px;
     width: 100%;
+    margin-bottom: 10px;
     appearance: none;
     background-color: #7f63b7;
     border-radius: 25px;
@@ -35,7 +36,15 @@ export const StyledPanelWrapper = styled(motion.div)`
       cursor: pointer;
     }
   }
-  select,
+  select {
+    margin-right: 4px;
+    width: 82px;
+    font-size: 16px;
+    font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+      sans-serif;
+  }
+
   button {
     margin-right: 4px;
   }
@@ -53,8 +62,8 @@ export const StyledPanelWrapper = styled(motion.div)`
 
   input[type='checkbox']::before {
     content: '';
-    width: 1em;
-    height: 1em;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
@@ -68,20 +77,27 @@ export const StyledPanelWrapper = styled(motion.div)`
   .sequence {
     display: flex;
     flex-wrap: wrap;
-    max-width: 210px;
+    max-width: 394px;
     * {
-      margin: 4px;
+      margin: 8px 10px;
     }
   }
 `;
 
 export const StyledButton = styled(motion.button)`
-  /* margin: 20px; */
   margin-top: 8px;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 8px;
   background-color: #7f63b7;
   color: white;
   cursor: pointer;
   border-radius: 8px;
+  font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+`;
+
+export const StyledBtnContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;

@@ -1,5 +1,4 @@
-import { StyledPanelWrapper, StyledButton } from './styles';
-import  SettingsButton  from '../SettingsButton';
+import { StyledPanelWrapper, StyledButton, StyledBtnContainer } from './styles';
 import { useEffect, useState } from 'react';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
@@ -53,25 +52,25 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 <option value={8}>1 / 32</option>
                 <option value={16}>1 / 64</option>
               </select>
-              <SettingsButton
-                handleClick={() => {
+              <StyledButton
+                onClick={() => {
                   box.settings.sequences[key].push({
                     play: false,
                     value: box.settings.sequences[key][0].value,
                   });
                   setBox({ ...box });
                 }}
-                title="Add step"
-              >
-              </SettingsButton>
-              <SettingsButton
-                handleClick={() => {
+                >
+                Add step
+              </StyledButton>
+              <StyledButton
+                onClick={() => {
                   box.settings.sequences[key].pop();
                   setBox({ ...box });
                 }}
-                title="Remove step"
-              >
-              </SettingsButton>
+                >
+                Remove step
+              </StyledButton>
               <select
                 onChange={(e) => {
                   let value = parseInt(e.target.value);
@@ -112,7 +111,17 @@ const DrumPanel = ({ box, setBox, seqState }) => {
           </div>
         );
       })}
-      <StyledButton onClick={close}>X</StyledButton>
+        <StyledBtnContainer>
+          <StyledButton
+            whileHover={{
+            scale: 1.2,
+            transition: { duration: 0.2 },
+            }}
+            onClick={close}
+          >
+          X
+        </StyledButton>
+      </StyledBtnContainer>
     </StyledPanelWrapper>
   );
 };
