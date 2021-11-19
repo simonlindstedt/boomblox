@@ -5,6 +5,7 @@ import arrowLeft from './icons/left.png';
 import arrowRight from './icons/right.png';
 import Title from '../Title';
 import Instructions from '../Instructions';
+
 const SideMenu = ({ children, helpIsActive, setHelpIsActive }) => {
   const [active, setActive] = useState(false);
 

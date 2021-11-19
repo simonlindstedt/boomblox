@@ -1,14 +1,14 @@
 import audio from '../../Audio/Audio';
 import Gain from '../../Audio/Gain';
 import BasicBox from '../BasicBox';
-import HiHat1 from './sounds/hh_sample.mp3';
-import Clap1 from './sounds/clap_sample.mp3';
-import Kick1 from './sounds/bass_sample.mp3';
-import CowBell1 from './sounds/707MoogDrive_CB_SP.wav';
-import HiHat2 from './sounds/edm-hi-hat.wav';
-import Clap2 from './sounds/good-snare.wav';
-import Kick2 from './sounds/808-kick.wav';
-import CowBell2 from './sounds/808MoogDrive_CB_SP.wav';
+import HiHat1 from './sounds/hihat/hh_sample.mp3';
+import Clap1 from './sounds/snare/clap_sample.mp3';
+import Kick1 from './sounds/kick/bass_sample.mp3';
+import HiHat2 from './sounds/hihat/edm-hi-hat.wav';
+import Clap2 from './sounds/snare/good-snare.wav';
+import Kick2 from './sounds/kick/808-kick.wav';
+import CowBell1 from './sounds/cowbell/CASIO_MT-140_PERC-COWBELL.wav';
+import CowBell2 from './sounds/cowbell/Cowbell.wav';
 import Sequencer from '../../Audio/Sequencer';
 
 export default class DrumBox extends BasicBox {
@@ -43,14 +43,6 @@ export default class DrumBox extends BasicBox {
       seq.belongsTo = this.id;
       this.sequencers.push(seq);
     }
-
-    // for (let i = 0; i < this.samples.length; i++) {
-    //   let sample = this.samples[i];
-    //   let buffer = await fetch(sample);
-    //   buffer = await buffer.arrayBuffer();
-    //   buffer = await audio.context.decodeAudioData(buffer);
-    //   this.buffers.push(buffer);
-    // }
 
     for (let i = 0; i < this.samples.length; i++) {
       let category = [];
@@ -94,35 +86,12 @@ export default class DrumBox extends BasicBox {
     });
   }
 
-  // load(index) {
-  //   const request = new XMLHttpRequest();
-  //   request.open('GET', this.samples[index]);
-  //   console.log(this.samples[index]);
-  //   request.responseType = 'arraybuffer';
-  //   request.onload = function () {
-  //     let undecodedAudio = request.response;
-  //     audio.context.decodeAudioData(undecodedAudio, (data) => (buffer = data));
-  //   };
-  //   request.send();
-  // }
-
-  // play() {
-  //   const source = audio.context.createBufferSource();
-  //   source.buffer = this.buffer;
-  //   source.connect(this.output.node);
-  //   source.start();
-  // }
-
   loadSound(category, index) {
     let bufferSource = audio.context.createBufferSource();
-    // let sample = await fetch(this.samples[index]);
-    // sample = await sample.arrayBuffer();
-    // sample = await audio.context.decodeAudioData(sample);
 
     bufferSource.buffer = this.buffers[category][index];
     bufferSource.connect(this.output.node);
     bufferSource.start(0);
-    // bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
   }
 
   playSound(category, index) {

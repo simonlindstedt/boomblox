@@ -272,9 +272,9 @@ export default class Pixi {
             speeds: [1, 1, 1, 1],
             sequences: [
               [
-                { play: true, value: 0, category: 0 },
-                { play: true, value: 0, category: 0 },
-                { play: true, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
+                { play: false, value: 0, category: 0 },
                 { play: false, value: 0, category: 0 },
                 { play: false, value: 0, category: 0 },
                 { play: false, value: 0, category: 0 },
