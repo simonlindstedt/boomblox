@@ -7,7 +7,7 @@ export const StyledLabel = styled(motion.label)`
   font-size: 12px;
   display: inline-block;
   text-align: center;
-  border: 5px solid #5000ff;
+  border: 5px solid #7f63b7;
   padding: 15px 20px;
   margin: 8px;
   width: 45%;
