@@ -32,25 +32,12 @@ export default class Pixi {
     this.list = [];
     this.clock = new Clock(120, 64);
     this.sequencers = [];
-    this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    this.master = new MasterBox(
-      this.width / 2 - 50,
-      this.height / 2 - 50,
-      100,
-      100,
-      this.mediator,
-      { name: 'Master', volume: 0.5 }
-    );
+    this.master;
+    this.trash;
     this.init();
   }
 
   init() {
-    this.app.stage.addChild(this.trash.container);
-
-    this.list.push(this.master);
-
-    this.app.stage.addChild(this.master.connectionLine, this.master.container);
-
     // Add reaction to each tick
     this.clock.worker.onmessage = (e) => {
       if (e.data === 'tick') {
@@ -419,8 +406,175 @@ export default class Pixi {
       .changeSettings(boxSettings.settings);
   }
 
+  clear() {
+    this.app.stage.removeChildren(0, this.app.stage.children.length);
+    this.list = [];
+    this.sequencers = [];
+  }
+
+  savePreset() {
+    let preset = [];
+    this.list.forEach((item) => {
+      let box = {};
+      Object.keys(item).forEach((key) => {
+        switch (key) {
+          case 'id':
+            box.id = item[key];
+            break;
+          case 'type':
+            box.type = item[key];
+            break;
+          case 'settings':
+            box.settings = item[key];
+            break;
+          case 'position':
+            box.position = item[key];
+            break;
+          case 'dimensions':
+            box.dimensions = item[key];
+            break;
+          case 'connections':
+            box.connections = item[key];
+            break;
+          case 'sequencer':
+            box.sequencer = { id: item[key].id, belongsTo: item.id };
+            break;
+          case 'sequencers':
+            box.sequencers = [];
+            item[key].forEach((sequencer) => {
+              box.sequencers.push({
+                id: sequencer.id,
+                belongsTo: sequencer.belongsTo,
+              });
+            });
+            break;
+          default:
+            break;
+        }
+      });
+      preset.push(box);
+    });
+    return preset;
+  }
+
+  loadPreset(preset) {
+    this.clear();
+    this.app.ticker.stop();
+    this.softStart();
+    let connections = [];
+
+    // Add boxes to canvas
+    for (let i = 0; i < preset.length; i++) {
+      const box = preset[i];
+
+      if (box.type === 'master') {
+        this.master = new MasterBox(
+          box.position.x,
+          box.position.y,
+          100,
+          100,
+          this.mediator,
+          box.settings
+        );
+
+        this.master.id = box.id;
+
+        this.list.push(this.master);
+        this.app.stage.addChild(
+          this.master.connectionLine,
+          this.master.container
+        );
+        continue;
+      }
+
+      this.addBox(box.type, box.position.x, box.position.y);
+
+      if (box.connections.length) {
+        box.connections.forEach((connection) => {
+          connections.push({ current: box.id, connectedTo: connection.id });
+        });
+      }
+
+      const currentIndex = this.list.length - 1;
+      this.list[currentIndex].id = box.id;
+      this.list[currentIndex].changeSettings(box.settings);
+
+      if (box.type === 'seq') {
+        this.list[currentIndex].sequencer.id = box.sequencer.id;
+        this.list[currentIndex].sequencer.belongsTo = box.sequencer.belongsTo;
+
+        let sequencerStates = [];
+
+        this.sequencers.forEach((sequencer) => {
+          sequencerStates.push({
+            id: sequencer.id,
+            step: sequencer.currentStep,
+            belongsTo: sequencer.belongsTo,
+          });
+        });
+
+        this.mediator.post({ sequencerStates: sequencerStates });
+      }
+
+      if (box.type === 'drum') {
+        box.sequencers.forEach((sequencer, key) => {
+          this.list[currentIndex].sequencers[key].id = sequencer.id;
+          this.list[currentIndex].sequencers[key].belongsTo =
+            sequencer.belongsTo;
+        });
+
+        let sequencerStates = [];
+
+        this.sequencers.forEach((sequencer) => {
+          sequencerStates.push({
+            id: sequencer.id,
+            step: sequencer.currentStep,
+            belongsTo: sequencer.belongsTo,
+          });
+        });
+
+        this.mediator.post({ sequencerStates: sequencerStates });
+      }
+    }
+
+    // Connect boxes
+    connections.forEach((connection) => {
+      let current = this.list.find((item) => item.id === connection.current);
+      let otherBox = this.list.find(
+        (item) => item.id === connection.connectedTo
+      );
+
+      current.connectTo(otherBox);
+      let connectionLine = new ConnectionLine(current, otherBox);
+      connectionLine.connected = true;
+      current.lines.push(connectionLine);
+      this.app.stage.addChild(connectionLine.graphics);
+    });
+
+    this.app.ticker.start();
+  }
+
+  softStart() {
+    this.trash = new TrashCan(30, this.height - 80, 30, 40);
+    this.app.stage.addChild(this.trash.container);
+  }
+
   start(ref) {
-    this.app.ticker.speed = 0.1;
+    this.trash = new TrashCan(30, this.height - 80, 30, 40);
+    this.master = new MasterBox(
+      this.width / 2 - 50,
+      this.height / 2 - 50,
+      100,
+      100,
+      this.mediator,
+      { name: 'Master', volume: 0.5 }
+    );
+
+    this.app.stage.addChild(this.trash.container);
+    this.list.push(this.master);
+    this.app.stage.addChild(this.master.connectionLine, this.master.container);
+
+    // this.app.ticker.speed = 0.1;
     this.app.ticker.add(() => {
       this.update();
     });

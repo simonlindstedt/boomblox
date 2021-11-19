@@ -80,6 +80,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   box.settings.sequences[key] = newSequence;
                   setBox({ ...box });
                 }}
+                defaultValue={sequence[0].value}
               >
                 <option value={0}>{`${names[key]}1`}</option>
                 <option value={1}>{`${names[key]}2`}</option>

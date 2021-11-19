@@ -16,7 +16,7 @@ const pixi = new Pixi(mediator);
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(true);
-  const [volume, setVolume] = useState(pixi.master.settings.volume);
+  const [volume, setVolume] = useState(0.5);
   const [box, setBox] = useState();
   const [isZero, setIsZero] = useState(false);
   const [oldValue, setOldValue] = useState();
@@ -153,6 +153,32 @@ const Canvas = () => {
             isMovable={true}
             title="Delay"
           />
+          <button
+            onClick={() => {
+              const preset = pixi.savePreset();
+              const string =
+                'data:text/json;charset=utf-8,' +
+                encodeURIComponent(JSON.stringify(preset));
+              const linkElement = document.createElement('a');
+              linkElement.setAttribute('href', string);
+              linkElement.setAttribute('download', 'preset.json');
+              linkElement.click();
+              linkElement.remove();
+            }}
+          >
+            save preset
+          </button>
+          <label>
+            load preset
+            <input
+              type="file"
+              onInput={async (e) => {
+                const file = e.target.files[0];
+                const content = await file.text();
+                pixi.loadPreset(JSON.parse(content));
+              }}
+            />
+          </label>
           <HelpButton
             handleClick={() => {
               setHelpIsActive(true);
