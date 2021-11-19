@@ -100,7 +100,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                     defaultChecked={note.play}
                     style={{
                       border: `2px solid ${
-                        step === sequencerSteps[key].step ? 'red' : 'black'
+                        step === sequencerSteps[key].step ? '#FB6A4A' : 'black'
                       }`,
                     }}
                     onChange={(e) => {
