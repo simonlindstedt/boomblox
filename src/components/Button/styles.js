@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 export const StyledButton = styled(motion.button)`
   margin: 10px 0 0;
+  font-size: 12px;
   border: none;
   padding: 10px 20px;
   background-color: #7f63b7;
