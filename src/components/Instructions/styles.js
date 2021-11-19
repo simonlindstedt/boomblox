@@ -36,7 +36,7 @@ export const StyledButton = styled(motion.button)`
   margin: 20px 0;
   border: none;
   padding: 10px 20px;
-  background-color: #5000ff;
+  background-color: #7f63b7;
   color: white;
   cursor: pointer;
   border-radius: 8px;

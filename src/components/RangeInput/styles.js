@@ -1,8 +1,21 @@
 import styled from 'styled-components';
 
 export const StyledInput = styled.input`
-  height: 20px;
+  height: 10px;
   width: 100%;
+  appearance: none;
+  background-color: #7f63b7;
+  border-radius: 25px;
+  -webkit-appearance: none;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 18px;
+    background: black;
+    cursor: pointer;
+  }
 `;
 
 export const InputWrapper = styled.div`

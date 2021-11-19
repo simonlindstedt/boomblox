@@ -44,14 +44,6 @@ export default class DrumBox extends BasicBox {
       this.sequencers.push(seq);
     }
 
-    // for (let i = 0; i < this.samples.length; i++) {
-    //   let sample = this.samples[i];
-    //   let buffer = await fetch(sample);
-    //   buffer = await buffer.arrayBuffer();
-    //   buffer = await audio.context.decodeAudioData(buffer);
-    //   this.buffers.push(buffer);
-    // }
-
     for (let i = 0; i < this.samples.length; i++) {
       let category = [];
       for (let y = 0; y < this.samples[i].length; y++) {
@@ -94,35 +86,12 @@ export default class DrumBox extends BasicBox {
     });
   }
 
-  // load(index) {
-  //   const request = new XMLHttpRequest();
-  //   request.open('GET', this.samples[index]);
-  //   console.log(this.samples[index]);
-  //   request.responseType = 'arraybuffer';
-  //   request.onload = function () {
-  //     let undecodedAudio = request.response;
-  //     audio.context.decodeAudioData(undecodedAudio, (data) => (buffer = data));
-  //   };
-  //   request.send();
-  // }
-
-  // play() {
-  //   const source = audio.context.createBufferSource();
-  //   source.buffer = this.buffer;
-  //   source.connect(this.output.node);
-  //   source.start();
-  // }
-
   loadSound(category, index) {
     let bufferSource = audio.context.createBufferSource();
-    // let sample = await fetch(this.samples[index]);
-    // sample = await sample.arrayBuffer();
-    // sample = await audio.context.decodeAudioData(sample);
 
     bufferSource.buffer = this.buffers[category][index];
     bufferSource.connect(this.output.node);
     bufferSource.start(0);
-    // bufferSource.stop(audio.context.currentTime + bufferSource.buffer.duration);
   }
 
   playSound(category, index) {

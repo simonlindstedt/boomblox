@@ -1,4 +1,5 @@
 import { StyledPanelWrapper, StyledButton } from './styles';
+import  SettingsButton  from '../SettingsButton';
 import { useEffect, useState } from 'react';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
@@ -21,6 +22,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
       </div>
       <input
         type="range"
+        className="drumVolume"
         min={0.0}
         max={1.0}
         step={0.1}
@@ -51,25 +53,25 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 <option value={8}>1 / 32</option>
                 <option value={16}>1 / 64</option>
               </select>
-              <button
-                onClick={() => {
+              <SettingsButton
+                handleClick={() => {
                   box.settings.sequences[key].push({
                     play: false,
                     value: box.settings.sequences[key][0].value,
                   });
                   setBox({ ...box });
                 }}
+                title="Add step"
               >
-                Add step
-              </button>
-              <button
-                onClick={() => {
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {
                   box.settings.sequences[key].pop();
                   setBox({ ...box });
                 }}
+                title="Remove step"
               >
-                Remove step
-              </button>
+              </SettingsButton>
               <select
                 onChange={(e) => {
                   let value = parseInt(e.target.value);

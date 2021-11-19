@@ -17,6 +17,24 @@ export const StyledPanelWrapper = styled(motion.div)`
     display: flex;
     justify-content: space-between;
   }
+
+  .drumVolume {
+    height: 10px;
+    width: 100%;
+    appearance: none;
+    background-color: #7f63b7;
+    border-radius: 25px;
+    -webkit-appearance: none;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 18px;
+      background: black;
+      cursor: pointer;
+    }
+  }
   select,
   button {
     margin-right: 4px;
@@ -40,8 +58,7 @@ export const StyledPanelWrapper = styled(motion.div)`
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    /* box-shadow: inset 1em 1em #5000ff; */
-    background: #5000ff;
+    background: #7f63b7;
   }
 
   input[type='checkbox']:checked::before {
@@ -63,7 +80,7 @@ export const StyledButton = styled(motion.button)`
   margin-top: 8px;
   border: none;
   padding: 10px 20px;
-  background-color: #5000ff;
+  background-color: #7f63b7;
   color: white;
   cursor: pointer;
   border-radius: 8px;
