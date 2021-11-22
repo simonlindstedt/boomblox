@@ -55,10 +55,8 @@ const Canvas = () => {
   useEffect(() => {
     if (playing) {
       pixi.play();
-      console.log('play');
     } else {
       pixi.pause();
-      console.log('pause');
     }
   }, [playing]);
 
