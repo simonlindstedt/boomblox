@@ -412,6 +412,7 @@ export default class Pixi {
     this.sequencers = [];
     this.trash = null;
     this.master = null;
+    localStorage.removeItem('preset');
   }
 
   addMasterAndTrash() {
@@ -601,16 +602,12 @@ export default class Pixi {
 
     window.onload = () => {
       const preset = localStorage.getItem('preset');
-      if (preset.length) {
-        this.loadPreset(JSON.parse(preset));
-      }
+      this.loadPreset(JSON.parse(preset));
     };
 
-    window.onbeforeunload = (e) => {
-      e.preventDefault;
+    window.onbeforeunload = () => {
       const preset = this.savePreset();
       localStorage.setItem('preset', JSON.stringify(preset));
-      e.returnValue = '';
     };
 
     window.onresize = () => {
