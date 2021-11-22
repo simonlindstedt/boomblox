@@ -74,7 +74,7 @@ const Canvas = () => {
   }, [volume]);
 
   return (
-    <main>
+    <>
       {box && box.type !== 'seq' && box.type !== 'drum' ? (
         <SettingsPanel box={box} setBox={setBox} />
       ) : null}
@@ -94,7 +94,7 @@ const Canvas = () => {
           seqState={sequencerStates.filter((item) => item.belongsTo === box.id)}
         />
       ) : null}
-      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+
       <SideMenu helpIsActive={helpIsActive} setHelpIsActive={setHelpIsActive}>
         <StyledTitle>boomblox</StyledTitle>
         <StyledButtonContainer>
@@ -236,7 +236,8 @@ const Canvas = () => {
           clear
         </button>
       </SideMenu>
-    </main>
+      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+    </>
   );
 };
 

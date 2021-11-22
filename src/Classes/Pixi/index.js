@@ -602,7 +602,9 @@ export default class Pixi {
 
     window.onload = () => {
       const preset = localStorage.getItem('preset');
-      this.loadPreset(JSON.parse(preset));
+      if (preset) {
+        this.loadPreset(JSON.parse(preset));
+      }
     };
 
     window.onbeforeunload = () => {
