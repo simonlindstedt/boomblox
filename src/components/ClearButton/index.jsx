@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyledClearButton } from './styles';
+import { StyledClearButton, StyledClearDiv } from './styles';
 import propTypes from 'prop-types';
 
 const ClearButton = ({ handleClick, title }) => {
     return (
+      <StyledClearDiv>
       <StyledClearButton
         whileHover={{
           backgroundColor: '#d3d3d3',
@@ -12,6 +13,7 @@ const ClearButton = ({ handleClick, title }) => {
       >
         {title}
       </StyledClearButton>
+      </StyledClearDiv>
     );
   }
 
