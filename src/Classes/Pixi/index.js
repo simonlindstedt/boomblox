@@ -410,6 +410,27 @@ export default class Pixi {
     this.app.stage.removeChildren(0, this.app.stage.children.length);
     this.list = [];
     this.sequencers = [];
+    this.trash = null;
+    this.master = null;
+  }
+
+  addMasterAndTrash() {
+    this.trash = new TrashCan(30, this.height - 80, 30, 40);
+    this.master = new MasterBox(
+      this.width / 2 - 50,
+      this.height / 2 - 50,
+      100,
+      100,
+      this.mediator,
+      { name: 'Master', volume: 0.5 }
+    );
+
+    this.app.stage.addChild(
+      this.trash.container,
+      this.master.connectionLine,
+      this.master.container
+    );
+    this.list.push(this.master);
   }
 
   savePreset() {
@@ -460,7 +481,6 @@ export default class Pixi {
   loadPreset(preset) {
     this.clear();
     this.app.ticker.stop();
-    this.softStart();
     let connections = [];
 
     // Add boxes to canvas
@@ -551,12 +571,9 @@ export default class Pixi {
       this.app.stage.addChild(connectionLine.graphics);
     });
 
-    this.app.ticker.start();
-  }
-
-  softStart() {
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
     this.app.stage.addChild(this.trash.container);
+    this.app.ticker.start();
   }
 
   start(ref) {
@@ -581,6 +598,20 @@ export default class Pixi {
 
     this.ref = ref;
     this.ref.appendChild(this.app.view);
+
+    window.onload = () => {
+      const preset = localStorage.getItem('preset');
+      if (preset.length) {
+        this.loadPreset(JSON.parse(preset));
+      }
+    };
+
+    window.onbeforeunload = (e) => {
+      e.preventDefault;
+      const preset = this.savePreset();
+      localStorage.setItem('preset', JSON.stringify(preset));
+      e.returnValue = '';
+    };
 
     window.onresize = () => {
       if (this.ref) {

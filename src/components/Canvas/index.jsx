@@ -226,6 +226,14 @@ const Canvas = () => {
             }
           }}
         />
+        <button
+          onClick={() => {
+            pixi.clear();
+            pixi.addMasterAndTrash();
+          }}
+        >
+          clear
+        </button>
       </SideMenu>
     </main>
   );
