@@ -40,8 +40,23 @@ export const StyledPanelWrapper = styled(motion.div)`
   }
   .controls {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     width: 100%;
+    padding: 8px 8px 0;
+
+    select {
+      &:nth-child(1) {
+        margin: 10px 12px 0 0;
+      }
+    }
+
+    button {
+      margin-right: 12px;
+
+      &:nth-last-child() {
+        margin-right: 0;
+      }
+    }
   }
 
   select {
@@ -51,8 +66,5 @@ export const StyledPanelWrapper = styled(motion.div)`
     font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;
-    &:nth-child(1) {
-      margin: 10px 0 0;
-    }
   }
 `;
