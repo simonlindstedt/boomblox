@@ -17,13 +17,3 @@ export const StyledPanelWrapper = styled(motion.div)`
     margin: 10px 10px 5px;
   }
 `;
-
-export const StyledButton = styled(motion.button)`
-  margin: 20px;
-  border: none;
-  padding: 10px 20px;
-  background-color: #5000ff;
-  color: white;
-  cursor: pointer;
-  border-radius: 8px;
-`;

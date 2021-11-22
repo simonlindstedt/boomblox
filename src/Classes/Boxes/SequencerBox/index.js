@@ -1,53 +1,47 @@
 import BasicBox from '../BasicBox';
+import Sequencer from '../../Audio/Sequencer';
 
 export default class SequencerBox extends BasicBox {
-  constructor(x, y, w, h, mediator, settings, clock) {
+  constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
+    this.sequencer = new Sequencer(this.settings.speed, this.settings.sequence);
+    this.sequencer.belongsTo = this.id;
     this.type = 'seq';
-    this.clock = clock;
     this.canConnect = ['osc'];
-    this.sequence = this.settings.sequence;
-    this.count = 0;
-    this.currentStep = 0;
-    this.speed = 1 / this.settings.speed;
     this.init();
   }
 
-  setStep(step, value) {
-    this.sequence[step] = { play: false, value: value };
-  }
-
-  addStep() {
-    this.sequence.push({ play: false, value: null });
-  }
-
-  removeStep() {
-    this.sequence.pop();
-  }
-
   play() {
-    this.currentStep = this.count++ % this.sequence.length;
-    return this.sequence[this.currentStep];
+    return this.sequencer.play();
   }
 
   changeSettings(settings) {
     this.settings = settings;
     Object.keys(this.settings).forEach((setting) => {
       if (setting === 'sequence') {
-        this.sequence = this.settings.sequence;
-        console.log(this.sequence);
+        this.sequencer.sequence = this.settings.sequence;
       }
       if (setting === 'speed') {
-        this.speed = 1 / this.settings.speed;
+        this.sequencer.speed = this.settings.speed;
+      }
+      if (setting === 'reset') {
+        if (this.settings[setting]) {
+          this.sequencer.reset();
+        }
       }
     });
   }
 
   connectTo(box) {
     this.addToConnectionList(box);
+    this.sequencer.connectTo(box);
   }
 
   disconnectFrom(box) {
     this.connections = this.connections.filter((item) => item.id !== box.id);
+    this.sequencer.connections = this.sequencer.connections.filter(
+      (item) => item.id !== box.id
+    );
+    this.sequencer.disconnectFrom(box);
   }
 }

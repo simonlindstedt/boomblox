@@ -1,5 +1,6 @@
 import SingleSetting from '../SingleSetting';
-import { StyledPanelWrapper, StyledButton } from './styles';
+import { StyledPanelWrapper } from './styles';
+import Button from '../Button';
 
 const SettingsPanel = ({ box, setBox }) => {
   const close = () => {
@@ -25,15 +26,7 @@ const SettingsPanel = ({ box, setBox }) => {
             />
           );
         })}
-      <StyledButton
-        whileHover={{
-          scale: 1.2,
-          transition: { duration: 0.2 },
-        }}
-        onClick={close}
-      >
-        X
-      </StyledButton>
+      <Button handleClick={close}>X</Button>
     </StyledPanelWrapper>
   );
 };

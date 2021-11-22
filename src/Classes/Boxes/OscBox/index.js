@@ -6,8 +6,9 @@ export default class OscBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.type = 'osc';
-    this.canConnect = ['master', 'filter', 'reverb'];
-    this.input = new Oscillator(settings.type, settings.freq);
+    this.octave = this.settings.octave;
+    this.canConnect = ['master', 'filter', 'reverb', 'delay'];
+    this.input = new Oscillator(this.settings.type, this.settings.freq);
     this.output = new Gain();
     this.init();
   }
@@ -29,19 +30,32 @@ export default class OscBox extends BasicBox {
         this.output.setVolume(this.settings.volume);
       }
       if (setting === 'freq') {
-        this.input.setFrequency(this.settings.freq);
+        this.input.setFrequency(this.settings.freq * this.octave);
       }
       if (setting === 'type') {
         this.input.setType(this.settings.type);
+      }
+      if (setting === 'octave') {
+        this.octave = this.settings.octave;
+        this.input.setFrequency(this.settings.freq * this.octave);
+      }
+      if (setting === 'detune') {
+        this.input.setDetune(this.settings.detune);
       }
     });
   }
 
   playNote(pitch, tempo, noteLength) {
     let now = this.output.audio.context.currentTime;
-    let length = (60 / tempo) * noteLength;
+    let length = (60 / tempo) * (1 / noteLength);
+    this.settings.freq = pitch;
     this.input.setFrequency(pitch);
-    this.output.node.gain.linearRampToValueAtTime(this.settings.volume, now);
-    this.output.node.gain.linearRampToValueAtTime(0.0001, now + length);
+    this.output.node.gain.cancelScheduledValues(now);
+    this.output.node.gain.linearRampToValueAtTime(
+      this.settings.volume,
+      now,
+      0.1
+    );
+    this.output.node.gain.linearRampToValueAtTime(0.0001, now + length, 0.1);
   }
 }

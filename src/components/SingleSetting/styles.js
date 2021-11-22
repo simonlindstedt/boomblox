@@ -16,4 +16,20 @@ export const StyledSingleSetting = styled.div`
   p {
     margin: 5px;
   }
+
+  input[type='range'] {
+    height: 8px;
+    background-color: #7f63b7;
+    border-radius: 25px;
+    -webkit-appearance: none;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 15px;
+      width: 15px;
+      border-radius: 18px;
+      background: #4a327a;
+      cursor: pointer;
+    }
+  }
 `;

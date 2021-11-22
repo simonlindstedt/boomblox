@@ -17,6 +17,7 @@ export default class BasicBox {
     this.connections = [];
     this.options = [];
     this.settings = settings;
+    this.lines = [];
 
     // Audio
     this.input;
@@ -62,10 +63,6 @@ export default class BasicBox {
     this.graphics.grabArea.height = this.dimensions.h / 3;
 
     this.connectionLine = new Graphics();
-
-    this.proximityLine = new Graphics();
-    this.proximityLine.interactive = true;
-    this.proximityLine.cursor = 'pointer';
   }
 
   // Init function
@@ -110,11 +107,6 @@ export default class BasicBox {
       this.moving = false;
     });
 
-    // Click to connect and disconnect
-    this.proximityLine.on('pointerdown', (e) => {
-      this.handleConnection(e.data.global);
-    });
-
     if (this.input && this.output) {
       this.output.setVolume(this.settings.volume);
       this.input.connectTo(this.output);
@@ -145,13 +137,6 @@ export default class BasicBox {
     return distance;
   }
 
-  distanceBetweenPoints(positionA, positionB) {
-    return Math.sqrt(
-      Math.pow(positionA.x - positionB.x, 2) +
-        Math.pow(positionA.y - positionB.y, 2)
-    );
-  }
-
   isConnectedTo(box) {
     return this.connections.find((item) => item.id === box.id) !== undefined;
   }
@@ -164,49 +149,8 @@ export default class BasicBox {
     });
   }
 
-  handleConnection(event) {
-    const { x, y } = event;
-    const mousePos = { x, y };
-    const list = [];
-
-    this.options.forEach((option) => {
-      if (this.distanceTo(option) < 200) {
-        let distance = this.distanceBetweenPoints(mousePos, option.position);
-        list.push({ id: option.id, distance });
-      }
-    });
-
-    let closest;
-    let box;
-
-    if (list.length) {
-      closest = list.reduce((a, b) => (a.distance < b.distance ? a : b));
-      box = this.options.find((item) => item.id === closest.id);
-    }
-
-    const distanceToOption = this.distanceBetweenPoints(mousePos, box.position);
-    const distanceToSelf = this.distanceBetweenPoints(mousePos, this.position);
-
-    if (
-      distanceToSelf > distanceToOption &&
-      this.connectTo &&
-      !this.isConnectedTo(box)
-    ) {
-      this.connectTo(box);
-    }
-
-    if (
-      distanceToSelf < distanceToOption &&
-      this.disconnectFrom &&
-      this.isConnectedTo(box)
-    ) {
-      this.disconnectFrom(box);
-    }
-  }
-
   draw() {
     this.connectionLine.clear();
-    this.proximityLine.clear();
     if (this.connections.length > 0) {
       this.connectionLine.clear();
       this.connections.forEach((connection) => {
@@ -214,18 +158,6 @@ export default class BasicBox {
           .lineStyle(4, 0x7bf3ab, 1)
           .moveTo(this.container.x + this.container.width, this.container.y)
           .lineTo(connection.position.x, connection.position.y);
-      });
-    }
-    if (this.options.length > 0) {
-      this.proximityLine.clear();
-      this.options.forEach((option) => {
-        if (this.distanceTo(option) < 200) {
-          this.proximityLine
-            .lineStyle(4, 0x21aefe, 0.5)
-            .moveTo(this.container.x + this.container.width, this.container.y)
-            .lineTo(option.position.x, option.position.y);
-          this.proximityLine.hitArea = this.proximityLine.getBounds();
-        }
       });
     }
   }
