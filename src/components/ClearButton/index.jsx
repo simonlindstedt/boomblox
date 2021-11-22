@@ -1,22 +1,22 @@
 import React from 'react';
-import { StyledSettingsButton } from './styles';
+import { StyledClearButton } from './styles';
 import propTypes from 'prop-types';
 
-const SettingsButton = ({ handleClick, title }) => {
+const ClearButton = ({ handleClick, title }) => {
     return (
-      <StyledSettingsButton
+      <StyledClearButton
         whileHover={{
           backgroundColor: '#d3d3d3',
         }}
         onClick={handleClick}
       >
         {title}
-      </StyledSettingsButton>
+      </StyledClearButton>
     );
   }
 
-SettingsButton.propTypes = {
+ClearButton.propTypes = {
   handleClick: propTypes.func,
   title: propTypes.string,
 };
-export default SettingsButton;
+export default ClearButton;

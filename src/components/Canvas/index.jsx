@@ -7,6 +7,7 @@ import SettingsPanel from '../SettingsPanel';
 import Mediator from '../../Classes/Mediator';
 import SequencerPanel from '../SequencerPanel';
 import DrumPanel from '../DrumPanel';
+import ClearButton from '../ClearButton';
 import {
   StyledButtonContainer,
   CanvasWrapper,
@@ -226,14 +227,14 @@ const Canvas = () => {
             }
           }}
         />
-        <button
-          onClick={() => {
+        <ClearButton
+          handleClick={() => {
             pixi.clear();
             pixi.addMasterAndTrash();
           }}
+          title="Clear"
         >
-          clear
-        </button>
+        </ClearButton>
       </SideMenu>
     </main>
   );
