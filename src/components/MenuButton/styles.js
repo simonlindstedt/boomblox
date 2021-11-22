@@ -15,10 +15,9 @@ export const StyledButton = styled(motion.button)`
 `;
 
 export const StyledPlayButton = styled(motion.button)`
-  background-color: #b0deb0;
-  border: 5px solid black;
+  border: 5px solid #4a327a;
   padding: 15px 20px;
-  margin: 8px;
+  margin: 8px 0 0;
   width: 60%;
   cursor: pointer;
   font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',

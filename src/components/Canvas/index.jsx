@@ -7,7 +7,12 @@ import SettingsPanel from '../SettingsPanel';
 import Mediator from '../../Classes/Mediator';
 import SequencerPanel from '../SequencerPanel';
 import DrumPanel from '../DrumPanel';
-import { StyledButtonContainer, CanvasWrapper, StyledText } from './styles';
+import {
+  StyledButtonContainer,
+  CanvasWrapper,
+  StyledText,
+  StyledTitle,
+} from './styles';
 import HelpButton from '../HelpButton';
 import SaveButton from '../PresetButtons/SaveButton';
 import UploadButton from '../PresetButtons/UploadButton';
@@ -91,6 +96,7 @@ const Canvas = () => {
       ) : null}
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
       <SideMenu helpIsActive={helpIsActive} setHelpIsActive={setHelpIsActive}>
+        <StyledTitle>boomblox</StyledTitle>
         <StyledButtonContainer>
           <StyledText>drag and drop to add to playground</StyledText>
           <MenuButton

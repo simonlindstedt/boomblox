@@ -3,7 +3,6 @@ import propTypes from 'prop-types';
 import { StyledSideMenu, StyledMenuButton } from './styles';
 import arrowLeft from './icons/left.png';
 import arrowRight from './icons/right.png';
-import Title from '../Title';
 import Instructions from '../Instructions';
 
 const SideMenu = ({ children, helpIsActive, setHelpIsActive }) => {
@@ -42,7 +41,6 @@ const SideMenu = ({ children, helpIsActive, setHelpIsActive }) => {
         animate={active ? 'visible' : 'hidden'}
         variants={menuVariants}
       >
-        <Title title="boomblox" />
         {children}
       </StyledSideMenu>
       <Instructions

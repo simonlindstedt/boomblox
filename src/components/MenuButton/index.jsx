@@ -39,7 +39,7 @@ const MenuButton = ({
         }}
         onClick={handleClick}
         animate={{
-          backgroundColor: playing ? '#A3C3D1' : '#FB9A9A',
+          backgroundColor: playing ? '#e5dafd' : '#FB9A9A',
         }}
       >
         {title}

@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 
 export const StyledInput = styled.input`
-  height: 10px;
+  height: 8px;
   width: 100%;
   appearance: none;
   background-color: #7f63b7;
   border-radius: 25px;
   -webkit-appearance: none;
+  margin: 5px;
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 18px;
-    width: 18px;
+    height: 15px;
+    width: 15px;
     border-radius: 18px;
-    background: black;
+    background: #4a327a;
     cursor: pointer;
   }
 `;
@@ -24,7 +25,7 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px 0;
+  margin: 8px 0;
   position: relative;
 `;
 
