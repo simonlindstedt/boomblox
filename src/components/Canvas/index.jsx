@@ -22,7 +22,7 @@ const pixi = new Pixi(mediator);
 
 const Canvas = () => {
   const canvasRef = useRef();
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [box, setBox] = useState();
   const [isZero, setIsZero] = useState(false);
@@ -54,9 +54,11 @@ const Canvas = () => {
 
   useEffect(() => {
     if (playing) {
-      pixi.pause();
-    } else {
       pixi.play();
+      console.log('play');
+    } else {
+      pixi.pause();
+      console.log('pause');
     }
   }, [playing]);
 
@@ -195,7 +197,7 @@ const Canvas = () => {
             setPlaying(!playing);
           }}
           isMovable={false}
-          title={playing ? 'Play' : 'Pause'}
+          title={playing ? 'Pause' : 'Play'}
           playing={playing}
         />
         <RangeInput
@@ -230,6 +232,7 @@ const Canvas = () => {
           onClick={() => {
             pixi.clear();
             pixi.addMasterAndTrash();
+            setPlaying(false);
           }}
         >
           clear
