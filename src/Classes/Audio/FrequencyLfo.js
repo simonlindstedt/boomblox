@@ -20,11 +20,19 @@ export default class FrequencyLfo {
   }
 
   setRate(rate) {
-    this.input.frequency.setValueAtTime(rate, audio.context.currentTime);
+    // this.input.frequency.setValueAtTime(rate, audio.context.currentTime);
+    this.input.frequency.linearRampToValueAtTime(
+      rate,
+      audio.context.currentTime + 0.1
+    );
   }
 
   setMaxValue(maxValue) {
-    this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
+    // this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
+    this.output.gain.linearRampToValueAtTime(
+      maxValue,
+      audio.context.currentTime + 0.1
+    );
   }
   setType(type) {
     this.input.type = type;

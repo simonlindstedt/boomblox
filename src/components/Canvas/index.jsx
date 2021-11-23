@@ -165,9 +165,12 @@ const Canvas = () => {
           />
           <ClearButton
             handleClick={() => {
-              pixi.clear();
-              pixi.addMasterAndTrash();
-              setPlaying(false);
+              const answer = window.confirm('Are you sure?');
+              if (answer) {
+                pixi.clear();
+                pixi.addMasterAndTrash();
+                setPlaying(false);
+              }
             }}
             title="Clear canvas"
           />

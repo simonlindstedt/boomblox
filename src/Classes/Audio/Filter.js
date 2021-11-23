@@ -14,7 +14,11 @@ export default class Filter {
     this.node.disconnect(output.node);
   }
   setFrequency(freq) {
-    this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
+    // this.node.frequency.setValueAtTime(freq, audio.context.currentTime);
+    this.node.frequency.linearRampToValueAtTime(
+      freq,
+      audio.context.currentTime + 0.1
+    );
   }
 
   setType(type) {

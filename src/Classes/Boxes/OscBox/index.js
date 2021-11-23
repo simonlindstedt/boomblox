@@ -8,7 +8,11 @@ export default class OscBox extends BasicBox {
     this.type = 'osc';
     this.octave = this.settings.octave;
     this.canConnect = ['master', 'filter', 'reverb', 'delay'];
-    this.input = new Oscillator(this.settings.type, this.settings.freq);
+    this.input = new Oscillator(
+      this.settings.type,
+      this.settings.freq,
+      this.settings.glide
+    );
     this.output = new Gain();
     this.init();
   }
@@ -41,6 +45,9 @@ export default class OscBox extends BasicBox {
       }
       if (setting === 'detune') {
         this.input.setDetune(this.settings.detune);
+      }
+      if (setting === 'glide') {
+        this.input.glide = parseInt(this.settings.glide);
       }
     });
   }

@@ -28,6 +28,10 @@ export default class Delay {
   }
   setFeedback(feedback) {
     feedback > 1 ? (feedback = 1) : feedback;
-    this.feedback.gain.setValueAtTime(feedback, audio.context.currentTime);
+    // this.feedback.gain.setValueAtTime(feedback, audio.context.currentTime);
+    this.feedback.gain.linearRampToValueAtTime(
+      feedback,
+      audio.context.currentTime + 0.1
+    );
   }
 }
