@@ -5,9 +5,9 @@ export const StyledButton = styled(motion.button)`
   background-color: white;
   color: black;
   font-size: 12px;
-  border: 5px solid #ee9f9f;
-  padding: 15px 20px;
-  margin: 8px;
+  border: 5px solid #7f63b7;
+  padding: 13px 20px;
+  margin: 5px 8px;
   width: 45%;
   cursor: pointer;
   font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',

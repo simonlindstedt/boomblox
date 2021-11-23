@@ -7,9 +7,9 @@ export const StyledLabel = styled(motion.label)`
   font-size: 12px;
   display: inline-block;
   text-align: center;
-  border: 5px solid #ee9f9f;
-  padding: 15px 20px;
-  margin: 8px;
+  border: 5px solid #7f63b7;
+  padding: 13px 20px;
+  margin: 5px 8px;
   width: 45%;
   cursor: pointer;
   font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',

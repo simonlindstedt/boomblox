@@ -6,7 +6,7 @@ const HelpButton = ({ title, handleClick }) => {
     <StyledButton
       onClick={handleClick}
       whileHover={{
-        scale: 1.1,
+        scale: 1.05,
         transition: { duration: 0.2 },
       }}
     >
