@@ -16,6 +16,7 @@ import audio from '../Audio/Audio';
 
 export default class Pixi {
   constructor(mediator) {
+    console.log(navigator.userAgent);
     console.log(window.devicePixelRatio);
     this.audio = audio;
     this.mediator = mediator;
@@ -591,6 +592,15 @@ export default class Pixi {
 
     this.ref = ref;
     this.ref.appendChild(this.app.view);
+
+    window.onload = () => {
+      if (
+        navigator.userAgent.includes('Firefox') ||
+        navigator.userAgent.includes('Safari')
+      ) {
+        document.body.style.cssText = 'overflow:hidden;';
+      }
+    };
 
     window.onbeforeunload = () => {
       const preset = this.savePreset();

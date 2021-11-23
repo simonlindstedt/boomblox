@@ -95,9 +95,9 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
         <input
           type="range"
           defaultValue={value}
-          min={1}
-          max={20}
-          step={0.5}
+          min={0.001}
+          max={20.0}
+          step={0.1}
           onChange={handleOnChange}
         />
       </StyledSingleSetting>
