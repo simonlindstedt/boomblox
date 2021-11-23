@@ -16,6 +16,7 @@ import audio from '../Audio/Audio';
 
 export default class Pixi {
   constructor(mediator) {
+    console.log(window.devicePixelRatio);
     this.audio = audio;
     this.mediator = mediator;
     this.ref;
@@ -26,7 +27,10 @@ export default class Pixi {
       height: this.height,
       antialias: true,
       autoDensity: true,
-      resolution: window.devicePixelRatio * 0.7,
+      resolution:
+        window.devicePixelRatio > 1
+          ? window.devicePixelRatio * 0.7
+          : window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
     this.list = [];
