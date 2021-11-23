@@ -17,4 +17,9 @@ export const StyledLabel = styled(motion.label)`
   input[type='file'] {
     display: none;
   }
+
+  @media (min-width: 1460px) {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
 `;

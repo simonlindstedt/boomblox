@@ -12,4 +12,9 @@ export const StyledButton = styled(motion.button)`
   cursor: pointer;
   font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  @media (min-width: 1460px) {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
 `;
