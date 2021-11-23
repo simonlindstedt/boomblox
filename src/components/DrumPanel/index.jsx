@@ -58,10 +58,11 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   box.settings.sequences[key].push({
                     play: false,
                     value: box.settings.sequences[key][0].value,
+                    category: key,
                   });
                   setBox({ ...box });
                 }}
-                >
+              >
                 Add step
               </Button>
               <Button
@@ -69,7 +70,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                   box.settings.sequences[key].pop();
                   setBox({ ...box });
                 }}
-                >
+              >
                 Remove step
               </Button>
               <select
@@ -86,7 +87,6 @@ const DrumPanel = ({ box, setBox, seqState }) => {
                 }}
                 defaultValue={sequence[0].value}
               >
-              
                 <option value={0}>{`${names[key]}1`}</option>
                 <option value={1}>{`${names[key]}2`}</option>
               </select>
@@ -115,7 +115,7 @@ const DrumPanel = ({ box, setBox, seqState }) => {
         );
       })}
       <StyledBtnContainer>
-      <Button handleClick={close}>X</Button>
+        <Button handleClick={close}>X</Button>
       </StyledBtnContainer>
     </StyledPanelWrapper>
   );
