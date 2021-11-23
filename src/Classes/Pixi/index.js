@@ -29,7 +29,7 @@ export default class Pixi {
       autoDensity: true,
       resolution:
         window.devicePixelRatio > 1
-          ? window.devicePixelRatio * 0.7
+          ? window.devicePixelRatio * 0.9
           : window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
