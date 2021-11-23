@@ -195,6 +195,7 @@ export default class Pixi {
             octave: 1,
             detune: 0,
             type: 'sine',
+            glide: 0,
           });
           this.app.stage.addChild(oscBox.connectionLine, oscBox.container);
           this.list.push(oscBox);

@@ -1,4 +1,4 @@
-import audio from "./Audio";
+import audio from './Audio';
 
 export default class Gain {
   constructor() {
@@ -7,7 +7,11 @@ export default class Gain {
     this.node.gain.setValueAtTime(0, audio.context.currentTime);
   }
   setVolume(value) {
-    this.node.gain.setValueAtTime(value, audio.context.currentTime);
+    // this.node.gain.setValueAtTime(value, audio.context.currentTime);
+    this.node.gain.linearRampToValueAtTime(
+      value,
+      audio.context.currentTime + 0.1
+    );
   }
   connectTo(output) {
     this.node.connect(output.node);

@@ -87,6 +87,16 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
       </StyledSingleSetting>
     );
   }
+  if (setting === 'glide' && boxType === 'osc') {
+    return (
+      <StyledSingleSetting>
+        <select onChange={handleOnChange} defaultValue={value}>
+          <option value={1}>glide</option>
+          <option value={0}>no glide</option>
+        </select>
+      </StyledSingleSetting>
+    );
+  }
 
   if (setting === 'rate') {
     return (
