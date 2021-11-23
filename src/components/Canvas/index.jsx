@@ -234,8 +234,7 @@ const Canvas = () => {
             setPlaying(false);
           }}
           title="Clear"
-        >
-        </ClearButton>
+        ></ClearButton>
       </SideMenu>
       <CanvasWrapper ref={canvasRef}></CanvasWrapper>
     </>

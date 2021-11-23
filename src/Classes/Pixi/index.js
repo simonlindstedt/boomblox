@@ -412,7 +412,10 @@ export default class Pixi {
     this.sequencers = [];
     this.trash = null;
     this.master = null;
-    localStorage.removeItem('preset');
+    this.audio.context.close();
+    this.audio.context = new AudioContext();
+    this.audio.context.suspend();
+    sessionStorage.removeItem('preset');
   }
 
   addMasterAndTrash() {
@@ -578,21 +581,6 @@ export default class Pixi {
   }
 
   start(ref) {
-    this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    this.master = new MasterBox(
-      this.width / 2 - 50,
-      this.height / 2 - 50,
-      100,
-      100,
-      this.mediator,
-      { name: 'Master', volume: 0.5 }
-    );
-
-    this.app.stage.addChild(this.trash.container);
-    this.list.push(this.master);
-    this.app.stage.addChild(this.master.connectionLine, this.master.container);
-
-    // this.app.ticker.speed = 0.1;
     this.app.ticker.add(() => {
       this.update();
     });
@@ -600,16 +588,9 @@ export default class Pixi {
     this.ref = ref;
     this.ref.appendChild(this.app.view);
 
-    window.onload = () => {
-      const preset = localStorage.getItem('preset');
-      if (preset) {
-        this.loadPreset(JSON.parse(preset));
-      }
-    };
-
     window.onbeforeunload = () => {
       const preset = this.savePreset();
-      localStorage.setItem('preset', JSON.stringify(preset));
+      sessionStorage.setItem('preset', JSON.stringify(preset));
     };
 
     window.onresize = () => {
@@ -617,5 +598,13 @@ export default class Pixi {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
       }
     };
+
+    const preset = sessionStorage.getItem('preset');
+
+    if (preset) {
+      this.loadPreset(JSON.parse(preset));
+    } else {
+      this.addMasterAndTrash();
+    }
   }
 }

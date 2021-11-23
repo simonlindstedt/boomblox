@@ -3,6 +3,7 @@ import BasicBox from '../BasicBox';
 import Visualizer from '../Visualizer';
 export default class MasterBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
+    console.log('hello master box');
     super(x, y, w, h, mediator, settings);
     this.type = 'master';
     this.input = new Master();
