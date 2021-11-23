@@ -5,7 +5,7 @@ export const StyledSideMenu = styled(motion.aside)`
   width: 400px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   position: absolute;
   right: 0;
   top: 0;

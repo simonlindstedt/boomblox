@@ -75,7 +75,7 @@ const Canvas = () => {
   }, [volume]);
 
   return (
-    <main>
+    <>
       {box && box.type !== 'seq' && box.type !== 'drum' ? (
         <SettingsPanel box={box} setBox={setBox} />
       ) : null}
@@ -95,7 +95,7 @@ const Canvas = () => {
           seqState={sequencerStates.filter((item) => item.belongsTo === box.id)}
         />
       ) : null}
-      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+
       <SideMenu helpIsActive={helpIsActive} setHelpIsActive={setHelpIsActive}>
         <StyledTitle>boomblox</StyledTitle>
         <StyledButtonContainer>
@@ -163,12 +163,15 @@ const Canvas = () => {
             isMovable={true}
             title="Delay"
           />
-          <HelpButton
+          <ClearButton
             handleClick={() => {
-              setHelpIsActive(true);
+              pixi.clear();
+              pixi.addMasterAndTrash();
+              setPlaying(false);
             }}
-            title="Help?"
+            title="Clear canvas"
           />
+
           <SaveButton
             handleClick={() => {
               const preset = pixi.savePreset();
@@ -191,14 +194,29 @@ const Canvas = () => {
             }}
           />
         </StyledButtonContainer>
-        <MenuButton
-          handleClick={() => {
-            setPlaying(!playing);
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
-          isMovable={false}
-          title={playing ? 'Pause' : 'Play'}
-          playing={playing}
-        />
+        >
+          <HelpButton
+            handleClick={() => {
+              setHelpIsActive(true);
+            }}
+            title="Help?"
+          />
+          <MenuButton
+            handleClick={() => {
+              setPlaying(!playing);
+            }}
+            isMovable={false}
+            title={playing ? 'Pause' : 'Play'}
+            playing={playing}
+          />
+        </div>
         <RangeInput
           handleChange={(e) => {
             setTempo(e.target.value);
@@ -227,17 +245,9 @@ const Canvas = () => {
             }
           }}
         />
-        <ClearButton
-          handleClick={() => {
-            pixi.clear();
-            pixi.addMasterAndTrash();
-            setPlaying(false);
-          }}
-          title="Clear"
-        >
-        </ClearButton>
       </SideMenu>
-    </main>
+      <CanvasWrapper ref={canvasRef}></CanvasWrapper>
+    </>
   );
 };
 

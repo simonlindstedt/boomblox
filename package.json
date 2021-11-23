@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "local-build": "rm -rf dist && vite build && npx servor ./dist index.html 4000 --browse"
   },
   "dependencies": {
     "@pixi/filter-drop-shadow": "^4.1.5",

@@ -7,7 +7,7 @@ export default class ReverbBox extends BasicBox {
   constructor(x, y, w, h, mediator, settings) {
     super(x, y, w, h, mediator, settings);
     this.type = 'reverb';
-    this.canConnect = ['master'];
+    this.canConnect = ['master', 'filter'];
     this.input = new Reverb(chapel);
     this.output = new Gain();
     this.init();

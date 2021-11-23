@@ -6,10 +6,10 @@ import StartPage from './components/StartPage';
 
 const App = () => {
   return (
-    <>
+    <main>
       <StartPage />
       <Canvas />
-    </>
+    </main>
   );
 };
 

@@ -16,6 +16,8 @@ import audio from '../Audio/Audio';
 
 export default class Pixi {
   constructor(mediator) {
+    console.log(navigator.userAgent);
+    console.log(window.devicePixelRatio);
     this.audio = audio;
     this.mediator = mediator;
     this.ref;
@@ -26,7 +28,10 @@ export default class Pixi {
       height: this.height,
       antialias: true,
       autoDensity: true,
-      resolution: window.devicePixelRatio,
+      resolution:
+        window.devicePixelRatio > 1
+          ? window.devicePixelRatio * 0.9
+          : window.devicePixelRatio,
       backgroundColor: 0x000000,
     });
     this.list = [];
@@ -412,7 +417,10 @@ export default class Pixi {
     this.sequencers = [];
     this.trash = null;
     this.master = null;
-    localStorage.removeItem('preset');
+    this.audio.context.close();
+    this.audio.context = new AudioContext();
+    this.audio.context.suspend();
+    sessionStorage.removeItem('preset');
   }
 
   addMasterAndTrash() {
@@ -578,21 +586,6 @@ export default class Pixi {
   }
 
   start(ref) {
-    this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    this.master = new MasterBox(
-      this.width / 2 - 50,
-      this.height / 2 - 50,
-      100,
-      100,
-      this.mediator,
-      { name: 'Master', volume: 0.5 }
-    );
-
-    this.app.stage.addChild(this.trash.container);
-    this.list.push(this.master);
-    this.app.stage.addChild(this.master.connectionLine, this.master.container);
-
-    // this.app.ticker.speed = 0.1;
     this.app.ticker.add(() => {
       this.update();
     });
@@ -601,13 +594,17 @@ export default class Pixi {
     this.ref.appendChild(this.app.view);
 
     window.onload = () => {
-      const preset = localStorage.getItem('preset');
-      this.loadPreset(JSON.parse(preset));
+      if (
+        navigator.userAgent.includes('Firefox') ||
+        navigator.userAgent.includes('Safari')
+      ) {
+        document.body.style.cssText = 'overflow:hidden;';
+      }
     };
 
     window.onbeforeunload = () => {
       const preset = this.savePreset();
-      localStorage.setItem('preset', JSON.stringify(preset));
+      sessionStorage.setItem('preset', JSON.stringify(preset));
     };
 
     window.onresize = () => {
@@ -615,5 +612,13 @@ export default class Pixi {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
       }
     };
+
+    const preset = sessionStorage.getItem('preset');
+
+    if (preset) {
+      this.loadPreset(JSON.parse(preset));
+    } else {
+      this.addMasterAndTrash();
+    }
   }
 }
