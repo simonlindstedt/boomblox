@@ -132,7 +132,8 @@ export default class Pixi {
 
           if (box.distanceTo(otherBox) < 400 && line === undefined) {
             let connectionLine = new ConnectionLine(box, otherBox);
-            this.app.stage.addChild(connectionLine.graphics);
+            // this.app.stage.addChild(connectionLine.graphics);
+            this.app.stage.addChildAt(connectionLine.graphics, 0);
             box.lines.push(connectionLine);
           } else if (box.distanceTo(otherBox) > 400 && line !== undefined) {
             this.app.stage.removeChild(line.graphics);
@@ -389,6 +390,7 @@ export default class Pixi {
         default:
           break;
       }
+      this.app.stage.sortChildren();
     }
   }
 
