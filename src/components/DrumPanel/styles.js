@@ -77,7 +77,7 @@ export const StyledPanelWrapper = styled(motion.div)`
   .sequence {
     display: flex;
     flex-wrap: wrap;
-    max-width: 394px;
+    max-width: 358px;
     * {
       margin: 8px 10px;
       margin-top: 12px;
