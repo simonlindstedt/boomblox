@@ -35,7 +35,7 @@ export default class Pixi {
       backgroundColor: 0x000000,
     });
     this.list = [];
-    this.clock = new Clock(120, 64);
+    this.clock = new Clock(120, 32);
     this.sequencers = [];
     this.master;
     this.trash;
