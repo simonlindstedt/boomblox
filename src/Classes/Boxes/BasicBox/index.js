@@ -28,6 +28,10 @@ export default class BasicBox {
     this.container.interactive = true;
     this.container.width = this.dimensions.w;
     this.container.height = this.dimensions.h;
+    // this.container.zIndex = 1;
+
+    this.connectionLine = new Graphics();
+    // this.connectionLine.zIndex = 0;
 
     let borderBox = new Graphics();
     borderBox.lineStyle(4, 0xffffff);
@@ -53,6 +57,7 @@ export default class BasicBox {
     this.graphics.cube.interactive = true;
     this.graphics.cube.texture = Texture.WHITE;
     this.graphics.cube.tint = 0x000000;
+    this.graphics.cube.alpha = 0.7;
     this.graphics.cube.width = this.dimensions.w;
     this.graphics.cube.height = this.dimensions.h;
     this.graphics.cube.cursor = 'pointer';
@@ -61,8 +66,6 @@ export default class BasicBox {
     this.graphics.grabArea.cursor = 'grab';
     this.graphics.grabArea.width = this.dimensions.w / 3;
     this.graphics.grabArea.height = this.dimensions.h / 3;
-
-    this.connectionLine = new Graphics();
   }
 
   // Init function

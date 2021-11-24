@@ -37,7 +37,6 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
           <option value={2}>1 / 8</option>
           <option value={4}>1 / 16</option>
           <option value={8}>1 / 32</option>
-          <option value={16}>1 / 64</option>
         </select>
         <Button
           handleClick={() => {
