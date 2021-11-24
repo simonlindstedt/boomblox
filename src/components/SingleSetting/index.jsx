@@ -210,7 +210,6 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
   }
 
   if (setting === 'sequences' && boxType === 'drum') {
-    console.log(value);
     return value.map((sequence, key) => {
       switch (key) {
         case 0:
