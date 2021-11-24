@@ -9,7 +9,7 @@ const UploadButton = ({ handleInput }) => {
       }}
     >
       Load Preset
-      <input type="file" onInput={handleInput} />
+      <input type="file" accept="application/JSON" onInput={handleInput} />
     </StyledLabel>
   );
 };

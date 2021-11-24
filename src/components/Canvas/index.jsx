@@ -49,6 +49,9 @@ const Canvas = () => {
 
   // On mount
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
     pixi.start(canvasRef.current);
     mediator.worker.addEventListener('message', handleMessages);
   }, []);

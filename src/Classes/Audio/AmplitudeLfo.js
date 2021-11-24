@@ -21,20 +21,12 @@ export default class AmplitudeLfo {
   }
 
   setRate(rate) {
-    // this.input.frequency.setValueAtTime(rate, audio.context.currentTime);
-    this.input.frequency.linearRampToValueAtTime(
-      rate,
-      audio.context.currentTime + 0.1
-    );
+    this.input.frequency.setValueAtTime(rate, audio.context.currentTime);
   }
 
   setMaxValue(maxValue) {
     if (maxValue > 1) maxValue = 1;
-    // this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
-    this.output.gain.linearRampToValueAtTime(
-      maxValue,
-      audio.context.currentTime + 0.1
-    );
+    this.output.gain.setValueAtTime(maxValue, audio.context.currentTime);
   }
 
   setType(type) {
