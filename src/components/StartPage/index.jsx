@@ -25,27 +25,29 @@ const StartPage = () => {
         </StyledTextContainer>
         <BoxContainer />
       </StyledPage>
-      <StyledButtonContainer
-        initial="inactive"
-        animate={active ? 'active' : 'inactive'}
-        variants={buttonContainerVariants}
-      >
-        <StyledButton
-          initial="active"
+      {active && (
+        <StyledButtonContainer
+          initial="inactive"
           animate={active ? 'active' : 'inactive'}
-          variants={buttonVariants}
-          onClick={() => {
-            setActive(!active);
-          }}
-          whileHover={{
-            scale: 1.1,
-            cursor: 'pointer',
-            transition: { duration: 0.2 },
-          }}
+          variants={buttonContainerVariants}
         >
-          {active ? 'Start' : '⌄'}
-        </StyledButton>
-      </StyledButtonContainer>
+          <StyledButton
+            initial="active"
+            animate={active ? 'active' : 'inactive'}
+            variants={buttonVariants}
+            onClick={() => {
+              setActive(!active);
+            }}
+            whileHover={{
+              scale: 1.1,
+              cursor: 'pointer',
+              transition: { duration: 0.2 },
+            }}
+          >
+            {active ? 'Start' : '⌄'}
+          </StyledButton>
+        </StyledButtonContainer>
+      )}
     </>
   );
 };
