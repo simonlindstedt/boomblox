@@ -1,6 +1,7 @@
 import SingleSetting from '../SingleSetting';
 import { StyledPanelWrapper } from './styles';
 import Button from '../Button';
+import propTypes from 'prop-types';
 
 const SettingsPanel = ({ box, setBox }) => {
   const close = () => {
@@ -30,5 +31,8 @@ const SettingsPanel = ({ box, setBox }) => {
     </StyledPanelWrapper>
   );
 };
-
+SettingsPanel.propTypes = {
+  box: propTypes.object,
+  setBox: propTypes.func,
+};
 export default SettingsPanel;

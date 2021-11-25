@@ -53,5 +53,9 @@ const SideMenu = ({ children, helpIsActive, setHelpIsActive }) => {
 SideMenu.propTypes = {
   helpIsActive: propTypes.bool,
   setHelpIsActive: propTypes.func,
+  children: propTypes.oneOfType([
+    propTypes.arrayOf(propTypes.node),
+    propTypes.node,
+  ]),
 };
 export default SideMenu;

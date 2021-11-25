@@ -135,12 +135,9 @@ export default class Pixi {
 
           if (box.distanceTo(otherBox) < 400 && line === undefined) {
             let connectionLine = new ConnectionLine(box, otherBox);
-            // this.app.stage.addChild(connectionLine.graphics);
-            // this.app.stage.addChildAt(connectionLine.graphics, 0);
             this.lines.addChild(connectionLine.graphics);
             box.lines.push(connectionLine);
           } else if (box.distanceTo(otherBox) > 400 && line !== undefined) {
-            // this.app.stage.removeChild(line.graphics);
             this.lines.removeChild(line.graphics);
             line.graphics.destroy(true);
             box.lines = box.lines.filter((item) => item.id !== line.id);
@@ -176,16 +173,13 @@ export default class Pixi {
 
   deleteBox(box) {
     box.container.removeChildren(0, box.container.children.length);
-    // this.app.stage.removeChild(box.container);
     this.boxes.removeChild(box.container);
-    // this.app.stage.removeChild(box.connectionLine);
     this.lines.removeChild(box.connectionLine);
     box.container.destroy(true);
     box.connectionLine.destroy(true);
     box.connections = [];
     box.input = null;
     box.output = null;
-    console.log('flush flush');
 
     this.list = this.list.filter((item) => item.id !== box.id);
   }
@@ -204,7 +198,6 @@ export default class Pixi {
             type: 'sine',
             glide: 0,
           });
-          // this.app.stage.addChild(oscBox.connectionLine, oscBox.container);
           this.list.push(oscBox);
           this.boxes.addChild(oscBox.container);
           this.lines.addChild(oscBox.connectionLine);
@@ -216,10 +209,6 @@ export default class Pixi {
             freq: 20000,
             type: 'lowpass',
           });
-          // this.app.stage.addChild(
-          //   filterBox.connectionLine,
-          //   filterBox.container
-          // );
           this.list.push(filterBox);
           this.boxes.addChild(filterBox.container);
           this.lines.addChild(filterBox.connectionLine);
@@ -229,10 +218,6 @@ export default class Pixi {
             name: 'Reverb',
             volume: 0.2,
           });
-          // this.app.stage.addChild(
-          //   reverbBox.connectionLine,
-          //   reverbBox.container
-          // );
           this.list.push(reverbBox);
           this.boxes.addChild(reverbBox.container);
           this.lines.addChild(reverbBox.connectionLine);
@@ -241,7 +226,6 @@ export default class Pixi {
           let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
             volume: 0.2,
           });
-          // this.app.stage.addChild(recBox.connectionLine, recBox.container);
           this.list.push(recBox);
           this.boxes.addChild(recBox.container);
           this.lines.addChild(recBox.connectionLine);
@@ -260,10 +244,6 @@ export default class Pixi {
               type: 'sine',
             }
           );
-          // this.app.stage.addChild(
-          //   frequencyLfoBox.connectionLine,
-          //   frequencyLfoBox.container
-          //   );
           this.list.push(frequencyLfoBox);
           this.boxes.addChild(frequencyLfoBox.container);
           this.lines.addChild(frequencyLfoBox.connectionLine);
@@ -282,10 +262,6 @@ export default class Pixi {
               type: 'sawtooth',
             }
           );
-          // this.app.stage.addChild(
-          //   amplitudeLfoBox.connectionLine,
-          //   amplitudeLfoBox.container
-          //   );
           this.list.push(amplitudeLfoBox);
 
           this.boxes.addChild(amplitudeLfoBox.container);
@@ -339,8 +315,6 @@ export default class Pixi {
               ],
             ],
           });
-
-          // this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
           this.list.push(drumBox);
 
           this.boxes.addChild(drumBox.container);
@@ -379,11 +353,6 @@ export default class Pixi {
             ],
           });
 
-          // this.app.stage.addChild(
-          //   sequencerBox.connectionLine,
-          //   sequencerBox.container
-          // );
-
           this.list.push(sequencerBox);
           this.sequencers.push(sequencerBox.sequencer);
 
@@ -410,7 +379,6 @@ export default class Pixi {
             delayTime: 100,
           });
 
-          // this.app.stage.addChild(delayBox.connectionLine, delayBox.container);
           this.list.push(delayBox);
           this.boxes.addChild(delayBox.container);
           this.lines.addChild(delayBox.connectionLine);
@@ -443,7 +411,6 @@ export default class Pixi {
   }
 
   clear() {
-    // this.app.stage.removeChildren(0, this.app.stage.children.length);
     this.boxes.removeChildren(0, this.boxes.children.length);
     this.lines.removeChildren(0, this.lines.length);
     this.list = [];
@@ -467,11 +434,6 @@ export default class Pixi {
       { name: 'Master', volume: 0.5 }
     );
 
-    // this.app.stage.addChild(
-    //   this.trash.container,
-    //   this.master.connectionLine,
-    //   this.master.container
-    // );
     this.boxes.addChild(this.trash.container, this.master.container);
     this.lines.addChild(this.master.connectionLine);
     this.list.push(this.master);
@@ -523,7 +485,6 @@ export default class Pixi {
   }
 
   loadPreset(preset) {
-    console.log(preset);
     this.clear();
     this.app.ticker.stop();
     let connections = [];
@@ -543,23 +504,13 @@ export default class Pixi {
         );
 
         this.master.id = box.id;
-
-        // this.app.stage.addChild(
-        //   this.master.connectionLine,
-        //   this.master.container
-        // );
-
         this.boxes.addChild(this.master.container);
         this.lines.addChild(this.master.connectionLine);
         this.list.push(this.master);
-        console.log(box.type);
-        console.log(this.list);
         continue;
       }
 
       this.addBox(box.type, box.position.x, box.position.y, true);
-      console.log(box.type);
-      console.log(this.list);
 
       if (box.connections.length) {
         box.connections.forEach((connection) => {
@@ -572,8 +523,6 @@ export default class Pixi {
       this.list[currentIndex].changeSettings(box.settings);
 
       if (box.type === 'seq') {
-        // console.log(box, 'in seq');
-        // console.log(this.list, currentIndex);
         this.list[currentIndex].sequencer.id = box.sequencer.id;
         this.list[currentIndex].sequencer.belongsTo = box.sequencer.belongsTo;
 
@@ -622,12 +571,10 @@ export default class Pixi {
       let connectionLine = new ConnectionLine(current, otherBox);
       connectionLine.connected = true;
       current.lines.push(connectionLine);
-      // this.app.stage.addChild(connectionLine.graphics);
       this.lines.addChild(connectionLine.graphics);
     });
 
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    // this.app.stage.addChild(this.trash.container);
     this.boxes.addChild(this.trash.container);
     this.app.ticker.start();
   }
@@ -642,15 +589,6 @@ export default class Pixi {
 
     this.ref = ref;
     this.ref.appendChild(this.app.view);
-
-    // window.onload = () => {
-    //   if (
-    //     navigator.userAgent.includes('Firefox') ||
-    //     navigator.userAgent.includes('Safari')
-    //   ) {
-    //     document.body.style.cssText = 'overflow:hidden;';
-    //   }
-    // };
 
     window.onbeforeunload = () => {
       const preset = this.savePreset();

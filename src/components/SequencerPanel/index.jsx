@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyledPanelWrapper } from './styles';
+import propTypes from 'prop-types';
 import Button from '../Button';
 import notes from '../../Helpers/middleScale';
 
@@ -132,6 +133,12 @@ const SequencerPanel = ({ box, setBox, seqState }) => {
       })}
     </StyledPanelWrapper>
   );
+};
+
+SequencerPanel.propTypes = {
+  setBox: propTypes.func,
+  box: propTypes.object,
+  seqState: propTypes.array,
 };
 
 export default SequencerPanel;
