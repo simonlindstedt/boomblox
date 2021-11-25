@@ -79,8 +79,9 @@ export default class Pixi {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
                   if (box.playNote) {
+                    let frequency = note.value * note.octave;
                     box.playNote(
-                      note.value * note.octave,
+                      frequency * box.settings.octave,
                       this.clock.tempo,
                       sequencer.speed
                     );
@@ -204,9 +205,9 @@ export default class Pixi {
             glide: 0,
           });
           // this.app.stage.addChild(oscBox.connectionLine, oscBox.container);
+          this.list.push(oscBox);
           this.boxes.addChild(oscBox.container);
           this.lines.addChild(oscBox.connectionLine);
-          this.list.push(oscBox);
           break;
         case 'filter':
           let filterBox = new FilterBox(x - 30, y - 30, 60, 60, this.mediator, {
@@ -219,9 +220,9 @@ export default class Pixi {
           //   filterBox.connectionLine,
           //   filterBox.container
           // );
+          this.list.push(filterBox);
           this.boxes.addChild(filterBox.container);
           this.lines.addChild(filterBox.connectionLine);
-          this.list.push(filterBox);
           break;
         case 'reverb':
           let reverbBox = new ReverbBox(x, y, 60, 60, this.mediator, {
@@ -232,18 +233,18 @@ export default class Pixi {
           //   reverbBox.connectionLine,
           //   reverbBox.container
           // );
+          this.list.push(reverbBox);
           this.boxes.addChild(reverbBox.container);
           this.lines.addChild(reverbBox.connectionLine);
-          this.list.push(reverbBox);
           break;
         case 'rec':
           let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
             volume: 0.2,
           });
           // this.app.stage.addChild(recBox.connectionLine, recBox.container);
+          this.list.push(recBox);
           this.boxes.addChild(recBox.container);
           this.lines.addChild(recBox.connectionLine);
-          this.list.push(recBox);
           break;
         case 'frequency-lfo':
           const frequencyLfoBox = new FrequencyLfoBox(
@@ -263,9 +264,9 @@ export default class Pixi {
           //   frequencyLfoBox.connectionLine,
           //   frequencyLfoBox.container
           //   );
+          this.list.push(frequencyLfoBox);
           this.boxes.addChild(frequencyLfoBox.container);
           this.lines.addChild(frequencyLfoBox.connectionLine);
-          this.list.push(frequencyLfoBox);
           break;
         case 'amplitude-lfo':
           const amplitudeLfoBox = new AmplitudeLfoBox(
@@ -285,9 +286,10 @@ export default class Pixi {
           //   amplitudeLfoBox.connectionLine,
           //   amplitudeLfoBox.container
           //   );
+          this.list.push(amplitudeLfoBox);
+
           this.boxes.addChild(amplitudeLfoBox.container);
           this.lines.addChild(amplitudeLfoBox.connectionLine);
-          this.list.push(amplitudeLfoBox);
           break;
         case 'drum':
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
@@ -339,10 +341,10 @@ export default class Pixi {
           });
 
           // this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
+          this.list.push(drumBox);
+
           this.boxes.addChild(drumBox.container);
           this.lines.addChild(drumBox.connectionLine);
-
-          this.list.push(drumBox);
 
           drumBox.sequencers.forEach((sequencer) => {
             this.sequencers.push(sequencer);
@@ -382,12 +384,11 @@ export default class Pixi {
           //   sequencerBox.container
           // );
 
+          this.list.push(sequencerBox);
+          this.sequencers.push(sequencerBox.sequencer);
+
           this.boxes.addChild(sequencerBox.container);
           this.lines.addChild(sequencerBox.connectionLine);
-
-          this.list.push(sequencerBox);
-
-          this.sequencers.push(sequencerBox.sequencer);
 
           sequencerStates = [];
 
@@ -410,9 +411,9 @@ export default class Pixi {
           });
 
           // this.app.stage.addChild(delayBox.connectionLine, delayBox.container);
+          this.list.push(delayBox);
           this.boxes.addChild(delayBox.container);
           this.lines.addChild(delayBox.connectionLine);
-          this.list.push(delayBox);
           break;
         default:
           break;
@@ -518,17 +519,31 @@ export default class Pixi {
       });
       preset.push(box);
     });
+    let canvas = { w: this.width, h: this.height };
+    preset.push(canvas);
     return preset;
   }
 
   loadPreset(preset) {
+    console.log(preset);
     this.clear();
     this.app.ticker.stop();
     let connections = [];
+    let canvas = preset.pop();
 
     // Add boxes to canvas
     for (let i = 0; i < preset.length; i++) {
       const box = preset[i];
+
+      if (box.position.x > this.width - 400 || box.position.x < 0) {
+        let distance = canvas.w - box.position.x;
+        let newPosition = this.width - distance;
+        box.position.x = newPosition;
+      }
+      if (box.position.y > this.height || box.position.y < 0) {
+        let distance = canvas.h - box.position.y;
+        box.position.y = this.height - distance;
+      }
 
       if (box.type === 'master') {
         this.master = new MasterBox(
@@ -546,13 +561,18 @@ export default class Pixi {
         //   this.master.connectionLine,
         //   this.master.container
         // );
+
         this.boxes.addChild(this.master.container);
         this.lines.addChild(this.master.connectionLine);
         this.list.push(this.master);
+        console.log(box.type);
+        console.log(this.list);
         continue;
       }
 
       this.addBox(box.type, box.position.x, box.position.y);
+      console.log(box.type);
+      console.log(this.list);
 
       if (box.connections.length) {
         box.connections.forEach((connection) => {
@@ -565,6 +585,8 @@ export default class Pixi {
       this.list[currentIndex].changeSettings(box.settings);
 
       if (box.type === 'seq') {
+        // console.log(box, 'in seq');
+        // console.log(this.list, currentIndex);
         this.list[currentIndex].sequencer.id = box.sequencer.id;
         this.list[currentIndex].sequencer.belongsTo = box.sequencer.belongsTo;
 
@@ -651,6 +673,8 @@ export default class Pixi {
     window.onresize = () => {
       if (this.ref) {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
       }
     };
 
