@@ -1,4 +1,5 @@
 import { StyledLabel } from './styles';
+import propTypes from 'prop-types';
 
 const UploadButton = ({ handleInput }) => {
   return (
@@ -13,5 +14,7 @@ const UploadButton = ({ handleInput }) => {
     </StyledLabel>
   );
 };
-
+UploadButton.propTypes = {
+  handleInput: propTypes.func,
+};
 export default UploadButton;

@@ -1,4 +1,5 @@
 import { StyledButton } from './styles';
+import propTypes from 'prop-types';
 
 const Button = ({ children, handleClick }) => {
   return (
@@ -12,6 +13,14 @@ const Button = ({ children, handleClick }) => {
       {children}
     </StyledButton>
   );
+};
+
+Button.propTypes = {
+  handleClick: propTypes.func,
+  children: propTypes.oneOfType([
+    propTypes.arrayOf(propTypes.node),
+    propTypes.node,
+  ]),
 };
 
 export default Button;

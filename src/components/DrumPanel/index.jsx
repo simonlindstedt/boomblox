@@ -1,6 +1,7 @@
 import Button from '../Button';
 import { StyledPanelWrapper, StyledBtnContainer } from './styles';
 import { useEffect, useState } from 'react';
+import propTypes from 'prop-types';
 
 const names = ['HiHat', 'Kick', 'Clap', 'Cowbell'];
 
@@ -118,6 +119,12 @@ const DrumPanel = ({ box, setBox, seqState }) => {
       </StyledBtnContainer>
     </StyledPanelWrapper>
   );
+};
+
+DrumPanel.propTypes = {
+  setBox: propTypes.func,
+  box: propTypes.object,
+  seqState: propTypes.array,
 };
 
 export default DrumPanel;

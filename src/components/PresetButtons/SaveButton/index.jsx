@@ -1,4 +1,5 @@
 import { StyledButton } from './styles';
+import propTypes from 'prop-types';
 
 const SaveButton = ({ handleClick }) => {
   return (
@@ -13,5 +14,7 @@ const SaveButton = ({ handleClick }) => {
     </StyledButton>
   );
 };
-
+SaveButton.propTypes = {
+  handleClick: propTypes.func,
+};
 export default SaveButton;

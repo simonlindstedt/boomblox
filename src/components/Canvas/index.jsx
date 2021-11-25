@@ -24,7 +24,7 @@ const pixi = new Pixi(mediator);
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0);
   const [box, setBox] = useState();
   const [isZero, setIsZero] = useState(false);
   const [oldValue, setOldValue] = useState();
@@ -53,6 +53,7 @@ const Canvas = () => {
       history.scrollRestoration = 'manual';
     }
     pixi.start(canvasRef.current);
+    setVolume(pixi.master.settings.volume);
     mediator.worker.addEventListener('message', handleMessages);
   }, []);
 
@@ -172,6 +173,10 @@ const Canvas = () => {
               if (answer) {
                 pixi.clear();
                 pixi.addMasterAndTrash();
+                setTempo(120);
+                pixi.clock.setTempo(120);
+                setVolume(0.5);
+                pixi.setMasterVolume(0.5);
                 setPlaying(false);
               }
             }}
@@ -180,13 +185,15 @@ const Canvas = () => {
 
           <SaveButton
             handleClick={() => {
+              let date = new Date();
+              let name = `preset-${date.toLocaleDateString()}-${date.toLocaleTimeString()}.json`;
               const preset = pixi.savePreset();
               const string =
                 'data:text/json;charset=utf-8,' +
                 encodeURIComponent(JSON.stringify(preset));
               const linkElement = document.createElement('a');
               linkElement.setAttribute('href', string);
-              linkElement.setAttribute('download', 'preset.json');
+              linkElement.setAttribute('download', name);
               linkElement.click();
               linkElement.remove();
             }}
@@ -196,6 +203,10 @@ const Canvas = () => {
               const file = e.target.files[0];
               const content = await file.text();
               pixi.loadPreset(JSON.parse(content));
+              console.log(pixi.master.settings);
+              console.log(pixi.clock.tempo);
+              setVolume(pixi.master.settings.volume);
+              setTempo(pixi.clock.tempo);
               e.target.value = '';
             }}
           />

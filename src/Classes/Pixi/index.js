@@ -38,6 +38,7 @@ export default class Pixi {
     this.boxes.zIndex = 1;
     this.lines = new PIXI.Container();
     this.lines.zIndex = 0;
+    this.ui = new PIXI.Container();
     this.clock = new Clock(120, 32);
     this.master;
     this.trash;
@@ -79,8 +80,9 @@ export default class Pixi {
                 let box = this.list.find((item) => item.id === connection.id);
                 if (note.play) {
                   if (box.playNote) {
+                    let frequency = note.value * note.octave;
                     box.playNote(
-                      note.value * note.octave,
+                      frequency * box.settings.octave,
                       this.clock.tempo,
                       sequencer.speed
                     );
@@ -134,12 +136,9 @@ export default class Pixi {
 
           if (box.distanceTo(otherBox) < 400 && line === undefined) {
             let connectionLine = new ConnectionLine(box, otherBox);
-            // this.app.stage.addChild(connectionLine.graphics);
-            // this.app.stage.addChildAt(connectionLine.graphics, 0);
             this.lines.addChild(connectionLine.graphics);
             box.lines.push(connectionLine);
           } else if (box.distanceTo(otherBox) > 400 && line !== undefined) {
-            // this.app.stage.removeChild(line.graphics);
             this.lines.removeChild(line.graphics);
             line.graphics.destroy(true);
             box.lines = box.lines.filter((item) => item.id !== line.id);
@@ -175,23 +174,20 @@ export default class Pixi {
 
   deleteBox(box) {
     box.container.removeChildren(0, box.container.children.length);
-    // this.app.stage.removeChild(box.container);
     this.boxes.removeChild(box.container);
-    // this.app.stage.removeChild(box.connectionLine);
     this.lines.removeChild(box.connectionLine);
     box.container.destroy(true);
     box.connectionLine.destroy(true);
     box.connections = [];
     box.input = null;
     box.output = null;
-    console.log('flush flush');
 
     this.list = this.list.filter((item) => item.id !== box.id);
   }
 
-  addBox(type, x, y) {
+  addBox(type, x, y, ignoreBounds = false) {
     let sequencerStates = [];
-    if (x < this.width - 400) {
+    if (x < this.width - 400 || ignoreBounds) {
       switch (type) {
         case 'osc':
           let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
@@ -203,10 +199,9 @@ export default class Pixi {
             type: 'sine',
             glide: 0,
           });
-          // this.app.stage.addChild(oscBox.connectionLine, oscBox.container);
+          this.list.push(oscBox);
           this.boxes.addChild(oscBox.container);
           this.lines.addChild(oscBox.connectionLine);
-          this.list.push(oscBox);
           break;
         case 'filter':
           let filterBox = new FilterBox(x - 30, y - 30, 60, 60, this.mediator, {
@@ -215,35 +210,26 @@ export default class Pixi {
             freq: 20000,
             type: 'lowpass',
           });
-          // this.app.stage.addChild(
-          //   filterBox.connectionLine,
-          //   filterBox.container
-          // );
+          this.list.push(filterBox);
           this.boxes.addChild(filterBox.container);
           this.lines.addChild(filterBox.connectionLine);
-          this.list.push(filterBox);
           break;
         case 'reverb':
           let reverbBox = new ReverbBox(x, y, 60, 60, this.mediator, {
             name: 'Reverb',
             volume: 0.2,
           });
-          // this.app.stage.addChild(
-          //   reverbBox.connectionLine,
-          //   reverbBox.container
-          // );
+          this.list.push(reverbBox);
           this.boxes.addChild(reverbBox.container);
           this.lines.addChild(reverbBox.connectionLine);
-          this.list.push(reverbBox);
           break;
         case 'rec':
           let recBox = new RecordingBox(x - 30, y - 30, 60, 60, this.mediator, {
             volume: 0.2,
           });
-          // this.app.stage.addChild(recBox.connectionLine, recBox.container);
+          this.list.push(recBox);
           this.boxes.addChild(recBox.container);
           this.lines.addChild(recBox.connectionLine);
-          this.list.push(recBox);
           break;
         case 'frequency-lfo':
           const frequencyLfoBox = new FrequencyLfoBox(
@@ -259,13 +245,9 @@ export default class Pixi {
               type: 'sine',
             }
           );
-          // this.app.stage.addChild(
-          //   frequencyLfoBox.connectionLine,
-          //   frequencyLfoBox.container
-          //   );
+          this.list.push(frequencyLfoBox);
           this.boxes.addChild(frequencyLfoBox.container);
           this.lines.addChild(frequencyLfoBox.connectionLine);
-          this.list.push(frequencyLfoBox);
           break;
         case 'amplitude-lfo':
           const amplitudeLfoBox = new AmplitudeLfoBox(
@@ -281,13 +263,10 @@ export default class Pixi {
               type: 'sawtooth',
             }
           );
-          // this.app.stage.addChild(
-          //   amplitudeLfoBox.connectionLine,
-          //   amplitudeLfoBox.container
-          //   );
+          this.list.push(amplitudeLfoBox);
+
           this.boxes.addChild(amplitudeLfoBox.container);
           this.lines.addChild(amplitudeLfoBox.connectionLine);
-          this.list.push(amplitudeLfoBox);
           break;
         case 'drum':
           const drumBox = new DrumBox(x, y, 60, 60, this.mediator, {
@@ -337,12 +316,10 @@ export default class Pixi {
               ],
             ],
           });
+          this.list.push(drumBox);
 
-          // this.app.stage.addChild(drumBox.connectionLine, drumBox.container);
           this.boxes.addChild(drumBox.container);
           this.lines.addChild(drumBox.connectionLine);
-
-          this.list.push(drumBox);
 
           drumBox.sequencers.forEach((sequencer) => {
             this.sequencers.push(sequencer);
@@ -377,17 +354,11 @@ export default class Pixi {
             ],
           });
 
-          // this.app.stage.addChild(
-          //   sequencerBox.connectionLine,
-          //   sequencerBox.container
-          // );
+          this.list.push(sequencerBox);
+          this.sequencers.push(sequencerBox.sequencer);
 
           this.boxes.addChild(sequencerBox.container);
           this.lines.addChild(sequencerBox.connectionLine);
-
-          this.list.push(sequencerBox);
-
-          this.sequencers.push(sequencerBox.sequencer);
 
           sequencerStates = [];
 
@@ -409,10 +380,9 @@ export default class Pixi {
             delayTime: 100,
           });
 
-          // this.app.stage.addChild(delayBox.connectionLine, delayBox.container);
+          this.list.push(delayBox);
           this.boxes.addChild(delayBox.container);
           this.lines.addChild(delayBox.connectionLine);
-          this.list.push(delayBox);
           break;
         default:
           break;
@@ -433,6 +403,7 @@ export default class Pixi {
 
   setMasterVolume(volume) {
     this.master.input.setVolume(volume);
+    this.master.settings.volume = volume;
   }
 
   findAndChangeSettings(boxSettings) {
@@ -442,9 +413,9 @@ export default class Pixi {
   }
 
   clear() {
-    // this.app.stage.removeChildren(0, this.app.stage.children.length);
     this.boxes.removeChildren(0, this.boxes.children.length);
     this.lines.removeChildren(0, this.lines.length);
+    this.ui.removeChildren(0, this.ui.children.length);
     this.list = [];
     this.sequencers = [];
     this.trash = null;
@@ -466,13 +437,9 @@ export default class Pixi {
       { name: 'Master', volume: 0.5 }
     );
 
-    // this.app.stage.addChild(
-    //   this.trash.container,
-    //   this.master.connectionLine,
-    //   this.master.container
-    // );
-    this.boxes.addChild(this.trash.container, this.master.container);
+    this.boxes.addChild(this.master.container);
     this.lines.addChild(this.master.connectionLine);
+    this.ui.addChild(this.trash.container);
     this.list.push(this.master);
   }
 
@@ -518,6 +485,13 @@ export default class Pixi {
       });
       preset.push(box);
     });
+    let canvas = {
+      w: this.width,
+      h: this.height,
+      tempo: this.clock.tempo,
+      volume: this.master.settings.volume,
+    };
+    preset.push(canvas);
     return preset;
   }
 
@@ -525,6 +499,7 @@ export default class Pixi {
     this.clear();
     this.app.ticker.stop();
     let connections = [];
+    let canvas = preset.pop();
 
     // Add boxes to canvas
     for (let i = 0; i < preset.length; i++) {
@@ -541,18 +516,13 @@ export default class Pixi {
         );
 
         this.master.id = box.id;
-
-        // this.app.stage.addChild(
-        //   this.master.connectionLine,
-        //   this.master.container
-        // );
         this.boxes.addChild(this.master.container);
         this.lines.addChild(this.master.connectionLine);
         this.list.push(this.master);
         continue;
       }
 
-      this.addBox(box.type, box.position.x, box.position.y);
+      this.addBox(box.type, box.position.x, box.position.y, true);
 
       if (box.connections.length) {
         box.connections.forEach((connection) => {
@@ -613,13 +583,15 @@ export default class Pixi {
       let connectionLine = new ConnectionLine(current, otherBox);
       connectionLine.connected = true;
       current.lines.push(connectionLine);
-      // this.app.stage.addChild(connectionLine.graphics);
       this.lines.addChild(connectionLine.graphics);
     });
 
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    // this.app.stage.addChild(this.trash.container);
-    this.boxes.addChild(this.trash.container);
+    this.ui.addChild(this.trash.container);
+
+    this.master.settings.volume = canvas.volume;
+    this.setMasterVolume(canvas.volume);
+    this.clock.setTempo(canvas.tempo);
     this.app.ticker.start();
   }
 
@@ -630,18 +602,10 @@ export default class Pixi {
 
     this.app.stage.addChild(this.boxes);
     this.app.stage.addChild(this.lines);
+    this.app.stage.addChild(this.ui);
 
     this.ref = ref;
     this.ref.appendChild(this.app.view);
-
-    // window.onload = () => {
-    //   if (
-    //     navigator.userAgent.includes('Firefox') ||
-    //     navigator.userAgent.includes('Safari')
-    //   ) {
-    //     document.body.style.cssText = 'overflow:hidden;';
-    //   }
-    // };
 
     window.onbeforeunload = () => {
       const preset = this.savePreset();
@@ -651,6 +615,9 @@ export default class Pixi {
     window.onresize = () => {
       if (this.ref) {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.trash.container.position.y = this.height - 80;
       }
     };
 

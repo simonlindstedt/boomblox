@@ -28,10 +28,8 @@ export default class BasicBox {
     this.container.interactive = true;
     this.container.width = this.dimensions.w;
     this.container.height = this.dimensions.h;
-    // this.container.zIndex = 1;
 
     this.connectionLine = new Graphics();
-    // this.connectionLine.zIndex = 0;
 
     let borderBox = new Graphics();
     borderBox.lineStyle(4, 0xffffff);

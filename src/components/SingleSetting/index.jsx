@@ -1,5 +1,6 @@
 import { StyledSingleSetting } from './styles';
 import notes from '../../Helpers/middleScale';
+import propTypes from 'prop-types';
 
 const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
   if (setting === 'volume') {
@@ -287,6 +288,13 @@ const SingleSetting = ({ setting, boxType, value, handleOnChange }) => {
     );
   }
   return null;
+};
+
+SingleSetting.propTypes = {
+  setting: propTypes.string,
+  boxType: propTypes.string,
+  value: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  handleOnChange: propTypes.func,
 };
 
 export default SingleSetting;
