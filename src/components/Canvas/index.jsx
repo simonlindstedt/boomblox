@@ -180,13 +180,15 @@ const Canvas = () => {
 
           <SaveButton
             handleClick={() => {
+              let date = new Date();
+              let name = `preset-${date.toLocaleDateString()}-${date.toLocaleTimeString()}.json`;
               const preset = pixi.savePreset();
               const string =
                 'data:text/json;charset=utf-8,' +
                 encodeURIComponent(JSON.stringify(preset));
               const linkElement = document.createElement('a');
               linkElement.setAttribute('href', string);
-              linkElement.setAttribute('download', 'preset.json');
+              linkElement.setAttribute('download', name);
               linkElement.click();
               linkElement.remove();
             }}
