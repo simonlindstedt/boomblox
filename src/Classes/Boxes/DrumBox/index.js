@@ -6,7 +6,7 @@ import Clap1 from './sounds/snare/clap_sample.mp3';
 import Kick1 from './sounds/kick/bass_sample.mp3';
 import HiHat2 from './sounds/hihat/edm-hi-hat.wav';
 import Clap2 from './sounds/snare/good-snare.wav';
-import Kick2 from './sounds/kick/808-kick.wav';
+import Kick2 from './sounds/kick/707MoogDrive_Kick1_SP.wav';
 import CowBell1 from './sounds/cowbell/CASIO_MT-140_PERC-COWBELL.wav';
 import CowBell2 from './sounds/cowbell/Cowbell.wav';
 import Sequencer from '../../Audio/Sequencer';
