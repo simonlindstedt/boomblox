@@ -190,9 +190,9 @@ export default class Pixi {
     this.list = this.list.filter((item) => item.id !== box.id);
   }
 
-  addBox(type, x, y) {
+  addBox(type, x, y, ignoreBounds = false) {
     let sequencerStates = [];
-    if (x < this.width - 400) {
+    if (x < this.width - 400 || ignoreBounds) {
       switch (type) {
         case 'osc':
           let oscBox = new OscBox(x, y, 60, 60, this.mediator, {
@@ -519,8 +519,6 @@ export default class Pixi {
       });
       preset.push(box);
     });
-    let canvas = { w: this.width, h: this.height };
-    preset.push(canvas);
     return preset;
   }
 
@@ -529,21 +527,10 @@ export default class Pixi {
     this.clear();
     this.app.ticker.stop();
     let connections = [];
-    let canvas = preset.pop();
 
     // Add boxes to canvas
     for (let i = 0; i < preset.length; i++) {
       const box = preset[i];
-
-      if (box.position.x > this.width - 400 || box.position.x < 0) {
-        let distance = canvas.w - box.position.x;
-        let newPosition = this.width - distance;
-        box.position.x = newPosition;
-      }
-      if (box.position.y > this.height || box.position.y < 0) {
-        let distance = canvas.h - box.position.y;
-        box.position.y = this.height - distance;
-      }
 
       if (box.type === 'master') {
         this.master = new MasterBox(
@@ -570,7 +557,7 @@ export default class Pixi {
         continue;
       }
 
-      this.addBox(box.type, box.position.x, box.position.y);
+      this.addBox(box.type, box.position.x, box.position.y, true);
       console.log(box.type);
       console.log(this.list);
 
