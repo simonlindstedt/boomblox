@@ -173,6 +173,10 @@ const Canvas = () => {
               if (answer) {
                 pixi.clear();
                 pixi.addMasterAndTrash();
+                setTempo(120);
+                pixi.clock.setTempo(120);
+                setVolume(0.5);
+                pixi.setMasterVolume(0.5);
                 setPlaying(false);
               }
             }}
@@ -199,6 +203,10 @@ const Canvas = () => {
               const file = e.target.files[0];
               const content = await file.text();
               pixi.loadPreset(JSON.parse(content));
+              console.log(pixi.master.settings);
+              console.log(pixi.clock.tempo);
+              setVolume(pixi.master.settings.volume);
+              setTempo(pixi.clock.tempo);
               e.target.value = '';
             }}
           />

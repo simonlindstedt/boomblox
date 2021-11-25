@@ -38,6 +38,7 @@ export default class Pixi {
     this.boxes.zIndex = 1;
     this.lines = new PIXI.Container();
     this.lines.zIndex = 0;
+    this.ui = new PIXI.Container();
     this.clock = new Clock(120, 32);
     this.master;
     this.trash;
@@ -402,6 +403,7 @@ export default class Pixi {
 
   setMasterVolume(volume) {
     this.master.input.setVolume(volume);
+    this.master.settings.volume = volume;
   }
 
   findAndChangeSettings(boxSettings) {
@@ -413,6 +415,7 @@ export default class Pixi {
   clear() {
     this.boxes.removeChildren(0, this.boxes.children.length);
     this.lines.removeChildren(0, this.lines.length);
+    this.ui.removeChildren(0, this.ui.children.length);
     this.list = [];
     this.sequencers = [];
     this.trash = null;
@@ -434,8 +437,9 @@ export default class Pixi {
       { name: 'Master', volume: 0.5 }
     );
 
-    this.boxes.addChild(this.trash.container, this.master.container);
+    this.boxes.addChild(this.master.container);
     this.lines.addChild(this.master.connectionLine);
+    this.ui.addChild(this.trash.container);
     this.list.push(this.master);
   }
 
@@ -481,6 +485,13 @@ export default class Pixi {
       });
       preset.push(box);
     });
+    let canvas = {
+      w: this.width,
+      h: this.height,
+      tempo: this.clock.tempo,
+      volume: this.master.settings.volume,
+    };
+    preset.push(canvas);
     return preset;
   }
 
@@ -488,6 +499,7 @@ export default class Pixi {
     this.clear();
     this.app.ticker.stop();
     let connections = [];
+    let canvas = preset.pop();
 
     // Add boxes to canvas
     for (let i = 0; i < preset.length; i++) {
@@ -575,7 +587,11 @@ export default class Pixi {
     });
 
     this.trash = new TrashCan(30, this.height - 80, 30, 40);
-    this.boxes.addChild(this.trash.container);
+    this.ui.addChild(this.trash.container);
+
+    this.master.settings.volume = canvas.volume;
+    this.setMasterVolume(canvas.volume);
+    this.clock.setTempo(canvas.tempo);
     this.app.ticker.start();
   }
 
@@ -586,6 +602,7 @@ export default class Pixi {
 
     this.app.stage.addChild(this.boxes);
     this.app.stage.addChild(this.lines);
+    this.app.stage.addChild(this.ui);
 
     this.ref = ref;
     this.ref.appendChild(this.app.view);
