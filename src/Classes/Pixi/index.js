@@ -617,6 +617,7 @@ export default class Pixi {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
         this.width = window.innerWidth;
         this.height = window.innerHeight;
+        this.trash.container.position.y = this.height - 80;
       }
     };
 
