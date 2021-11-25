@@ -24,7 +24,7 @@ const pixi = new Pixi(mediator);
 const Canvas = () => {
   const canvasRef = useRef();
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0);
   const [box, setBox] = useState();
   const [isZero, setIsZero] = useState(false);
   const [oldValue, setOldValue] = useState();
@@ -53,6 +53,7 @@ const Canvas = () => {
       history.scrollRestoration = 'manual';
     }
     pixi.start(canvasRef.current);
+    setVolume(pixi.master.settings.volume);
     mediator.worker.addEventListener('message', handleMessages);
   }, []);
 

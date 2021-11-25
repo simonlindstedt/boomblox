@@ -17,7 +17,6 @@ export default class Master {
     this.output.connect(audio.context.destination);
   }
   setVolume(value) {
-    // this.output.gain.setValueAtTime(value, audio.context.currentTime);
     this.output.gain.linearRampToValueAtTime(
       value,
       audio.context.currentTime + 0.1

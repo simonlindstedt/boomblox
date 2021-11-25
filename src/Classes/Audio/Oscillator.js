@@ -26,7 +26,6 @@ export default class Oscillator {
     }
   }
   setDetune(cent) {
-    // this.node.detune.setValueAtTime(cent, audio.context.currentTime);
     this.node.detune.setValueAtTime(cent, audio.context.currentTime + 0.1);
   }
   setType(type) {
